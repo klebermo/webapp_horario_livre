@@ -13,6 +13,7 @@ import com.horariolivre.dao.DadosUsuarioHome;
 import com.horariolivre.dao.TipoHome;
 import com.horariolivre.dao.TipoUsuarioHome;
 import com.horariolivre.dao.UsuarioHome;
+import com.horariolivre.entity.Usuario;
 
 @Controller
 @RequestMapping(value="acesso")
@@ -54,9 +55,13 @@ public class PrimaryController {
 	}
 	
 	@RequestMapping(value="start")
-	public ModelAndView start() {
+	public ModelAndView start(HttpServletRequest request, HttpServletResponse response) {
+		String username = request.getParameter("username");
+		Usuario user = usuario.findByUsername(username);
+		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/acesso/start");
+		mav.addObject("usuario", user);
 		return mav;
 	}
 	

@@ -20,7 +20,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		HttpSession session = request.getSession();
 		SavedRequest savedReq = (SavedRequest) session.getAttribute(WebAttributes.ACCESS_DENIED_403);
 		if (savedReq == null) {
-		    response.sendRedirect(request.getContextPath() + "/acesso/start");
+			request.getSession().setAttribute("username", auth.getName());
+			request.getRequestDispatcher(request.getContextPath()+"/acesso/start").forward(request, response);
+		    //response.sendRedirect(request.getContextPath() + "/acesso/start");
 		}
 		else {
 		    response.sendRedirect(savedReq.getRedirectUrl());
