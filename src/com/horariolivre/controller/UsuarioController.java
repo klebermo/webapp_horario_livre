@@ -18,7 +18,7 @@ public class UsuarioController {
 	
 	@RequestMapping(value="cadastra")
 	public ModelAndView cadastra() {
-		int id_usuario = cookie.getCookieUsingCookieHandler();
+		int id_usuario = 1;
 		
 		if(usuario.temAutorizacaoCadastro(id_usuario)) {
 			ModelAndView mav = new ModelAndView();
@@ -36,7 +36,7 @@ public class UsuarioController {
 	public String cadastra(@RequestParam("login") String login, @RequestParam("senha") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
 		String saida = new String();
 		
-		int id_usuario = cookie.getCookieUsingCookieHandler();
+		int id_usuario = 1;
 				
 		if(usuario.temAutorizacaoCadastro(id_usuario)) {
 			String [] campos = webrequest.getParameterValues(usuario.listaDados().toString());
@@ -57,7 +57,7 @@ public class UsuarioController {
 	public String remove(@RequestParam("id_usuario") String id_usuario_apagar) {
 		String saida = new String();
 		
-		int id_usuario = cookie.getCookieUsingCookieHandler();
+		int id_usuario = 1;
 
 		if(usuario.temAutorizacaoCadastro(id_usuario)) {
 			if (usuario.remove(usuario.getUsuario(Integer.valueOf(id_usuario_apagar).intValue())))
@@ -76,7 +76,7 @@ public class UsuarioController {
 	public String altera(@RequestParam("id_usuario") String id_usuario_alterar, @RequestParam("login") String login, @RequestParam("senha") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
 		String saida = new String();
 		
-		int id_usuario = cookie.getCookieUsingCookieHandler();
+		int id_usuario = 1;
 
 		if(usuario.temAutorizacaoCadastro(id_usuario)) {
 			Usuario altera = usuario.getUsuario(Integer.valueOf(id_usuario_alterar).intValue());
@@ -99,7 +99,7 @@ public class UsuarioController {
 	
 	@RequestMapping(value="lista")
 	public ModelAndView lista() {
-		int id_usuario = cookie.getCookieUsingCookieHandler();
+		int id_usuario = 1;
 		System.out.println("id_usuario = "+id_usuario);
 		
 		if(usuario.temAutorizacaoListagem(id_usuario)) {

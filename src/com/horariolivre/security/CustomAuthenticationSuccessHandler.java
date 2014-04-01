@@ -12,6 +12,8 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.SavedRequest;
 
+import com.horariolivre.entity.Usuario;
+
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Override
@@ -20,6 +22,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		HttpSession session = request.getSession();
 		SavedRequest savedReq = (SavedRequest) session.getAttribute(WebAttributes.ACCESS_DENIED_403);
 		if (savedReq == null) {
+			Usuario user = (Usuario) auth.getPrincipal();
+			System.out.println("user="+user.getPrimeiroNome()+" "+user.getUltimoNome());
+			
+			request.getSession().setAttribute("usuario", user);
 		    response.sendRedirect(request.getContextPath() + "/acesso/start");
 		}
 		else {

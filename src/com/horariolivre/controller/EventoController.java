@@ -20,7 +20,7 @@ public class EventoController {
 	
 	@RequestMapping(value="cadastra")
 	public ModelAndView cadastra() {
-		int id_usuario = cookie.getCookieUsingCookieHandler();
+		int id_usuario = 1;
 		
 		if(evento.temAutorizacaoCadastro(id_usuario)) {
 			ModelAndView mav = new ModelAndView();
@@ -38,7 +38,7 @@ public class EventoController {
 	public String cadastra_evento(@RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") Date dataInicial, @RequestParam("data_final") Date dataFinal, @RequestParam("hora_inicial") Time horaInicial, @RequestParam("hora_final") Time horaFinal, @RequestParam("duracao") String duracao) {
 		String saida = new String();
 		
-		int id_usuario = cookie.getCookieUsingCookieHandler();
+		int id_usuario = 1;
 
 		if (evento.cadastra(id_usuario, nome, descricao, dataInicial, dataFinal, horaInicial, horaFinal, Integer.parseInt(duracao)))
 			saida = "yes";
@@ -50,7 +50,7 @@ public class EventoController {
 	
 	@RequestMapping(value="remove")
 	public ModelAndView remove() {
-		int id_usuario = cookie.getCookieUsingCookieHandler();
+		int id_usuario = 1;
 		
 		if(evento.temAutorizacaoCadastro(id_usuario)) {
 			ModelAndView mav = new ModelAndView();
@@ -81,7 +81,7 @@ public class EventoController {
 	
 	@RequestMapping(value="altera")
 	public ModelAndView altera() {
-		int id_usuario = cookie.getCookieUsingCookieHandler();
+		int id_usuario = 1;
 		
 		if(evento.temAutorizacaoCadastro(id_usuario)) {
 			ModelAndView mav = new ModelAndView();
@@ -120,7 +120,7 @@ public class EventoController {
 	
 	@RequestMapping(value="lista")
 	public ModelAndView lista() {
-		int id_usuario = cookie.getCookieUsingCookieHandler();
+		int id_usuario = 1;
 		
 		if(evento.temAutorizacaoListagem(id_usuario)) {
 			ModelAndView mav = new ModelAndView();
