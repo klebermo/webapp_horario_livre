@@ -1,0 +1,39 @@
+#popup {
+    border-style: solid;
+    border-color: #E0E0E0;
+    box-shadow: 2px 2px 2px black;
+    max-width: 85%;
+    max-height: 85%;
+}
+
+.ui-resizable-handle {
+    width: 5px;
+    height: 5px;
+    background-color: red;
+}
+
+#header {
+    background-color: #66B2FF; 
+}
+
+#title {
+    text-decoration-color: #E0E0E0;
+    font: 28px arial;
+}
+
+#button {
+    background-color: #99CCFF;
+    min-width: 32px;
+    max-width: 5%;
+    min-height: 32px;
+    max-height: 100%;
+    position:absolute;
+    right:0px;
+    text-align:center;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+#text {
+    overflow: scroll-y;
+}
