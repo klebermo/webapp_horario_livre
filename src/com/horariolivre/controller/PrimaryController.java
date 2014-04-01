@@ -1,5 +1,8 @@
 package com.horariolivre.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +13,6 @@ import com.horariolivre.dao.DadosUsuarioHome;
 import com.horariolivre.dao.TipoHome;
 import com.horariolivre.dao.TipoUsuarioHome;
 import com.horariolivre.dao.UsuarioHome;
-import com.horariolivre.entity.Usuario;
 
 @Controller
 @RequestMapping(value="acesso")
@@ -29,8 +31,6 @@ public class PrimaryController {
 	
 	@Autowired
 	private DadosUsuarioHome valor;
-	
-	private int id_usuario;
 	
 	@RequestMapping(value="login")
 	public ModelAndView login() {
@@ -62,13 +62,8 @@ public class PrimaryController {
 	
 	@RequestMapping(value="perfil")
 	public ModelAndView perfil() {
-		Usuario atual = usuario.findById(id_usuario);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/acesso/perfil");
-		mav.addObject("usuario", atual);
-		mav.addObject("tipos", tipo.findALL());
-		mav.addObject("key", key.findALL());
-		mav.addObject("value", valor.findByUsuario(atual));
 		return mav;
 	}
 	
@@ -76,7 +71,6 @@ public class PrimaryController {
 	public ModelAndView config() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/acesso/config");
-		mav.addObject("config", usuario.findById(id_usuario).getConfig());
 		return mav;
 	}
 	

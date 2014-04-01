@@ -31,14 +31,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		System.out.println("CustomAuthenticationProvider.authenticate");
 		
-		String name = authentication.getName();
+		String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         
-        Usuario user = usuario.findByUsername(name);
+        Usuario user = usuario.findByUsername(username);
                 
         if (user != null) {
         	if(user.getSenha().equals(password)) {
-	            Authentication auth = new UsernamePasswordAuthenticationToken(name, password, getAuthorities(user.getAutorizacoesUsuarios()));
+	            Authentication auth = new UsernamePasswordAuthenticationToken(username, password, getAuthorities(user.getAutorizacoesUsuarios()));
 	            return auth;
         	}
         	else {
