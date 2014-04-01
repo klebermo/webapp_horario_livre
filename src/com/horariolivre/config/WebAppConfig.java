@@ -2,12 +2,14 @@ package com.horariolivre.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @EnableWebMvc
+@EnableTransactionManagement
 @ComponentScan(value="com.horariolivre")
 @Configuration
 public class WebAppConfig extends WebMvcConfigurerAdapter {

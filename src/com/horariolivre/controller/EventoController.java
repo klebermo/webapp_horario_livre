@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.horariolivre.cookie.CookieAccessor;
 import com.horariolivre.entity.Evento;
 import com.horariolivre.service.EventoService;
 
@@ -22,7 +20,6 @@ public class EventoController {
 	
 	@RequestMapping(value="cadastra")
 	public ModelAndView cadastra() {
-		CookieAccessor cookie = new CookieAccessor();
 		int id_usuario = cookie.getCookieUsingCookieHandler();
 		
 		if(evento.temAutorizacaoCadastro(id_usuario)) {
@@ -41,7 +38,6 @@ public class EventoController {
 	public String cadastra_evento(@RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") Date dataInicial, @RequestParam("data_final") Date dataFinal, @RequestParam("hora_inicial") Time horaInicial, @RequestParam("hora_final") Time horaFinal, @RequestParam("duracao") String duracao) {
 		String saida = new String();
 		
-		CookieAccessor cookie = new CookieAccessor();
 		int id_usuario = cookie.getCookieUsingCookieHandler();
 
 		if (evento.cadastra(id_usuario, nome, descricao, dataInicial, dataFinal, horaInicial, horaFinal, Integer.parseInt(duracao)))
@@ -54,7 +50,6 @@ public class EventoController {
 	
 	@RequestMapping(value="remove")
 	public ModelAndView remove() {
-		CookieAccessor cookie = new CookieAccessor();
 		int id_usuario = cookie.getCookieUsingCookieHandler();
 		
 		if(evento.temAutorizacaoCadastro(id_usuario)) {
@@ -86,7 +81,6 @@ public class EventoController {
 	
 	@RequestMapping(value="altera")
 	public ModelAndView altera() {
-		CookieAccessor cookie = new CookieAccessor();
 		int id_usuario = cookie.getCookieUsingCookieHandler();
 		
 		if(evento.temAutorizacaoCadastro(id_usuario)) {
@@ -126,7 +120,6 @@ public class EventoController {
 	
 	@RequestMapping(value="lista")
 	public ModelAndView lista() {
-		CookieAccessor cookie = new CookieAccessor();
 		int id_usuario = cookie.getCookieUsingCookieHandler();
 		
 		if(evento.temAutorizacaoListagem(id_usuario)) {

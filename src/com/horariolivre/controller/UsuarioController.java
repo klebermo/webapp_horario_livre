@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.horariolivre.cookie.CookieAccessor;
 import com.horariolivre.entity.Usuario;
 import com.horariolivre.service.UsuarioService;
 
@@ -20,7 +18,6 @@ public class UsuarioController {
 	
 	@RequestMapping(value="cadastra")
 	public ModelAndView cadastra() {
-		CookieAccessor cookie = new CookieAccessor();
 		int id_usuario = cookie.getCookieUsingCookieHandler();
 		
 		if(usuario.temAutorizacaoCadastro(id_usuario)) {
@@ -39,7 +36,6 @@ public class UsuarioController {
 	public String cadastra(@RequestParam("login") String login, @RequestParam("senha") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
 		String saida = new String();
 		
-		CookieAccessor cookie = new CookieAccessor();
 		int id_usuario = cookie.getCookieUsingCookieHandler();
 				
 		if(usuario.temAutorizacaoCadastro(id_usuario)) {
@@ -61,7 +57,6 @@ public class UsuarioController {
 	public String remove(@RequestParam("id_usuario") String id_usuario_apagar) {
 		String saida = new String();
 		
-		CookieAccessor cookie = new CookieAccessor();
 		int id_usuario = cookie.getCookieUsingCookieHandler();
 
 		if(usuario.temAutorizacaoCadastro(id_usuario)) {
@@ -81,7 +76,6 @@ public class UsuarioController {
 	public String altera(@RequestParam("id_usuario") String id_usuario_alterar, @RequestParam("login") String login, @RequestParam("senha") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
 		String saida = new String();
 		
-		CookieAccessor cookie = new CookieAccessor();
 		int id_usuario = cookie.getCookieUsingCookieHandler();
 
 		if(usuario.temAutorizacaoCadastro(id_usuario)) {
@@ -105,7 +99,6 @@ public class UsuarioController {
 	
 	@RequestMapping(value="lista")
 	public ModelAndView lista() {
-		CookieAccessor cookie = new CookieAccessor();
 		int id_usuario = cookie.getCookieUsingCookieHandler();
 		System.out.println("id_usuario = "+id_usuario);
 		
