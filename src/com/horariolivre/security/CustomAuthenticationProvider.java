@@ -12,7 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-
 import com.horariolivre.dao.UsuarioHome;
 import com.horariolivre.entity.Autorizacoes;
 import com.horariolivre.entity.Usuario;

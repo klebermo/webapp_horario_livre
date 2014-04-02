@@ -115,7 +115,7 @@ public class Usuario implements java.io.Serializable {
 		this.ultimoNome = ultimoNome;
 	}
 
-	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "tipo_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_tipo") })
 	@LazyCollection(LazyCollectionOption.TRUE)
 	public List<Tipo> getTipoUsuarios() {
@@ -137,7 +137,7 @@ public class Usuario implements java.io.Serializable {
 		this.autorizacoes = autorizacoes;
 	}
 
-	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "dados_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_dados") })
 	@LazyCollection(LazyCollectionOption.TRUE)
 	public List<Dados> getDadosUsuarios() {
