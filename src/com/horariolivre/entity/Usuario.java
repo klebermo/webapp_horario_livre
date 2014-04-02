@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -115,7 +114,7 @@ public class Usuario implements java.io.Serializable {
 		this.ultimoNome = ultimoNome;
 	}
 
-	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "tipo_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_tipo") })
 	@LazyCollection(LazyCollectionOption.TRUE)
 	public List<Tipo> getTipoUsuarios() {
@@ -126,7 +125,7 @@ public class Usuario implements java.io.Serializable {
 		this.tipoUsuarios = tipoUsuarios;
 	}
 
-	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "autorizacoes_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_autorizacoes") })
 	@LazyCollection(LazyCollectionOption.TRUE)
 	public List<Autorizacoes> getAutorizacoes() {
@@ -137,7 +136,7 @@ public class Usuario implements java.io.Serializable {
 		this.autorizacoes = autorizacoes;
 	}
 
-	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "dados_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_dados") })
 	@LazyCollection(LazyCollectionOption.TRUE)
 	public List<Dados> getDadosUsuarios() {
@@ -157,4 +156,5 @@ public class Usuario implements java.io.Serializable {
 	public void setConfig(ConfigHorarioLivre config) {
 		this.config = config;
 	}
+	
 }

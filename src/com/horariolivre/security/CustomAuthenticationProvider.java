@@ -1,26 +1,19 @@
 package com.horariolivre.security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import com.horariolivre.dao.UsuarioHome;
-import com.horariolivre.entity.Autorizacoes;
-import com.horariolivre.entity.Usuario;
+import com.horariolivre.service.AuthenticationService;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
 	@Autowired
-	private UsuarioHome usuario;
+	private AuthenticationService authenticationService;
 	
 	public CustomAuthenticationProvider() {
 		super();
@@ -29,21 +22,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		System.out.println("CustomAuthenticationProvider.authenticate");
-		
-		String username = authentication.getName();
-        String password = authentication.getCredentials().toString();
         
-        Usuario user = usuario.findByUsername(username);
+        UserDetails user = authenticationService.loadUserByUsername(authentication.getName());
                 
         if (user != null) {
-        	if(user.getSenha().equals(password)) {
-	            Authentication auth = new UsernamePasswordAuthenticationToken(username, password, getAuthorities(user.getAutorizacoes()));
+        	    Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
 	            return auth;
-        	}
-        	else {
-        		return null;
-        	}
-        } else {
+        }
+        else {
         	return null;
         }
 	}
@@ -53,24 +39,4 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		return authentication.equals(UsernamePasswordAuthenticationToken.class);
 	}
 	
-	public List<String> getRolesAsList(List<Autorizacoes> list) {
-	    List <String> rolesAsList = new ArrayList<String>();
-	    for(Autorizacoes role : list){
-	        rolesAsList.add(role.getNome());
-	    }
-	    return rolesAsList;
-	}
-	
-	public static List<GrantedAuthority> getGrantedAuthorities(List<String> roles) {
-	    List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-	    for (String role : roles) {
-	        authorities.add(new SimpleGrantedAuthority(role));
-	    }
-	    return authorities;
-	}
-	
-	public Collection<? extends GrantedAuthority> getAuthorities(List<Autorizacoes> list) {
-	    List<GrantedAuthority> authList = getGrantedAuthorities(getRolesAsList(list));
-	    return authList;
-	}
 }
