@@ -98,7 +98,7 @@
     	});
     	
     	$('a').click(function(e){
-    		if($(this).attr('href') != '<c:out value="${pageContext.request.contextPath}/acesso/logout.html"/>') {
+    		if($(this).attr('href') != '<c:out value="${pageContext.request.contextPath}/logout"/>') {
 	    		e.preventDefault();
 	    		$.get($(this).attr('href'), function(data){
 	    			var $temp  = $('<div/>', {html:data});

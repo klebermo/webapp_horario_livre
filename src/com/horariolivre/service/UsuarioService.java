@@ -92,8 +92,8 @@ public class UsuarioService {
 	public boolean temAutorizacaoCadastro(int id_usuario) {
 		Usuario novo = usuario.findById(id_usuario);
 		
-		for(int i=0; i<novo.getAutorizacoesUsuarios().size(); i++) {
-			if(novo.getAutorizacoesUsuarios().get(i).getAutorizacoes().getNome().equals("cad_usuario"))
+		for(int i=0; i<novo.getAutorizacoes().size(); i++) {
+			if(novo.getAutorizacoes().get(i).getAutorizacoes().getNome().equals("cad_usuario"))
 				return true;
 		}
 		
@@ -103,8 +103,8 @@ public class UsuarioService {
 	public boolean temAutorizacaoListagem(int id_usuario) {
 		Usuario novo = usuario.findById(id_usuario);
 		
-		for(int i=0; i<novo.getAutorizacoesUsuarios().size(); i++) {
-			if(novo.getAutorizacoesUsuarios().get(i).getAutorizacoes().getNome().equals("lista_usuario"))
+		for(int i=0; i<novo.getAutorizacoes().size(); i++) {
+			if(novo.getAutorizacoes().get(i).getAutorizacoes().getNome().equals("lista_usuario"))
 				return true;
 		}
 		

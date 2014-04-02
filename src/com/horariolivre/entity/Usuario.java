@@ -33,7 +33,7 @@ public class Usuario implements java.io.Serializable {
 	private String primeiroNome;
 	private String ultimoNome;
 	private List<TipoUsuario> tipoUsuarios = new ArrayList<TipoUsuario>();
-	private List<AutorizacoesUsuario> autorizacoesUsuarios = new ArrayList<AutorizacoesUsuario>();
+	private List<AutorizacoesUsuario> autorizacoes = new ArrayList<AutorizacoesUsuario>();
 	private List<DadosUsuario> dadosUsuarios = new ArrayList<DadosUsuario>();
 	private ConfigHorarioLivre config;
 
@@ -51,7 +51,7 @@ public class Usuario implements java.io.Serializable {
 		this.primeiroNome = primeiroNome;
 		this.ultimoNome = ultimoNome;
 		this.tipoUsuarios = tipoUsuarios;
-		this.autorizacoesUsuarios = autorizacoesUsuarios;
+		this.autorizacoes = autorizacoesUsuarios;
 		this.dadosUsuarios = dadosUsuarios;
 		this.config = config;
 	}
@@ -115,7 +115,7 @@ public class Usuario implements java.io.Serializable {
 
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "tipo_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_tipo") })
-	@LazyCollection(LazyCollectionOption.FALSE)
+	@LazyCollection(LazyCollectionOption.TRUE)
 	public List<TipoUsuario> getTipoUsuarios() {
 		return this.tipoUsuarios;
 	}
@@ -126,18 +126,18 @@ public class Usuario implements java.io.Serializable {
 
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "autorizacoes_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_autorizacoes") })
-	@LazyCollection(LazyCollectionOption.FALSE)
-	public List<AutorizacoesUsuario> getAutorizacoesUsuarios() {
-		return this.autorizacoesUsuarios;
+	@LazyCollection(LazyCollectionOption.TRUE)
+	public List<AutorizacoesUsuario> getAutorizacoes() {
+		return this.autorizacoes;
 	}
 
-	public void setAutorizacoesUsuarios(List<AutorizacoesUsuario> autorizacoesUsuarios) {
-		this.autorizacoesUsuarios = autorizacoesUsuarios;
+	public void setAutorizacoes(List<AutorizacoesUsuario> autorizacoes) {
+		this.autorizacoes = autorizacoes;
 	}
 
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "dados_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_dados") })
-	@LazyCollection(LazyCollectionOption.FALSE)
+	@LazyCollection(LazyCollectionOption.TRUE)
 	public List<DadosUsuario> getDadosUsuarios() {
 		return this.dadosUsuarios;
 	}

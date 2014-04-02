@@ -4,12 +4,11 @@ package com.horariolivre.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -28,7 +27,7 @@ public class AutorizacoesUsuario implements java.io.Serializable {
 	public AutorizacoesUsuario() {
 	}
 
-	public AutorizacoesUsuario(Usuario usuario,			Autorizacoes autorizacoes) {
+	public AutorizacoesUsuario(Usuario usuario, Autorizacoes autorizacoes) {
 		this.usuario = usuario;
 		this.autorizacoes = autorizacoes;
 	}
@@ -44,7 +43,7 @@ public class AutorizacoesUsuario implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "fk_usuario", nullable = false, insertable = false, updatable = false)
 	public Usuario getUsuario() {
 		return this.usuario;
@@ -54,7 +53,7 @@ public class AutorizacoesUsuario implements java.io.Serializable {
 		this.usuario = usuario;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "fk_autorizacoes", nullable = false, insertable = false, updatable = false)
 	public Autorizacoes getAutorizacoes() {
 		return this.autorizacoes;

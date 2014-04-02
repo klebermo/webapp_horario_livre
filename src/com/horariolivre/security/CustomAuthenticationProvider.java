@@ -37,8 +37,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         Usuario user = usuario.findByUsername(username);
                 
         if (user != null) {
-        	if(user.getSenha().equals(password)) {
-	            Authentication auth = new UsernamePasswordAuthenticationToken(username, password, getAuthorities(user.getAutorizacoesUsuarios()));
+        	if(user.getSenha().equals(password)) {        	    
+	            Authentication auth = new UsernamePasswordAuthenticationToken(username, password, null);
 	            return auth;
         	}
         	else {
@@ -57,7 +57,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	public List<String> getRolesAsList(List<AutorizacoesUsuario> list) {
 	    List <String> rolesAsList = new ArrayList<String>();
 	    for(AutorizacoesUsuario role : list){
-	        rolesAsList.add(role.getAutorizacoes().getDescricao());
+	        rolesAsList.add(role.getAutorizacoes().getNome());
 	    }
 	    return rolesAsList;
 	}
@@ -74,5 +74,4 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	    List<GrantedAuthority> authList = getGrantedAuthorities(getRolesAsList(list));
 	    return authList;
 	}
-	
 }

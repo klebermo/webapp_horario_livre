@@ -52,8 +52,8 @@ public class EventoService {
 	public boolean temAutorizacaoCadastro(int id_usuario) {
 		Usuario novo = usuario.findById(id_usuario);
 		
-		for(int i=0; i<novo.getAutorizacoesUsuarios().size(); i++) {
-			if(novo.getAutorizacoesUsuarios().get(i).getAutorizacoes().getNome().equals("cad_evento"))
+		for(int i=0; i<novo.getAutorizacoes().size(); i++) {
+			if(novo.getAutorizacoes().get(i).getAutorizacoes().getNome().equals("cad_evento"))
 				return true;
 		}
 		
@@ -63,8 +63,8 @@ public class EventoService {
 	public boolean temAutorizacaoListagem(int id_usuario) {
 		Usuario novo = usuario.findById(id_usuario);
 		
-		for(int i=0; i<novo.getAutorizacoesUsuarios().size(); i++) {
-			if(novo.getAutorizacoesUsuarios().get(i).getAutorizacoes().getNome().equals("lista_evento"))
+		for(int i=0; i<novo.getAutorizacoes().size(); i++) {
+			if(novo.getAutorizacoes().get(i).getAutorizacoes().getNome().equals("lista_evento"))
 				return true;
 		}
 		

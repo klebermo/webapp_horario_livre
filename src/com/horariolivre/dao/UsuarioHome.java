@@ -3,13 +3,12 @@ package com.horariolivre.dao;
 // Generated 24/03/2014 06:50:21 by Hibernate Tools 3.4.0.CR1
 
 import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +66,7 @@ public class UsuarioHome {
 			return result;
 		} catch (RuntimeException re) {
 			log.error("merge failed", re);
-			throw re;
+			return null;
 		}
 	}
 
@@ -80,22 +79,21 @@ public class UsuarioHome {
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
-			throw re;
+			return null;
 		}
 	}
 	
 	@Transactional
 	public Usuario findByUsername(String username) {
-		log.debug("getting All Usuario instance");
-		System.out.println("UsuarioHome.findByUsername("+username+")");
+		log.debug("getting Usuario instance with login: " + username);
 		try {
-			Usuario instance = (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class, username).add(Restrictions.like("login", username)).list().get(0);
+			Query q = sessionFactory.getCurrentSession().createQuery("from Usuario where login = :name");
+			q.setParameter("name", username);
+			Usuario instance = (Usuario) q.uniqueResult();
 			log.debug("get successful");
-			System.out.println("instance="+instance.getLogin());
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
-			System.out.println("instance=null");
 			return null;
 		}
 	}
@@ -110,7 +108,7 @@ public class UsuarioHome {
 			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
-			throw re;
+			return null;
 		}
 	}
 	
@@ -124,7 +122,7 @@ public class UsuarioHome {
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
-			throw re;
+			return null;
 		}
 	}
 }
