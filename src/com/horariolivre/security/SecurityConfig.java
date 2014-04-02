@@ -7,8 +7,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
 
-import com.horariolivre.service.UsuarioService;
-
 @Configuration
 @ComponentScan(value="com.horariolivre")
 @EnableWebSecurity
@@ -16,9 +14,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private CustomAuthenticationProvider authenticationProvider;
-	
-	@Autowired
-	private UsuarioService usuario;
 
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
     	auth

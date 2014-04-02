@@ -1,6 +1,7 @@
 package com.horariolivre.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.horariolivre.service.AuthenticationService;
 
 @Component
+@ComponentScan(value="com.horariolivre")
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
 	@Autowired

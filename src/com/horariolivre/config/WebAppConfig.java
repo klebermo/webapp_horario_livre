@@ -1,5 +1,6 @@
 package com.horariolivre.config;
 
+import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -9,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @EnableWebMvc
-@EnableTransactionManagement()
+@EnableTransactionManagement(mode=AdviceMode.PROXY, proxyTargetClass=true)
 @ComponentScan(value="com.horariolivre")
 @Configuration
 public class WebAppConfig extends WebMvcConfigurerAdapter {
