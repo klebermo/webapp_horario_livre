@@ -14,7 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.horariolivre.dao.UsuarioHome;
-import com.horariolivre.entity.AutorizacoesUsuario;
+import com.horariolivre.entity.Autorizacoes;
 import com.horariolivre.entity.Usuario;
 
 @Component
@@ -37,7 +37,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         Usuario user = usuario.findByUsername(username);
                 
         if (user != null) {
-        	if(user.getSenha().equals(password)) {        	    
+        	if(user.getSenha().equals(password)) {
 	            Authentication auth = new UsernamePasswordAuthenticationToken(username, password, getAuthorities(user.getAutorizacoes()));
 	            return auth;
         	}
@@ -54,10 +54,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		return authentication.equals(UsernamePasswordAuthenticationToken.class);
 	}
 	
-	public List<String> getRolesAsList(List<AutorizacoesUsuario> list) {
+	public List<String> getRolesAsList(List<Autorizacoes> list) {
 	    List <String> rolesAsList = new ArrayList<String>();
-	    for(AutorizacoesUsuario role : list){
-	        rolesAsList.add(role.getAutorizacoes().getNome());
+	    for(Autorizacoes role : list){
+	        rolesAsList.add(role.getNome());
 	    }
 	    return rolesAsList;
 	}
@@ -70,7 +70,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	    return authorities;
 	}
 	
-	public Collection<? extends GrantedAuthority> getAuthorities(List<AutorizacoesUsuario> list) {
+	public Collection<? extends GrantedAuthority> getAuthorities(List<Autorizacoes> list) {
 	    List<GrantedAuthority> authList = getGrantedAuthorities(getRolesAsList(list));
 	    return authList;
 	}

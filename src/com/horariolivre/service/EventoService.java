@@ -53,7 +53,7 @@ public class EventoService {
 		Usuario novo = usuario.findById(id_usuario);
 		
 		for(int i=0; i<novo.getAutorizacoes().size(); i++) {
-			if(novo.getAutorizacoes().get(i).getAutorizacoes().getNome().equals("cad_evento"))
+			if(novo.getAutorizacoes().get(i).getNome().equals("cad_evento"))
 				return true;
 		}
 		
@@ -64,7 +64,7 @@ public class EventoService {
 		Usuario novo = usuario.findById(id_usuario);
 		
 		for(int i=0; i<novo.getAutorizacoes().size(); i++) {
-			if(novo.getAutorizacoes().get(i).getAutorizacoes().getNome().equals("lista_evento"))
+			if(novo.getAutorizacoes().get(i).getNome().equals("lista_evento"))
 				return true;
 		}
 		

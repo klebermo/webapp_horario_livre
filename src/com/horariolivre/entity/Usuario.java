@@ -4,9 +4,11 @@ package com.horariolivre.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,9 +34,9 @@ public class Usuario implements java.io.Serializable {
 	private String senha;
 	private String primeiroNome;
 	private String ultimoNome;
-	private List<TipoUsuario> tipoUsuarios = new ArrayList<TipoUsuario>();
-	private List<AutorizacoesUsuario> autorizacoes = new ArrayList<AutorizacoesUsuario>();
-	private List<DadosUsuario> dadosUsuarios = new ArrayList<DadosUsuario>();
+	private List<Tipo> tipoUsuarios = new ArrayList<Tipo>();
+	private List<Autorizacoes> autorizacoes = new ArrayList<Autorizacoes>();
+	private List<Dados> dadosUsuarios = new ArrayList<Dados>();
 	private ConfigHorarioLivre config;
 
 	public Usuario() {
@@ -45,7 +47,7 @@ public class Usuario implements java.io.Serializable {
 		this.senha = senha;
 	}
 
-	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, List<TipoUsuario> tipoUsuarios, List<AutorizacoesUsuario> autorizacoesUsuarios, List<DadosUsuario> dadosUsuarios, ConfigHorarioLivre config) {
+	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, List<Tipo> tipoUsuarios, List<Autorizacoes> autorizacoesUsuarios, List<Dados> dadosUsuarios, ConfigHorarioLivre config) {
 		this.login = login;
 		this.senha = senha;
 		this.primeiroNome = primeiroNome;
@@ -61,9 +63,9 @@ public class Usuario implements java.io.Serializable {
 		this.senha = senha;
 		this.primeiroNome = primeiroNome;
 		this.ultimoNome = ultimoNome;
-		this.tipoUsuarios.add(new TipoUsuario(this, new Tipo(tipoUsuario)));
+		this.tipoUsuarios.add(new Tipo(tipoUsuario));
 		for(int i=0; i<campos.length; i++)
-			this.dadosUsuarios.add(new DadosUsuario(this, null, campos[i]));
+			this.dadosUsuarios.add(new Dados(campos[i]));
 	}
 
 	@Id
@@ -113,36 +115,36 @@ public class Usuario implements java.io.Serializable {
 		this.ultimoNome = ultimoNome;
 	}
 
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "tipo_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_tipo") })
 	@LazyCollection(LazyCollectionOption.TRUE)
-	public List<TipoUsuario> getTipoUsuarios() {
+	public List<Tipo> getTipoUsuarios() {
 		return this.tipoUsuarios;
 	}
 
-	public void setTipoUsuarios(List<TipoUsuario> tipoUsuarios) {
+	public void setTipoUsuarios(List<Tipo> tipoUsuarios) {
 		this.tipoUsuarios = tipoUsuarios;
 	}
 
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "autorizacoes_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_autorizacoes") })
 	@LazyCollection(LazyCollectionOption.TRUE)
-	public List<AutorizacoesUsuario> getAutorizacoes() {
+	public List<Autorizacoes> getAutorizacoes() {
 		return this.autorizacoes;
 	}
 
-	public void setAutorizacoes(List<AutorizacoesUsuario> autorizacoes) {
+	public void setAutorizacoes(List<Autorizacoes> autorizacoes) {
 		this.autorizacoes = autorizacoes;
 	}
 
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "dados_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_dados") })
 	@LazyCollection(LazyCollectionOption.TRUE)
-	public List<DadosUsuario> getDadosUsuarios() {
+	public List<Dados> getDadosUsuarios() {
 		return this.dadosUsuarios;
 	}
 
-	public void setDadosUsuarios(List<DadosUsuario> dadosUsuarios) {
+	public void setDadosUsuarios(List<Dados> dadosUsuarios) {
 		this.dadosUsuarios = dadosUsuarios;
 	}
 

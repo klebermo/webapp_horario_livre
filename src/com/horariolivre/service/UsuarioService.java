@@ -93,7 +93,7 @@ public class UsuarioService {
 		Usuario novo = usuario.findById(id_usuario);
 		
 		for(int i=0; i<novo.getAutorizacoes().size(); i++) {
-			if(novo.getAutorizacoes().get(i).getAutorizacoes().getNome().equals("cad_usuario"))
+			if(novo.getAutorizacoes().get(i).getNome().equals("cad_usuario"))
 				return true;
 		}
 		
@@ -104,7 +104,7 @@ public class UsuarioService {
 		Usuario novo = usuario.findById(id_usuario);
 		
 		for(int i=0; i<novo.getAutorizacoes().size(); i++) {
-			if(novo.getAutorizacoes().get(i).getAutorizacoes().getNome().equals("lista_usuario"))
+			if(novo.getAutorizacoes().get(i).getNome().equals("lista_usuario"))
 				return true;
 		}
 		
