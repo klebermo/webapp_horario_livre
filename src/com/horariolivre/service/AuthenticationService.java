@@ -29,13 +29,17 @@ public class AuthenticationService implements UserDetailsService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 	    Usuario account = accountDao.findByUsername(username);
-	
-	    if(account==null) {
-	    	throw new UsernameNotFoundException("No such user: " + username);
-	    } else if (account.getAutorizacoes().isEmpty()) {
-	        throw new UsernameNotFoundException("User " + username + " has no authorities");
-	                }
-	
+	    
+    	if(account == null) {
+    		throw new UsernameNotFoundException("No such user: " + username);
+    	}
+	    
+    	List<Autorizacoes> auth = account.getAutorizacoes();
+    	
+    	if(auth.isEmpty()) {
+    		throw new UsernameNotFoundException("User " + username + " has no authorities");
+    	}
+		
 	    boolean accountNonExpired = true;
 	    boolean credentialsNonExpired = true;
 	    boolean accountNonLocked = true;

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -125,9 +126,9 @@ public class Usuario implements java.io.Serializable {
 		this.tipoUsuarios = tipoUsuarios;
 	}
 
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "autorizacoes_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_autorizacoes") })
-	@LazyCollection(LazyCollectionOption.TRUE)
+	//@LazyCollection(LazyCollectionOption.TRUE)
 	public List<Autorizacoes> getAutorizacoes() {
 		return this.autorizacoes;
 	}
