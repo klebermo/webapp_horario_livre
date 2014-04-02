@@ -38,7 +38,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 
         if (user != null) {
         	if(user.getSenha().equals(password)) {        	    
-	            Authentication auth = new UsernamePasswordAuthenticationToken(username, password, null);
+	            Authentication auth = new UsernamePasswordAuthenticationToken(username, password, getAuthorities(user.getAutorizacoes()));
 	            return auth;
         	}
         	else {
