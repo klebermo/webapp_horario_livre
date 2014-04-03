@@ -23,7 +23,7 @@
 </div>
 
 <div class="container">
-	<form method="post" action="<c:out value="${pageContext.request.contextPath}/evento/cadastra_evento.html"/>" id="target">
+	<form method="post" action="<c:out value="${pageContext.request.contextPath}/evento/cadastra_evento"/>" id="target">
 		<p><input type="text" name="nome" placeholder="Nome" size=20 maxlength=40> </p>
 		
 		<p><input type="text" name="descricao" placeholder="Descri&ccedil;&atilde;o" size=30 maxlength=100> </p>
@@ -42,11 +42,10 @@
 	</form>
 </div>
 
-<div id="result"> </div>
+<div class="alert alert-info">
+	<strong>Resultado</strong> <div id="result"></div>
+</div>
 
-	<!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script>
     $( "#target" ).submit(function( event ) {
     	 
@@ -62,8 +61,10 @@
     	 
     	  // Put the results in a div
     	  posting.done(function( data ) {
-    	    // var content = $( data ).find( "#content" );
-    	    $( "#result" ).empty().append( data );
+    		  if(data == "yes")
+    			  $( "#result" ).empty().append( "Evento cadastrado com sucesso" );
+    		  else
+    			  $( "#result" ).empty().append( "Evento n&atilde;o cadastrado" );
     	  });
     	});
     </script>

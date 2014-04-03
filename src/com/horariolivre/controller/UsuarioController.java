@@ -40,7 +40,7 @@ public class UsuarioController {
 		}
 	}
 	
-	@RequestMapping(value="cadastra_usuario", method=RequestMethod.GET)
+	@RequestMapping(value="cadastra_usuario", method=RequestMethod.POST)
 	public String cadastra(@ModelAttribute("username") String username, @RequestParam("login") String login, @RequestParam("senha") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
 		String saida = new String();
 		
