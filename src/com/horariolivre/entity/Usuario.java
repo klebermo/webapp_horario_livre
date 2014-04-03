@@ -58,14 +58,15 @@ public class Usuario implements java.io.Serializable {
 		this.config = config;
 	}
 	
-	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String[] campos, String[] conteudo) {
+	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String[] chave, String[] valor) {
 		this.login = login;
 		this.senha = senha;
 		this.primeiroNome = primeiroNome;
 		this.ultimoNome = ultimoNome;
 		this.tipoUsuarios.add(new TipoUsuario(this, new Tipo(tipoUsuario)));
-		for(int i=0; i<campos.length; i++)
-			this.dadosUsuarios.add(new DadosUsuario(this, new Dados(campos[i]), conteudo[i]));
+		for(int i=0; i<valor.length; i++) {
+			this.dadosUsuarios.add(new DadosUsuario(this, new Dados(chave[i]), valor[i]));
+		}
 	}
 
 	@Id
@@ -157,5 +158,5 @@ public class Usuario implements java.io.Serializable {
 	public void setConfig(ConfigHorarioLivre config) {
 		this.config = config;
 	}
-	
+
 }

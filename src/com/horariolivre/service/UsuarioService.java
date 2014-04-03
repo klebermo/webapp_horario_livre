@@ -42,7 +42,14 @@ public class UsuarioService {
 	@Autowired
 	private AutorizacoesUsuarioHome autorizacao_usuario;
 	
-	public boolean cadastra(String login, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String [] campos, String[] conteudo) {
+	public boolean cadastra(String login, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String[] conteudo) {
+		List<Dados> lista_dados = dados.findALL();
+		String[] campos = new String[lista_dados.size()];
+		
+		for(int i=0; i<lista_dados.size(); i++) {
+			campos[i] = lista_dados.get(i).getCampo();
+		}
+		
 		Usuario novo = new Usuario(login, senha, primeiroNome, ultimoNome, tipoUsuario, campos, conteudo);
 		return usuario.persist(novo);
 	}
