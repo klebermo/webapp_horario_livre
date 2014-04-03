@@ -60,7 +60,7 @@ public class UsuarioService {
 			
 			List<DadosUsuario> dados = new ArrayList<DadosUsuario>();
 			for(int i=0; i<campos.length; i++) {
-				dados.add(new DadosUsuario(novo,new Dados(campos[i]),conteudo[i]));
+				dados.add(new DadosUsuario(novo.getId(),Integer.valueOf(campos[i]).intValue(),conteudo[i]));
 				dados_usuario.persist(dados.get(i));
 			}
 			

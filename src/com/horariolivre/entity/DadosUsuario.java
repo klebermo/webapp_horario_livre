@@ -33,6 +33,13 @@ public class DadosUsuario implements java.io.Serializable {
 		this.dados = dados;
 		this.conteudo = conteudo;
 	}
+	
+	public DadosUsuario(int id_usuario, int id_dados, String conteudo) {
+		this.usuario = new Usuario();
+		this.usuario.setId(id_usuario);
+		this.dados = new Dados(id_dados);
+		this.conteudo = conteudo;
+	}
 
 	@Id
 	@Column(name = "id", unique = true, nullable = false)

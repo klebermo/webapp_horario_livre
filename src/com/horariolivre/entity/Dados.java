@@ -23,10 +23,14 @@ public class Dados implements java.io.Serializable {
 	public Dados() {
 	}
 
-	public Dados(String id) {
+	public Dados(int id) {
 		this.id = Integer.valueOf(id).intValue();
 	}
-
+	
+	public Dados(String campo) {
+		this.campo = campo;
+	}
+	
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
