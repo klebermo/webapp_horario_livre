@@ -15,7 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/starter-template.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/box.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -30,6 +30,7 @@
   <body>
 
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -65,14 +66,14 @@
 	          </li>
           </ul>
         </div><!--/.nav-collapse -->
+       </div>
       </div>
-
-	<div id="container">
-		<div id="popup">
-			<div id="header"> <span id="title"></span> <span id="button">X</span> </div>
+      
+      <div id="container">
+		<div id="dialog" title="Basic dialog">
 			<div id="text"> </div>
 		</div>
-	</div>
+	  </div>
 
 
     <!-- Bootstrap core JavaScript
@@ -83,28 +84,29 @@
     <script src="<c:out value="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"/>"></script>
     <script>
     $('document').ready(function(){
-    	$('#popup').draggable({
-    		cointainment: "#container"
-    	});
-    	
-    	$('#popup').resizable({
-    		cointainment: "#container"
-    	});
-    	
-    	$('#popup').hide();
-    	
-    	$('#button').click(function(){
-    		$('#popup').hide();
-    	});
+    	$( "#dialog" ).dialog({
+    	      autoOpen: false,
+    	      show: {
+    	        effect: "fadeIn",
+    	        duration: 1000
+    	      },
+    	      hide: {
+    	        effect: "fadeOut",
+    	        duration: 1000
+    	      }
+    	    });
     	
     	$('a').click(function(e){
     		if($(this).attr('href') != '<c:out value="${pageContext.request.contextPath}/logout"/>') {
-	    		e.preventDefault();
+    			e.preventDefault();
 	    		$.get($(this).attr('href'), function(data){
 	    			var $temp  = $('<div/>', {html:data});
-	                $('#title').text($temp.find('title').text());
+	                //$('#title').text($temp.find('title').text());
+	                $( "#dialog" ).dialog({ title: $temp.find('title').text() });
 	                $('#text').html($temp.remove('head').html());
-	                $('#popup').show();
+	                $( "#dialog" ).dialog({ height: 600 });
+	                $( "#dialog" ).dialog({ width: 800 });
+	                $( "#dialog" ).dialog( "open" );
 	    		});
     		}
     	});
