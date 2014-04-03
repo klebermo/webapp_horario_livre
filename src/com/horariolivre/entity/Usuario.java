@@ -35,8 +35,8 @@ public class Usuario implements java.io.Serializable {
 	private String primeiroNome;
 	private String ultimoNome;
 	private List<TipoUsuario> tipoUsuarios = new ArrayList<TipoUsuario>();
-	private List<Autorizacoes> autorizacoes = new ArrayList<Autorizacoes>();
 	private List<DadosUsuario> dadosUsuarios = new ArrayList<DadosUsuario>();
+	private List<Autorizacoes> autorizacoes = new ArrayList<Autorizacoes>();
 	private ConfigHorarioLivre config;
 
 	public Usuario() {
@@ -64,9 +64,6 @@ public class Usuario implements java.io.Serializable {
 		this.primeiroNome = primeiroNome;
 		this.ultimoNome = ultimoNome;
 		this.tipoUsuarios.add(new TipoUsuario(this, new Tipo(tipoUsuario)));
-		for(int i=0; i<valor.length; i++) {
-			this.dadosUsuarios.add(new DadosUsuario(this, new Dados(chave[i]), valor[i]));
-		}
 	}
 
 	@Id
