@@ -11,12 +11,48 @@
 
     <!-- Custom styles for this template -->
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/starter-template.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/grid.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/table.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/dialog.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
 
 </head>
 <body>
-usuario_lista
+
+		<div class="row">
+        	<div class="col-md-3">
+        		username
+       		</div>
+       		
+        	<div class="col-md-6">
+        		Nome / Tipo
+       		</div>
+       		
+        	<div class="col-md-3">
+        		#
+       		</div>
+      	</div>
+
+		<c:forEach var="item" items="${usuarios}">
+		<div class="row">
+        	<div class="col-md-3">
+        		<c:out value="${item.login}"/>
+       		</div>
+       		
+        	<div class="col-md-6">
+        		<c:out value="${item.primeiroNome}"/> <c:out value="${item.ultimoNome}"/><br/>
+        		<c:forEach var="item_tipo" items="${usuarios.tipoUsuarios}">
+        			<c:out value="${item_tipo.nome}"/>.
+        		</c:forEach>
+       		</div>
+       		
+        	<div class="col-md-3">
+        		<a href="#" onclick="editar('<c:out value="${item.id}"/>')"> <span class="ui-icon ui-icon-pencil"> </span> </a>
+        		<a href="#" onclick="remover('<c:out value="${item.id}"/>')"> <span class="ui-icon ui-icon-trash"> </span> </a>
+        		<a href="#" onclick="autorizacao('<c:out value="${item.id}"/>')"> <span class="ui-icon ui-icon-wrench"> </span> </a>
+       		</div>
+        </div>
+		</c:forEach>
+
 </body>
 </html>

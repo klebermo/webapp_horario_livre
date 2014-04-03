@@ -31,6 +31,8 @@ public class UsuarioController {
 		if(usuarioService.temAutorizacaoCadastro(id_usuario)) {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("usuario/cadastra");
+			mav.addObject("tipos", usuarioService.listaTipos());
+			mav.addObject("campos", usuarioService.listaDados());
 			return mav;
 		}
 		else {
@@ -117,6 +119,8 @@ public class UsuarioController {
 			mav.addObject("tipos", usuarioService.listaTipos());
 			mav.addObject("campos", usuarioService.listaDados());
 			mav.addObject("autorizacoes", usuarioService.listaAutorizacoes());
+			
+			mav.addObject("autorizacoes_usuario", usuarioService.listaAutorizacoesUsuario());
 			
 			return mav;
 		}

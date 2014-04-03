@@ -65,7 +65,7 @@ public class EventoController {
 	}
 	
 	@RequestMapping(value="remove_evento", method=RequestMethod.GET)
-	public String remove_evento(@RequestParam("id_evento") String id_evento_apagar) {
+	public String remove_evento(@RequestParam("id") String id_evento_apagar) {
 		String saida = new String();
 		int id_evento = Integer.valueOf(id_evento_apagar).intValue();
 		
@@ -79,7 +79,7 @@ public class EventoController {
 	}
 	
 	@RequestMapping(value="altera_evento", method=RequestMethod.GET)
-	public String altera_evento(@RequestParam("id_evento") String id_evento_alterar, @RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") Date dataInicial, @RequestParam("data_final") Date dataFinal, @RequestParam("hora_inicial") Time horaInicial, @RequestParam("hora_final") Time horaFinal, @RequestParam("duracao") String duracao) {
+	public String altera_evento(@RequestParam("id") String id_evento_alterar, @RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") Date dataInicial, @RequestParam("data_final") Date dataFinal, @RequestParam("hora_inicial") Time horaInicial, @RequestParam("hora_final") Time horaFinal, @RequestParam("duracao") String duracao) {
 		String saida = new String();
 		
 		Evento altera = evento.getEvento(Integer.valueOf(id_evento_alterar).intValue());

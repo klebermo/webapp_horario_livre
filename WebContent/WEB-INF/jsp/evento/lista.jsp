@@ -11,6 +11,7 @@
 
     <!-- Custom styles for this template -->
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/starter-template.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/grid.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/table.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/dialog.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
@@ -24,18 +25,35 @@
 
 <div class="container">
 		<div class="row">
-        	<div class="col-md-3">Nome</div>
-        	<div class="col-md-3">Descri&ccedil;&atilde;o</div>
-        	<div class="col-md-3">Periodo</div>
-        	<div class="col-md-3">Dura&ccedil;&atilde;o</div>
+        	<div class="col-md-3">
+        		Nome
+       		</div>
+       		
+        	<div class="col-md-6">
+        		Descri&ccedil;&atilde;o
+       		</div>
+       		
+        	<div class="col-md-3">
+        		#
+       		</div>
       	</div>
 
 		<c:forEach var="item" items="${lista}">
 		<div class="row">
-        	<div class="col-md-3"><c:out value="${item.nome}"/></div>
-        	<div class="col-md-3"><c:out value="${item.descricao}"/></div>
-        	<div class="col-md-3"><c:out value="${item.dataInicial}"/> - <c:out value="${item.dataFinal}"/></div>
-        	<div class="col-md-3"><c:out value="${item.duracao}"/></div>
+        	<div class="col-md-3">
+        		<c:out value="${item.nome}"/>
+       		</div>
+       		
+        	<div class="col-md-6">
+        		<c:out value="${item.descricao}"/> <br/>
+        		(<c:out value="${item.dataInicial}"/> - <c:out value="${item.dataFinal}"/>) </br>
+        		Dura&ccedil;&atilde;o: <c:out value="${item.duracao}"/> Minutos
+       		</div>
+       		
+        	<div class="col-md-3">
+        		<a href="#" onclick="editar('<c:out value="${item.id}"/>')"> <span class="ui-icon ui-icon-pencil"> </span> </a>
+        		<a href="#" onclick="remover('<c:out value="${item.id}"/>')"> <span class="ui-icon ui-icon-trash"> </span> </a>
+       		</div>
         </div>
 		</c:forEach>
 </div>
