@@ -41,7 +41,7 @@
        		
         	<div class="col-md-6">
         		<c:out value="${item.primeiroNome}"/> <c:out value="${item.ultimoNome}"/><br/>
-        		<c:forEach var="item_tipo" items="${usuarios.tipoUsuarios}">
+        		<c:forEach var="item_tipo" items="${item.tipoUsuarios}">
         			<c:out value="${item_tipo.nome}"/>.
         		</c:forEach>
        		</div>

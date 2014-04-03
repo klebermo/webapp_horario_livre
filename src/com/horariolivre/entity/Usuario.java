@@ -34,9 +34,9 @@ public class Usuario implements java.io.Serializable {
 	private String senha;
 	private String primeiroNome;
 	private String ultimoNome;
-	private List<Tipo> tipoUsuarios = new ArrayList<Tipo>();
+	private List<TipoUsuario> tipoUsuarios = new ArrayList<TipoUsuario>();
 	private List<Autorizacoes> autorizacoes = new ArrayList<Autorizacoes>();
-	private List<Dados> dadosUsuarios = new ArrayList<Dados>();
+	private List<DadosUsuario> dadosUsuarios = new ArrayList<DadosUsuario>();
 	private ConfigHorarioLivre config;
 
 	public Usuario() {
@@ -47,7 +47,7 @@ public class Usuario implements java.io.Serializable {
 		this.senha = senha;
 	}
 
-	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, List<Tipo> tipoUsuarios, List<Autorizacoes> autorizacoesUsuarios, List<Dados> dadosUsuarios, ConfigHorarioLivre config) {
+	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, List<TipoUsuario> tipoUsuarios, List<Autorizacoes> autorizacoesUsuarios, List<DadosUsuario> dadosUsuarios, ConfigHorarioLivre config) {
 		this.login = login;
 		this.senha = senha;
 		this.primeiroNome = primeiroNome;
@@ -58,14 +58,14 @@ public class Usuario implements java.io.Serializable {
 		this.config = config;
 	}
 	
-	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String[] campos) {
+	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String[] campos, String[] conteudo) {
 		this.login = login;
 		this.senha = senha;
 		this.primeiroNome = primeiroNome;
 		this.ultimoNome = ultimoNome;
-		this.tipoUsuarios.add(new Tipo(tipoUsuario));
+		this.tipoUsuarios.add(new TipoUsuario(this, new Tipo(tipoUsuario)));
 		for(int i=0; i<campos.length; i++)
-			this.dadosUsuarios.add(new Dados(campos[i]));
+			this.dadosUsuarios.add(new DadosUsuario(this, new Dados(campos[i]), conteudo[i]));
 	}
 
 	@Id
@@ -117,12 +117,12 @@ public class Usuario implements java.io.Serializable {
 
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "tipo_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_tipo") })
-	@LazyCollection(LazyCollectionOption.TRUE)
-	public List<Tipo> getTipoUsuarios() {
+	@LazyCollection(LazyCollectionOption.FALSE)
+	public List<TipoUsuario> getTipoUsuarios() {
 		return this.tipoUsuarios;
 	}
 
-	public void setTipoUsuarios(List<Tipo> tipoUsuarios) {
+	public void setTipoUsuarios(List<TipoUsuario> tipoUsuarios) {
 		this.tipoUsuarios = tipoUsuarios;
 	}
 
@@ -139,12 +139,12 @@ public class Usuario implements java.io.Serializable {
 
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "dados_usuario", joinColumns = { @JoinColumn(name = "fk_usuario") }, inverseJoinColumns = { @JoinColumn(name = "fk_dados") })
-	@LazyCollection(LazyCollectionOption.TRUE)
-	public List<Dados> getDadosUsuarios() {
+	@LazyCollection(LazyCollectionOption.FALSE)
+	public List<DadosUsuario> getDadosUsuarios() {
 		return this.dadosUsuarios;
 	}
 
-	public void setDadosUsuarios(List<Dados> dadosUsuarios) {
+	public void setDadosUsuarios(List<DadosUsuario> dadosUsuarios) {
 		this.dadosUsuarios = dadosUsuarios;
 	}
 

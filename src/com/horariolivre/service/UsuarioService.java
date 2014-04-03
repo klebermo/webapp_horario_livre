@@ -42,8 +42,8 @@ public class UsuarioService {
 	@Autowired
 	private AutorizacoesUsuarioHome autorizacao_usuario;
 	
-	public boolean cadastra(String login, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String [] campos) {
-		Usuario novo = new Usuario(login, senha, primeiroNome, ultimoNome, tipoUsuario, campos);
+	public boolean cadastra(String login, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String [] campos, String[] conteudo) {
+		Usuario novo = new Usuario(login, senha, primeiroNome, ultimoNome, tipoUsuario, campos, conteudo);
 		return usuario.persist(novo);
 	}
 	

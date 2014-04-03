@@ -36,8 +36,8 @@
 						</select>
 					</p>
 					
-					<c:forEach var="campos" items="${key}" varStatus="status">
-							<p>${campos.campo}: <input type="text" name="${campos.campo}" size=20 maxlength=40> </p>
+					<c:forEach var="campos" items="${campos}" varStatus="status">
+							<p><label for="<option value=<c:out value="${campos.campo}"/>">${campos.campo}:</label> <input type="text" name="<option value=<c:out value="${campos.campo}"/>" size=20 maxlength=40> </p>
 					</c:forEach>
 	<p><button type="submit" class="btn btn-lg btn-primary">Cadastrar</button></p>
 	</form>

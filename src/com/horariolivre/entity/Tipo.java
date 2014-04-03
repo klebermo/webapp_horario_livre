@@ -24,8 +24,8 @@ public class Tipo implements java.io.Serializable {
 	public Tipo() {
 	}
 
-	public Tipo(String nome) {
-		this.nome = nome;
+	public Tipo(String id) {
+		this.id = Integer.valueOf(id).intValue();
 	}
 
 	public Tipo(String nome, String descricao) {

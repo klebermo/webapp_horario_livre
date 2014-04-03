@@ -50,8 +50,9 @@ public class UsuarioController {
 				
 		if(usuarioService.temAutorizacaoCadastro(id_usuario)) {
 			String [] campos = webrequest.getParameterValues(usuarioService.listaDados().toString());
+			String [] conteudo = webrequest.getParameterValues(usuarioService.listaDados().toString());
 			
-			if (usuarioService.cadastra(login, senha, pnome, unome, tipo, campos))
+			if (usuarioService.cadastra(login, senha, pnome, unome, tipo, campos, conteudo))
 				saida = "yes";
 			else
 				saida = "no";
@@ -115,11 +116,6 @@ public class UsuarioController {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("usuario/lista");
 			mav.addObject("usuarios", usuarioService.lista());
-			
-			mav.addObject("tipos", usuarioService.listaTipos());
-			mav.addObject("campos", usuarioService.listaDados());
-			mav.addObject("autorizacoes", usuarioService.listaAutorizacoes());
-			
 			mav.addObject("autorizacoes_usuario", usuarioService.listaAutorizacoesUsuario());
 			
 			return mav;
