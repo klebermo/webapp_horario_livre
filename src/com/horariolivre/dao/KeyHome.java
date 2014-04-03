@@ -2,6 +2,8 @@ package com.horariolivre.dao;
 
 // Generated 24/03/2014 06:50:21 by Hibernate Tools 3.4.0.CR1
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
@@ -10,17 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.horariolivre.entity.Sessao;
+import com.horariolivre.entity.Key;
 
 /**
- * Home object for domain model class Sessao.
- * @see com.horariolivre.dao.Sessao
+ * Home object for domain model class Key.
+ * @see com.horariolivre.dao.Key
  * @author Hibernate Tools
  */
 @Repository
-public class SessaoHome {
+public class KeyHome {
 
-	private static final Log log = LogFactory.getLog(SessaoHome.class);
+	private static final Log log = LogFactory.getLog(KeyHome.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -30,8 +32,8 @@ public class SessaoHome {
 	}
 
 	@Transactional
-	public void persist(Sessao transientInstance) {
-		log.debug("persisting Sessao instance");
+	public void persist(Key transientInstance) {
+		log.debug("persisting Key instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
 			log.debug("persist successful");
@@ -42,8 +44,8 @@ public class SessaoHome {
 	}
 
 	@Transactional
-	public void remove(Sessao persistentInstance) {
-		log.debug("removing Sessao instance");
+	public void remove(Key persistentInstance) {
+		log.debug("removing Key instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
 			log.debug("remove successful");
@@ -54,10 +56,10 @@ public class SessaoHome {
 	}
 
 	@Transactional
-	public Sessao merge(Sessao detachedInstance) {
-		log.debug("merging Sessao instance");
+	public Key merge(Key detachedInstance) {
+		log.debug("merging Key instance");
 		try {
-			Sessao result = (Sessao) sessionFactory.getCurrentSession().merge(detachedInstance);
+			Key result = (Key) sessionFactory.getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -67,10 +69,10 @@ public class SessaoHome {
 	}
 
 	@Transactional
-	public Sessao findById(int id) {
-		log.debug("getting Sessao instance with id: " + id);
+	public Key findById(int id) {
+		log.debug("getting Key instance with id: " + id);
 		try {
-			Sessao instance = (Sessao) sessionFactory.getCurrentSession().get(Sessao.class, id);
+			Key instance = (Key) sessionFactory.getCurrentSession().get(Key.class, id);
 			log.debug("get successful");
 			return instance;
 		} catch (RuntimeException re) {
@@ -79,12 +81,13 @@ public class SessaoHome {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Transactional
-	public Sessao findLast() {
-		log.debug("finding Sessao instance by example");
+	public List<Key> findALL() {
+		log.debug("finding Usuario instance by example");
 		try {
-			Sessao results = (Sessao) sessionFactory.getCurrentSession().createCriteria("from Sessao order by id DESC LIMIT 1").list().get(0);
-			log.debug("find by example successful, result size: " + results.toString());
+			List<Key> results = sessionFactory.getCurrentSession().createCriteria(Key.class).list();
+			log.debug("find by example successful, result size: " + results.size());
 			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);

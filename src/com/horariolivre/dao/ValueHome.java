@@ -11,17 +11,17 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.horariolivre.entity.TipoUsuario;
+import com.horariolivre.entity.Value;
 
 /**
- * Home object for domain model class TipoUsuario.
- * @see com.horariolivre.dao.TipoUsuario
+ * Home object for domain model class Value.
+ * @see com.horariolivre.dao.Value
  * @author Hibernate Tools
  */
 @Repository
-public class TipoUsuarioHome {
+public class ValueHome {
 
-	private static final Log log = LogFactory.getLog(TipoUsuarioHome.class);
+	private static final Log log = LogFactory.getLog(ValueHome.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -31,8 +31,8 @@ public class TipoUsuarioHome {
 	}
 
 	@Transactional
-	public void persist(TipoUsuario transientInstance) {
-		log.debug("persisting TipoUsuario instance");
+	public void persist(Value transientInstance) {
+		log.debug("persisting Value instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
 			log.debug("persist successful");
@@ -43,8 +43,8 @@ public class TipoUsuarioHome {
 	}
 
 	@Transactional
-	public void remove(TipoUsuario persistentInstance) {
-		log.debug("removing TipoUsuario instance");
+	public void remove(Value persistentInstance) {
+		log.debug("removing Value instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
 			log.debug("remove successful");
@@ -55,10 +55,10 @@ public class TipoUsuarioHome {
 	}
 
 	@Transactional
-	public TipoUsuario merge(TipoUsuario detachedInstance) {
-		log.debug("merging TipoUsuario instance");
+	public Value merge(Value detachedInstance) {
+		log.debug("merging Value instance");
 		try {
-			TipoUsuario result = (TipoUsuario) sessionFactory.getCurrentSession().merge(detachedInstance);
+			Value result = (Value) sessionFactory.getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -68,10 +68,10 @@ public class TipoUsuarioHome {
 	}
 
 	@Transactional
-	public TipoUsuario findById(int id) {
-		log.debug("getting TipoUsuario instance with id: " + id);
+	public Value findById(int id) {
+		log.debug("getting Value instance with id: " + id);
 		try {
-			TipoUsuario instance = (TipoUsuario) sessionFactory.getCurrentSession().get(TipoUsuario.class, id);
+			Value instance = (Value) sessionFactory.getCurrentSession().get(Value.class, id);
 			log.debug("get successful");
 			return instance;
 		} catch (RuntimeException re) {
@@ -82,10 +82,10 @@ public class TipoUsuarioHome {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<TipoUsuario> findALL() {
+	public List<Value> findALL() {
 		log.debug("getting all Usuario instance");
 		try {
-			List<TipoUsuario> instance = sessionFactory.getCurrentSession().createCriteria(TipoUsuario.class).list();
+			List<Value> instance = sessionFactory.getCurrentSession().createCriteria(Value.class).list();
 			log.debug("get successful");
 			return instance;
 		} catch (RuntimeException re) {
