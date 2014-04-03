@@ -15,6 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/starter-template.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/table.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -104,8 +105,8 @@
 	                //$('#title').text($temp.find('title').text());
 	                $( "#dialog" ).dialog({ title: $temp.find('title').text() });
 	                $('#text').html($temp.remove('head').html());
-	                $( "#dialog" ).dialog({ height: 600 });
-	                $( "#dialog" ).dialog({ width: 800 });
+	                $( "#dialog" ).dialog({ height: 720 });
+	                $( "#dialog" ).dialog({ width: 1080 });
 	                $( "#dialog" ).dialog( "open" );
 	    		});
     		}
