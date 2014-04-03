@@ -56,23 +56,6 @@ public class EventoController {
 		return saida;
 	}
 	
-	@RequestMapping(value="remove")
-	public ModelAndView remove(@ModelAttribute("username") String username) {
-		int id_usuario = usuario.findByUsername(username).getId();
-		
-		if(evento.temAutorizacaoCadastro(id_usuario)) {
-			ModelAndView mav = new ModelAndView();
-			mav.setViewName("evento/remove");
-			mav.addObject("lista", evento.lista());
-			return mav;
-		}
-		else {
-			ModelAndView mav = new ModelAndView();
-			mav.setViewName("erro/nao_autorizado");
-			return mav;
-		}
-	}
-	
 	@RequestMapping(value="remove_evento", method=RequestMethod.GET)
 	public String remove_evento(@RequestParam("id_evento") String id_evento_apagar) {
 		String saida = new String();
@@ -85,23 +68,6 @@ public class EventoController {
 			saida = "no";
 		}
 		return saida;
-	}
-	
-	@RequestMapping(value="altera")
-	public ModelAndView altera(@ModelAttribute("username") String username) {
-		int id_usuario = usuario.findByUsername(username).getId();
-		
-		if(evento.temAutorizacaoCadastro(id_usuario)) {
-			ModelAndView mav = new ModelAndView();
-			mav.setViewName("evento/altera");
-			mav.addObject("lista", evento.lista());
-			return mav;
-		}
-		else {
-			ModelAndView mav = new ModelAndView();
-			mav.setViewName("erro/nao_autorizado");
-			return mav;
-		}
 	}
 	
 	@RequestMapping(value="altera_evento", method=RequestMethod.GET)

@@ -47,13 +47,16 @@
             	<ul class="dropdown-menu">
             		<li><a href="<c:out value="${pageContext.request.contextPath}/evento/lista"/>">Listar</a>
             		<li><a href="<c:out value="${pageContext.request.contextPath}/evento/cadastra"/>">Cadastrar</a>
-            		<li><a href="<c:out value="${pageContext.request.contextPath}/evento/altera"/>">Alterar</a>
-            		<a href="<c:out value="${pageContext.request.contextPath}/evento/remove"/>">Remover</a>
             	</ul>
             </li>
             <li><a href="<c:out value="${pageContext.request.contextPath}/horario/lista"/>">Listar Hor&aacute;rios</a></li>
             <li><a href="<c:out value="${pageContext.request.contextPath}/horario/cadastra"/>">Cadastrar Hor&aacute;rios</a></li>
-            <li><a href="<c:out value="${pageContext.request.contextPath}/usuario/lista"/>">Usu&aacute;rios</a></li>
+            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Usu&aacute;rio<b class="caret"></b></a>
+            	<ul class="dropdown-menu">
+            		<li><a href="<c:out value="${pageContext.request.contextPath}/usuario/lista"/>">Listar</a>
+            		<li><a href="<c:out value="${pageContext.request.contextPath}/usuario/cadastra"/>">Cadastrar</a>
+            	</ul>
+           	</li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
 	          <li class="dropdown">
@@ -72,7 +75,7 @@
       
       <div id="container">
 		<div id="dialog" title="Basic dialog">
-			<div id="text"> </div>
+			<p> <span id="text"></span> </p>
 		</div>
 	  </div>
 
@@ -99,16 +102,18 @@
     	
     	$('a').click(function(e){
     		if($(this).attr('href') != '<c:out value="${pageContext.request.contextPath}/logout"/>') {
-    			e.preventDefault();
-	    		$.get($(this).attr('href'), function(data){
-	    			var $temp  = $('<div/>', {html:data});
-	                //$('#title').text($temp.find('title').text());
-	                $( "#dialog" ).dialog({ title: $temp.find('title').text() });
-	                $('#text').html($temp.remove('head').html());
-	                $( "#dialog" ).dialog({ height: 720 });
-	                $( "#dialog" ).dialog({ width: 1080 });
-	                $( "#dialog" ).dialog( "open" );
-	    		});
+    			if($(this).attr('href') != '#') {
+	    			e.preventDefault();
+		    		$.get($(this).attr('href'), function(data){
+		    			var $temp  = $('<div/>', {html:data});
+		                //$('#title').text($temp.find('title').text());
+		                $( "#dialog" ).dialog({ title: $temp.find('title').text() });
+		                $('#text').html($temp.remove('head').html());
+		                $( "#dialog" ).dialog({ height: 720 });
+		                $( "#dialog" ).dialog({ width: 1080 });
+		                $( "#dialog" ).dialog( "open" );
+		    		});
+    			}
     		}
     	});
     });
