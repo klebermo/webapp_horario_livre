@@ -23,8 +23,8 @@ public class Dados implements java.io.Serializable {
 	public Dados() {
 	}
 
-	public Dados(String campo) {
-		this.campo = campo;
+	public Dados(String id) {
+		this.id = Integer.valueOf(id).intValue();
 	}
 
 	@Id

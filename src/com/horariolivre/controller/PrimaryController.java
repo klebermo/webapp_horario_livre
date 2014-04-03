@@ -65,9 +65,16 @@ public class PrimaryController {
 	}
 	
 	@RequestMapping(value="perfil")
-	public ModelAndView perfil() {
+	public ModelAndView perfil(@ModelAttribute("username") String username) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/acesso/perfil");
+		
+		Usuario user = usuario.findByUsername(username);
+		mav.addObject("usuario", user);
+		
+		mav.addObject("tipos", tipo.findALL());
+		mav.addObject("key", key.findALL());
+		mav.addObject("value", valor.findByUsuario(user));
 		return mav;
 	}
 	

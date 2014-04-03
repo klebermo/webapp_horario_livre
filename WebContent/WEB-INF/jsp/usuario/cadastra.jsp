@@ -22,13 +22,13 @@
 	<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/cadastra_usuario"/>" id="target">
 					<p>Login: <input type="text" name="login" size=20 maxlength=40> </p>
 					
-					<p>Digite uma Senha: <input type="password" name="senha1" size=20 maxlength=40> </p>
+					<p>Digite uma Senha: <input type="password" name="senha1" value=" " size=20 maxlength=40> </p>
 					
-					<p>Repita a Senha: <input type="password" name="senha2" size=20 maxlength=40> </p>
+					<p>Repita a Senha: <input type="password" name="senha2" value=" " size=20 maxlength=40> </p>
 					
-					<p>Primeiro Nome: <input type="text" name="pnome" size=20 maxlength=40> </p>
+					<p>Primeiro Nome: <input type="text" name="pnome" value=" " size=20 maxlength=40> </p>
 					
-					<p>Ultimo Nome: <input type="text" name="unome" size=20 maxlength=40> </p>
+					<p>Ultimo Nome: <input type="text" name="unome" value=" " size=20 maxlength=40> </p>
 					
 					<p>Tipo:
 						<select name="tipo">
@@ -39,7 +39,7 @@
 					</p>
 					
 					<c:forEach var="campos" items="${campos}" varStatus="status">
-						<p>${campos.campo}: <input type="text" name="<c:out value="${campos.campo}"/>" size=20 maxlength=40> </p>
+						<p>${campos.campo}: <input type="text" name="<c:out value="${campos.campo}"/>" value=" " size=20 maxlength=40> </p>
 					</c:forEach>
 	<p><button type="submit" class="btn btn-lg btn-primary">Cadastrar</button></p>
 	</form>

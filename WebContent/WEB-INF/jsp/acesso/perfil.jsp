@@ -23,7 +23,7 @@
 </div>
       
 <div class="container">
-	<form method="post" action="save_perfil_usuario.html" id="target">
+	<form method="post" action="#" id="target">
 					<p>Digite uma Senha: <input type="text" name="senha1" value="${usuario.senha}" size=20 maxlength=40> </p>
 					
 					<p>Primeiro Nome: <input type="text" name="pnome" value="${usuario.primeiroNome}" size=20 maxlength=40> </p>
@@ -32,7 +32,7 @@
 					
 					<p>Tipo: <select name="tipo">
 						<c:forEach var="tipos" items="${tipos}">
-							<option value=<c:out value="${tipos.nome}"/> > <c:out value="${tipos.nome}"/> </option>
+							<option value=<c:out value="${tipos.id}"/> > <c:out value="${tipos.nome}"/> </option>
 					    </c:forEach>
 					</select></p>
 					

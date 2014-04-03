@@ -45,13 +45,21 @@ public class UsuarioService {
 	public boolean cadastra(String login, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String[] conteudo) {
 		List<Dados> lista_dados = dados.findALL();
 		String[] campos = new String[lista_dados.size()];
+		String[] conteudo2 = new String[lista_dados.size()];
 		
 		for(int i=0; i<lista_dados.size(); i++) {
-			campos[i] = lista_dados.get(i).getCampo();
+			campos[i] = String.valueOf(lista_dados.get(i).getId());
 		}
 		
-		Usuario novo = new Usuario(login, senha, primeiroNome, ultimoNome, tipoUsuario, campos, conteudo);
-		return usuario.persist(novo);
+		for(int i=0; i<lista_dados.size(); i++) {
+			conteudo2[i] = " ";
+		}
+		
+		Usuario novo = new Usuario(login, senha, primeiroNome, ultimoNome, tipoUsuario, campos, conteudo2);
+		if(usuario.merge(novo) != null)
+			return true;
+		else
+			return false;
 	}
 	
 	public boolean remove(Usuario usuario) {

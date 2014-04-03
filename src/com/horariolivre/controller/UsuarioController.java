@@ -49,9 +49,11 @@ public class UsuarioController {
 		int id_usuario = usuario.findByUsername(username).getId();
 				
 		if(usuarioService.temAutorizacaoCadastro(id_usuario)) {
-			String [] conteudo = webrequest.getParameterValues(usuarioService.listaDados().toString());
+			//String [] conteudo = webrequest.getParameterValues(usuarioService.listaDados().toString());
 			
-			if (usuarioService.cadastra(login, senha1, pnome, unome, tipo, conteudo))
+			System.out.println("usuarioService.listaDados().toString()="+usuarioService.listaDados().toString());
+			
+			if (usuarioService.cadastra(login, senha1, pnome, unome, tipo, null))
 				saida = "yes";
 			else
 				saida = "no";
