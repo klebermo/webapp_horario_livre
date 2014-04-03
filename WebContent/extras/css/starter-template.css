@@ -5,10 +5,3 @@ body {
   padding: 40px 15px;
   text-align: center;
 }
-
-.ui-dialog-titlebar {
-  background-color: #000000;
-  background-image: none;
-  color: #000000;
-  text-decoration-color: #ffffff;
-}
