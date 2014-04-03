@@ -1,6 +1,8 @@
 package com.horariolivre.service;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,8 +52,23 @@ public class UsuarioService {
 			campos[i] = String.valueOf(lista_dados.get(i).getId());
 		}
 		
-		Usuario novo = new Usuario(login, senha, primeiroNome, ultimoNome, tipoUsuario, campos, conteudo);
-		return usuario.persist(novo);
+		Usuario novo = new Usuario(login, senha, primeiroNome, ultimoNome);
+		if(usuario.persist(novo)) {
+			List<TipoUsuario> tipo = new ArrayList<TipoUsuario>();
+			tipo.add(new TipoUsuario(novo, new Tipo(tipoUsuario)));
+			tipo_usuario.persist(tipo.get(0));
+			
+			List<DadosUsuario> dados = new ArrayList<DadosUsuario>();
+			for(int i=0; i<campos.length; i++) {
+				dados.add(new DadosUsuario(novo,new Dados(campos[i]),conteudo[i]));
+				dados_usuario.persist(dados.get(i));
+			}
+			
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public boolean remove(Usuario usuario) {

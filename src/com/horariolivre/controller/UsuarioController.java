@@ -1,5 +1,7 @@
 package com.horariolivre.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.horariolivre.dao.UsuarioHome;
+import com.horariolivre.entity.Dados;
 import com.horariolivre.entity.Usuario;
 import com.horariolivre.service.UsuarioService;
 
@@ -49,11 +52,13 @@ public class UsuarioController {
 		int id_usuario = usuario.findByUsername(username).getId();
 				
 		if(usuarioService.temAutorizacaoCadastro(id_usuario)) {
-			//String [] conteudo = webrequest.getParameterValues(usuarioService.listaDados().toString());
+			List<Dados> key = usuarioService.listaDados();
+			String [] value = new String[key.size()];
+			for(int i=0; i<key.size(); i++) {
+				value[i] = webrequest.getParameter(key.get(i).getCampo());
+			}
 			
-			System.out.println("usuarioService.listaDados().toString()="+usuarioService.listaDados().toString());
-			
-			if (usuarioService.cadastra(login, senha1, pnome, unome, tipo, null))
+			if (usuarioService.cadastra(login, senha1, pnome, unome, tipo, value))
 				saida = "yes";
 			else
 				saida = "no";

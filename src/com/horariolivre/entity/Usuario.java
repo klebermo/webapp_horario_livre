@@ -47,23 +47,11 @@ public class Usuario implements java.io.Serializable {
 		this.senha = senha;
 	}
 
-	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, List<TipoUsuario> tipoUsuarios, List<Autorizacoes> autorizacoesUsuarios, List<DadosUsuario> dadosUsuarios, ConfigHorarioLivre config) {
+	public Usuario(String login, String senha, String primeiroNome, String ultimoNome) {
 		this.login = login;
 		this.senha = senha;
 		this.primeiroNome = primeiroNome;
 		this.ultimoNome = ultimoNome;
-		this.tipoUsuarios = tipoUsuarios;
-		this.autorizacoes = autorizacoesUsuarios;
-		this.dadosUsuarios = dadosUsuarios;
-		this.config = config;
-	}
-	
-	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String[] chave, String[] valor) {
-		this.login = login;
-		this.senha = senha;
-		this.primeiroNome = primeiroNome;
-		this.ultimoNome = ultimoNome;
-		this.tipoUsuarios.add(new TipoUsuario(this, new Tipo(tipoUsuario)));
 	}
 
 	@Id
