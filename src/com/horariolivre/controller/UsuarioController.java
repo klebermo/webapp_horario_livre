@@ -44,23 +44,43 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value="cadastra_usuario", method=RequestMethod.POST)
-	public String cadastra(@ModelAttribute("username") String username, @RequestParam("login") String login, @RequestParam("senha1") String senha1, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
+	public String cadastra(@ModelAttribute("username") String username, @RequestParam("login") String login, @RequestParam("senha1") String senha1, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, WebRequest webrequest) {
+		System.out.println("cadastra_usuario");
 		String saida = new String();
 		
 		int id_usuario = usuario.findByUsername(username).getId();
 				
 		if(usuarioService.temAutorizacaoCadastro(id_usuario)) {
+			System.out.println("temAutorizacao");
+			
+			String tipo = webrequest.getParameter("tipo");
+			
 			String[] key = usuarioService.listaKey();
 			String[] value = new String[key.length];
 			
 			for(int i=0; i<key.length; i++) {
-				value[i] = webrequest.getParameter(key[i]);
+				String valor = webrequest.getParameter(key[i]);
+				if(valor == null) {
+					System.out.println("valor null");
+					value[i] = "";
+				}
+				else {
+					System.out.println("valor="+valor);
+					value[i] = valor;
+				}
+				
+				System.out.println("key["+i+"]="+key[i]);
+				System.out.println("value["+i+"]="+value[i]);
 			}
 			
-			if (usuarioService.cadastra(login, senha1, pnome, unome, new Tipo(tipo), key, value))
+			if (usuarioService.cadastra(login, senha1, pnome, unome, new Tipo(tipo), key, value)) {
+				System.out.println("cadastrou");
 				saida = "yes";
-			else
+			}
+			else {
+				System.out.println("nao cadastrou");
 				saida = "no";
+			}
 		}
 		else {
 			saida = "no_permit";

@@ -1,7 +1,9 @@
 package com.horariolivre.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,19 +48,17 @@ public class Usuario implements java.io.Serializable {
 		this.setSenha(senha);
 	}
 
-	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, Tipo tipo, String [] key, String [] value, int config) {
+	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, Tipo tipo, String [] key, String [] value) {
 		if(key.length == value.length) {
 			this.setLogin(login);
 			this.setSenha(senha);
 			this.setPrimeiroNome(primeiroNome);
 			this.setUltimoNome(ultimoNome);
 			this.tipo = tipo;
+			this.atributo = new ArrayList<Atributo>();
+			this.autorizacao = new ArrayList<Autorizacao>();
 			for(int i=0; i<key.length; i++)
 				this.atributo.add(new Atributo(new Key(key[i]), new Value(value[i])));
-			if(config > 0)
-				this.config = new ConfigHorarioLivre(config);
-			else
-				this.config = new ConfigHorarioLivre();
 		}
 	}
 
@@ -119,7 +119,7 @@ public class Usuario implements java.io.Serializable {
 		this.tipo = tipo;
 	}
 
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="atributo_usuario", joinColumns={@JoinColumn(name="fk_usuario")}, inverseJoinColumns={@JoinColumn(name="fk_atributo")})
 	@LazyCollection(LazyCollectionOption.FALSE)
 	public List<Atributo> getAtributo() {

@@ -24,23 +24,23 @@
 				    </tfoot>
 				    
 				    <tr>
-						<td> Login:</td> <td> <input type="text" name="login" size=20 maxlength=40> </td>
+						<td> Login:</td> <td> <input type="text" name="login" value="" size=20 maxlength=40> </td>
 					</tr>
 					
 				    <tr>
-						<td> Digite uma Senha:</td> <td> <input type="password" name="senha1" size=20 maxlength=40> </td>
+						<td> Digite uma Senha:</td> <td> <input type="password" value="" name="senha1" size=20 maxlength=40> </td>
 					</tr>
 					
 					<tr>
-						<td> Repita a Senha: </td> <td> <input type="password" name="senha2" size=20 maxlength=40> </td>
+						<td> Repita a Senha: </td> <td> <input type="password" value="" name="senha2" size=20 maxlength=40> </td>
 					</tr>
 					
 					<tr>
-						<td> Primeiro Nome: </td> <td> <input type="text" name="pnome" size=20 maxlength=40> </td>
+						<td> Primeiro Nome: </td> <td> <input type="text" name="pnome" value="" size=20 maxlength=40> </td>
 					</tr>
 					
 					<tr>
-						<td> Ultimo Nome: </td> <td> <input type="text" name="unome" size=20 maxlength=40> </td>
+						<td> Ultimo Nome: </td> <td> <input type="text" name="unome" value="" size=20 maxlength=40> </td>
 					</tr>
 					
 					<tr>
@@ -53,7 +53,7 @@
 					
 					<c:forEach var="campo" items="${campos}">
 					<tr>
-						<td>${campo}:</td> <td> <input type="text" name="${campo}" size=20 maxlength=40> </td>
+						<td>${campo}:</td> <td> <input type="text" name="${campo}" value="" size=20 maxlength=40> </td>
 					</tr>
 					</c:forEach>
 					
@@ -66,7 +66,6 @@
 			
     <script>
     $( "#target" ).submit(function( event ) {
-    	 
     	  // Stop form from submitting normally
     	  event.preventDefault();
     	 
@@ -79,10 +78,19 @@
     	 
     	  // Put the results in a div
     	  posting.done(function( data ) {
+    		  alert("done submit cadastro_usuario: "+data);
+    		  
     		  if(data == "yes")
     			  $( "#result" ).empty().append( "Usuario cadastrado com sucesso" );
     		  else
     			  $( "#result" ).empty().append( "Usuario n&atilde;o cadastrado" );
+    		  
+    		  $('#target').each (function(){
+    			  this.reset();
+    		  });
+    	  });
+    	  posting.fail(function( data ) {
+    		  alert("fail submit cadastra_evento: "+data);
     	  });
     	});
     </script>

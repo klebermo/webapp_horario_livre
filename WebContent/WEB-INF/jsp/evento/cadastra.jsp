@@ -39,12 +39,12 @@
 		
 		<tr>
 			<td> <h3>Periodo da Data</h3> </td>
-			<td>inicio: <input type="date" name="data_inicial" pattern="\d{2}/\d{2}/\d{4}" /> | final: <input type="date" name="data_final" pattern="\d{2}/\d{2}/\d{4}" /> </td>
+			<td>inicio: <input type="date" name="data_inicial" placeholder="DD/MM/AAAA" pattern="\d{2}/\d{2}/\d{4}" /> | final: <input type="date" name="data_final" placeholder="DD/MM/AAAA" pattern="\d{2}/\d{2}/\d{4}" /> </td>
 		</tr>
 		
 		<tr>
 			<td> <h3>Periodo do Hor&aacute;rio</h3> </td>
-			<td>inicio: <input type="time" name="hora_inicial" pattern="\d{2}:\d{2}:\d{2}" /> | final: <input type="time" name="hora_final" pattern="\d{2}:\d{2}:\d{2}" /> </td>
+			<td>inicio: <input type="time" name="hora_inicial" placeholder="HH:MM:SS" pattern="\d{2}:\d{2}:\d{2}" /> | final: <input type="time" name="hora_final" placeholder="HH:MM:SS" pattern="\d{2}:\d{2}:\d{2}" /> </td>
 		</tr>
 		
 		<tr>
@@ -74,10 +74,19 @@
     	 
     	  // Put the results in a div
     	  posting.done(function( data ) {
+    		  alert("done submit cadastro_evento: "+data);
+    		  
     		  if(data == "yes")
     			  $( "#result" ).empty().append( "Evento cadastrado com sucesso" );
     		  else
     			  $( "#result" ).empty().append( "Evento n&atilde;o cadastrado" );
+    		  
+    		  $("#target").each (function(){
+    			  this.reset();
+    		  });
+    	  });
+    	  posting.fail(function( data ) {
+    		  alert("fail submit cadastra_evento: "+data);
     	  });
     	});
     </script>

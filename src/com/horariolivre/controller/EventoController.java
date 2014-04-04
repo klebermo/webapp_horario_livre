@@ -118,10 +118,11 @@ public class EventoController {
 	}
 	
 	private Date parseDate(String data) {
-		SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");  
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");  
 		Date d_inicio = new Date(0);
 		try {
 			d_inicio = new Date(format1.parse(data).getTime());
+			System.out.println("data="+d_inicio.toString());
 			return d_inicio;
 		} catch (ParseException e) {
 			System.out.println("erro no parse de data_inicial");
@@ -131,10 +132,11 @@ public class EventoController {
 	}
 	
 	private Time parseTime(String hora) {
-		SimpleDateFormat format3 = new SimpleDateFormat("HH:mm:ss");  
+		SimpleDateFormat format3 = new SimpleDateFormat("HH:mm");  
 		Time h_inicio = new Time(0);
 		try {
 			h_inicio = new Time(format3.parse(hora).getTime());
+			System.out.println("hora="+h_inicio.toString());
 			return h_inicio;
 		} catch (ParseException e) {
 			System.out.println("erro no parse de hora_inicial");

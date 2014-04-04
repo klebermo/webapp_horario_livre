@@ -36,7 +36,13 @@ public class ConfigHorarioLivre implements java.io.Serializable {
 		this.horaInicial = horaInicial;
 		this.horaFinal = horaFinal;
 	}
-
+	
+	public ConfigHorarioLivre(int id, Date horaInicial, Date horaFinal) {
+		this.id = id;
+		this.horaInicial = horaInicial;
+		this.horaFinal = horaFinal;
+	}
+	
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
 	@GeneratedValue(strategy=GenerationType.AUTO)

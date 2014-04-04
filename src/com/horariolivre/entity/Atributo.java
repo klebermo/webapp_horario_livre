@@ -1,5 +1,6 @@
 package com.horariolivre.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,7 +39,7 @@ public class Atributo implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="fk_key")
 	public Key getKey() {
 		return key;
@@ -48,7 +49,7 @@ public class Atributo implements java.io.Serializable {
 		this.key = key;
 	}
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="fk_value")
 	public Value getValue() {
 		return value;

@@ -40,7 +40,8 @@ public class UsuarioService {
 	private AutorizacaoHome autorizacao;
 		
 	public boolean cadastra(String login, String senha, String primeiroNome, String ultimoNome, Tipo tipoUsuario, String[] key, String[] value) {
-		return this.usuario.persist(new Usuario(login, senha, primeiroNome, ultimoNome, tipoUsuario, key, value, -1));
+		System.out.println("UsuarioService.cadastra");
+		 return this.usuario.persist(new Usuario(login, senha, primeiroNome, ultimoNome, tipoUsuario, key, value));
 	}
 	
 	public boolean remove(Usuario usuario) {
