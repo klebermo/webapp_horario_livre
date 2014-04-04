@@ -68,6 +68,10 @@ public class UsuarioService {
 		return tipo.findALL();
 	}
 	
+	public List<Key> listaCampos() {
+		return key.findALL();
+	}
+	
 	public String[] listaKey() {
 		List<Key> lista_campos = key.findALL();
 		
@@ -77,6 +81,14 @@ public class UsuarioService {
 		}
 		
 		return lista;
+	}
+	
+	public boolean cadastra_campo(String campo) {
+		return key.persist(new Key(campo));
+	}
+	
+	public boolean cadastra_tipo(String tipo_usuario) {
+		return tipo.persist(new Tipo(tipo_usuario));
 	}
 	
 	public String[] listaValue(Usuario user) {
@@ -100,6 +112,10 @@ public class UsuarioService {
 	
 	public List<Autorizacao> listaAutorizacoesUsuario(int id_usuario) {
 		return usuario.findById(id_usuario).getAutorizacao();
+	}
+	
+	public Usuario getUsuario(int id_usuario) {
+		return usuario.findById(id_usuario);
 	}
 	
 	public boolean salva_config(Time data_inicial, Time data_final) {

@@ -68,7 +68,7 @@ public class PrimaryController {
 		mav.setViewName("/acesso/perfil");
 		mav.addObject("usuario", user);
 		mav.addObject("tipos", usuario_service.listaTipos());
-		mav.addObject("chave", usuario_service.listaKey());
+		mav.addObject("chave", usuario_service.listaCampos());
 		mav.addObject("valor", usuario_service.listaValue(user));
 		return mav;
 	}

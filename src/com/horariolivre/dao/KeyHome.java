@@ -32,26 +32,28 @@ public class KeyHome {
 	}
 
 	@Transactional
-	public void persist(Key transientInstance) {
+	public boolean persist(Key transientInstance) {
 		log.debug("persisting Key instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
 			log.debug("persist successful");
+			return true;
 		} catch (RuntimeException re) {
 			log.error("persist failed", re);
-			throw re;
+			return false;
 		}
 	}
 
 	@Transactional
-	public void remove(Key persistentInstance) {
+	public boolean remove(Key persistentInstance) {
 		log.debug("removing Key instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
 			log.debug("remove successful");
+			return true;
 		} catch (RuntimeException re) {
 			log.error("remove failed", re);
-			throw re;
+			return false;
 		}
 	}
 

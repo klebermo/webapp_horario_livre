@@ -133,6 +133,16 @@ public class UsuarioController {
 		return saida;
 	}
 	
+	@RequestMapping(value="cadastra_campo", method=RequestMethod.GET)
+	public void cadastra_campo(@RequestParam("campo") String campo) {
+		//
+	}
+	
+	@RequestMapping(value="cadastra_tipo", method=RequestMethod.GET)
+	public void cadastra_tipo(@RequestParam("campo") String campo) {
+		//
+	}
+	
 	@RequestMapping(value="lista")
 	public ModelAndView lista(@ModelAttribute("username") String username) {
 		int id_usuario = usuario.findByUsername(username).getId();
@@ -142,6 +152,8 @@ public class UsuarioController {
 			mav.setViewName("usuario/lista");
 			mav.addObject("usuarios", usuarioService.lista());
 			mav.addObject("autorizacao", usuarioService.listaAutorizacoes());
+			mav.addObject("campos", usuarioService.listaKey());
+			mav.addObject("tipos", usuarioService.listaTipos());
 			return mav;
 		}
 		else {

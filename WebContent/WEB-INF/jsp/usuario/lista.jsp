@@ -8,6 +8,70 @@
 </head>
 <body>
 
+<script>
+$(document).ready(function(){
+	$("#edit_campos").hide();
+	$("#edit_tipos").hide();
+})
+</script>
+
+<button type="button" class="btn btn-primary" onclick="edit_campos()">Atributos do usu&aacute;rio</button>
+<button type="button" class="btn btn-primary" onclick="edit_tipos()">Tipos de usu&aacute;rio</button>
+
+<table class="bordered" id="edit_campos">
+  <thead>
+  <tr>    
+      <th>Campo</th>
+      <th>#</th>
+  </tr>
+  </thead>
+  <tfoot>
+  <tr>
+      <td></td>        
+      <td></td>
+  </tr>
+  </tfoot>
+  
+  <c:forEach var="item_key" items="${campos}">
+  <tr>
+	<td> <input type="text" name="item_key.id" value="item_key.nome"> </td>
+	<td> <button type="button" class="btn btn-link">Salvar</button> </td>
+  </tr>
+  </c:forEach>
+  
+  <tr>
+  	<td> <input type="text" name="nome_campo"> </td>
+  	<td> <button type="button" class="btn btn-link">Incluir</button> </td>
+  </tr>
+</table>
+
+<table class="bordered" id="edit_tipos">
+  <thead>
+  <tr>    
+      <th>Tipo</th>
+      <th>#</th>
+  </tr>
+  </thead>
+  <tfoot>
+  <tr>
+      <td></td>        
+      <td></td>
+  </tr>
+  </tfoot>
+  
+  <c:forEach var="item_tipo" items="${tipos}">
+  <tr>
+	<td> <input type="text" name="item_tipo.id" value="item_tipo.nome"> </td>
+	<td> <button type="button" class="btn btn-link">Salvar</button> </td>
+  </tr>
+  </c:forEach>
+  
+  <tr>
+  	<td> <input type="text" name="nome_tipo"> </td>
+  	<td> <button type="button" class="btn btn-link">Incluir</button> </td>
+  </tr>
+</table>
+ 
 		<div class="row">
         	<div class="col-md-3">
         		username
@@ -55,6 +119,19 @@
 		
 		function autorizacao(id) {
 			alert("clicou visualizar autorizacoes de: "+id);
+		}
+		function edit_campos() {
+			if ($("#edit_campos").is(":visible"))
+				$("#edit_campos").hide();
+			else
+				$("#edit_campos").show();
+		}
+		
+		function edit_tipos() {
+			if ($("#edit_tipos").is(":visible"))
+				$("#edit_tipos").hide();
+			else
+				$("#edit_tipos").show();
 		}
 		</script>
 

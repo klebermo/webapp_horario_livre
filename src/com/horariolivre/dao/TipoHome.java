@@ -32,26 +32,28 @@ public class TipoHome {
 	}
 
 	@Transactional
-	public void persist(Tipo transientInstance) {
+	public boolean persist(Tipo transientInstance) {
 		log.debug("persisting Tipo instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
 			log.debug("persist successful");
+			return true;
 		} catch (RuntimeException re) {
 			log.error("persist failed", re);
-			throw re;
+			return false;
 		}
 	}
 
 	@Transactional
-	public void remove(Tipo persistentInstance) {
+	public boolean remove(Tipo persistentInstance) {
 		log.debug("removing Tipo instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
 			log.debug("remove successful");
+			return true;
 		} catch (RuntimeException re) {
 			log.error("remove failed", re);
-			throw re;
+			return false;
 		}
 	}
 
