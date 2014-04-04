@@ -27,22 +27,18 @@ $(document).ready(function(){
   </thead>
   <tfoot>
   <tr>
-      <td></td>        
-      <td></td>
+  	<td> <input type="text" name="nome_campo"> </td>
+  	<td> <button type="button" class="btn btn-link" onclick="add_campo()">Incluir</button> </td>
   </tr>
   </tfoot>
   
   <c:forEach var="item_key" items="${campos}">
   <tr>
-	<td> <input type="text" name="item_key.id" value="item_key.nome"> </td>
-	<td> <button type="button" class="btn btn-link">Salvar</button> </td>
+	<td> <input type="text" name="${item_key.id}" value="${item_key.nome}"> </td>
+	<td> <button type="button" class="btn btn-link" onclick="del_campo(${item_key.id})">Excluir</button> </td>
   </tr>
   </c:forEach>
   
-  <tr>
-  	<td> <input type="text" name="nome_campo"> </td>
-  	<td> <button type="button" class="btn btn-link">Incluir</button> </td>
-  </tr>
 </table>
 
 <table class="bordered" id="edit_tipos">
@@ -68,7 +64,7 @@ $(document).ready(function(){
   
   <tr>
   	<td> <input type="text" name="nome_tipo"> </td>
-  	<td> <button type="button" class="btn btn-link">Incluir</button> </td>
+  	<td> <button type="button" class="btn btn-link" onclick="add_tipo()">Incluir</button> </td>
   </tr>
 </table>
  
@@ -127,11 +123,39 @@ $(document).ready(function(){
 				$("#edit_campos").show();
 		}
 		
+		function del_campo(data) {
+			//
+		}
+		
+		function add_campo(data) {
+			$.ajax({
+				  type: "GET",
+				  url: "<c:out value="${pageContext.request.contextPath}/usuario/cadastra_campo"/>",
+				  data: { nome: $(data) }
+			}).done(function( msg ) {
+				    alert( "Data Saved: " + data );
+			});
+		}
+		
+		function del_tipo(data) {
+			//
+		}
+		
 		function edit_tipos() {
 			if ($("#edit_tipos").is(":visible"))
 				$("#edit_tipos").hide();
 			else
 				$("#edit_tipos").show();
+		}
+		
+		function add_tipo(data) {
+			$.ajax({
+				  type: "GET",
+				  url: "<c:out value="${pageContext.request.contextPath}/usuario/cadastra_tipo"/>",
+				  data: { nome: $(data) }
+			}).done(function( msg ) {
+				    alert( "Data Saved: " + data );
+			});
 		}
 		</script>
 
