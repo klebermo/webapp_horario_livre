@@ -9,34 +9,61 @@
 <body>
 
 	<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/cadastra_usuario"/>" id="target">
-					<p>Login: <input type="text" name="login" size=20 maxlength=40> </p>
+			<table class="bordered">
+				    <thead>
+				    <tr>    
+				        <th>Atributo</th>
+				        <th>Valor</th>
+				    </tr>
+				    </thead>
+				    <tfoot>
+				    <tr>
+				        <td></td>        
+				        <td></td>
+				    </tr>
+				    </tfoot>
+				    
+				    <tr>
+						<td> Login:</td> <td> <input type="text" name="login" size=20 maxlength=40> </td>
+					</tr>
 					
-					<p>Digite uma Senha: <input type="password" name="senha1" value=" " size=20 maxlength=40> </p>
+				    <tr>
+						<td> Digite uma Senha:</td> <td> <input type="password" name="senha1" size=20 maxlength=40> </td>
+					</tr>
 					
-					<p>Repita a Senha: <input type="password" name="senha2" value=" " size=20 maxlength=40> </p>
+					<tr>
+						<td> Repita a Senha: </td> <td> <input type="password" name="senha2" size=20 maxlength=40> </td>
+					</tr>
 					
-					<p>Primeiro Nome: <input type="text" name="pnome" value=" " size=20 maxlength=40> </p>
+					<tr>
+						<td> Primeiro Nome: </td> <td> <input type="text" name="pnome" size=20 maxlength=40> </td>
+					</tr>
 					
-					<p>Ultimo Nome: <input type="text" name="unome" value=" " size=20 maxlength=40> </p>
+					<tr>
+						<td> Ultimo Nome: </td> <td> <input type="text" name="unome" size=20 maxlength=40> </td>
+					</tr>
 					
-					<p>Tipo:
-						<select name="tipo">
+					<tr>
+						<td> Tipo: </td> <td> <select name="tipo">
 							<c:forEach var="tipos" items="${tipos}">
 								<option value=<c:out value="${tipos.id}"/> > <c:out value="${tipos.nome}"/> </option>
 						    </c:forEach>
-						</select>
-					</p>
+						</select> </td>
+					</tr>
 					
-					<c:forEach var="campo" items="${campos}" varStatus="status">
-						<p>${campo}: <input type="text" name="<c:out value="${campo}"/>" value=" " size=20 maxlength=40> </p>
+					<c:forEach var="campo" items="${campos}">
+					<tr>
+						<td>${campo}:</td> <td> <input type="text" name="${campo}" size=20 maxlength=40> </td>
+					</tr>
 					</c:forEach>
-	<p><button type="submit" class="btn btn-lg btn-primary">Cadastrar</button></p>
-	</form>
-	
-	<div class="alert alert-info">
-		<strong>Resultado</strong> <div id="result"></div>
-	</div>
-	
+					
+					<tr>
+						<td> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </td>
+						<td> <div class="alert alert-info"> 		<strong>Resultado</strong> <div id="result"></div>	</div> </td>
+					</tr>
+				</table>
+			</form>
+			
     <script>
     $( "#target" ).submit(function( event ) {
     	 
@@ -59,6 +86,6 @@
     	  });
     	});
     </script>
-
+    
 </body>
 </html>

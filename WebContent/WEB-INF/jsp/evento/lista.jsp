@@ -51,5 +51,15 @@
 		</c:forEach>
 </div>
 
+		<script>
+		function editar(id) {
+			alert("clicou para editar evento: "+id);
+		}
+		
+		function remover(id) {
+			alert("clicou para remover evento: "+id);
+		}
+		</script>
+
 </body>
 </html>

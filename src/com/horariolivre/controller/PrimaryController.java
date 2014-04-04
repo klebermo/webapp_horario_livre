@@ -58,6 +58,9 @@ public class PrimaryController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/acesso/perfil");
 		mav.addObject("usuario", user);
+		mav.addObject("tipos", usuario_service.listaTipos());
+		mav.addObject("chave", usuario_service.listaKey());
+		mav.addObject("valor", usuario_service.listaValue(user));
 		return mav;
 	}
 	
@@ -67,9 +70,6 @@ public class PrimaryController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/acesso/config");
 		mav.addObject("usuario", user);
-		mav.addObject("tipos", usuario_service.listaTipos());
-		mav.addObject("chave", usuario_service.listaKey());
-		mav.addObject("valor", usuario_service.listaValue(user));
 		return mav;
 	}
 	

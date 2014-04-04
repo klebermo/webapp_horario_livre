@@ -14,28 +14,51 @@
 
 <div class="container">
 	<form method="post" action="<c:out value="${pageContext.request.contextPath}/evento/cadastra_evento"/>" id="target">
-		<p><input type="text" name="nome" placeholder="Nome" size=20 maxlength=40> </p>
+	<table class="bordered">
+	    <thead>
+	    <tr>    
+	        <th>Atributo</th>
+	        <th>Valor</th>
+	    </tr>
+	    </thead>
+	    <tfoot>
+	    <tr>
+	        <td></td>        
+	        <td></td>
+	    </tr>
+	    </tfoot>
+	    <tr>
+	    	<td> Nome: </td>
+			<td><input type="text" name="nome" size=20 maxlength=40> </td>
+		</tr>
 		
-		<p><input type="text" name="descricao" placeholder="Descri&ccedil;&atilde;o" size=30 maxlength=100> </p>
+		<tr>
+			<td> Descri&ccedil;&atilde;o: </td>
+			<td><input type="text" name="descricao" size=30 maxlength=100> </td>
+		</tr>
 		
-		<h3>Periodo da Data</h3>
-		<p>inicio: <input type="date" name="data_inicial" pattern="\d{2}/\d{2}/\d{4}" /> </p>
-		<p>final: <input type="date" name="data_final" pattern="\d{2}/\d{2}/\d{4}" /> </p>
-	
-		<h3>Periodo do Hor&aacute;rio</h3>
-		<p>inicio: <input type="time" name="hora_inicial" pattern="\d{2}:\d{2}:\d{2}" /> </p>
-		<p>final: <input type="time" name="hora_final" pattern="\d{2}:\d{2}:\d{2}" /> </p>
+		<tr>
+			<td> <h3>Periodo da Data</h3> </td>
+			<td>inicio: <input type="date" name="data_inicial" pattern="\d{2}/\d{2}/\d{4}" /> | final: <input type="date" name="data_final" pattern="\d{2}/\d{2}/\d{4}" /> </td>
+		</tr>
 		
-		<p><input type="text" name="duracao" placeholder="dura&ccedil;&atilde;o" size=20 maxlength=2> Minutos </p>
-	
-		<p><button type="submit" class="btn btn-lg btn-primary">Cadastrar</button></p>
+		<tr>
+			<td> <h3>Periodo do Hor&aacute;rio</h3> </td>
+			<td>inicio: <input type="time" name="hora_inicial" pattern="\d{2}:\d{2}:\d{2}" /> | final: <input type="time" name="hora_final" pattern="\d{2}:\d{2}:\d{2}" /> </td>
+		</tr>
+		
+		<tr>
+			<td> Dura&ccedil;&atilde;o: </td>
+			<td><input type="text" name="duracao" size=20 maxlength=2> Minutos </td>
+		</tr>
+		
+		<tr>
+			<td> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </td>
+			<td> <div class="alert alert-info"> <strong>Resultado</strong> <div id="result"></div> </div> </td>
+		</tr>
+	</table>
 	</form>
 </div>
-
-<div class="alert alert-info">
-	<strong>Resultado</strong> <div id="result"></div>
-</div>
-
     <script>
     $( "#target" ).submit(function( event ) {
     	 

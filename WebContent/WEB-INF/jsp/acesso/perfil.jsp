@@ -28,34 +28,34 @@
 				    </tr>
 				    </tfoot>
 				    <tr>
-						<td> <p>Digite uma Senha: <input type="password" name="senha1" size=20 maxlength=40> </p> </td>
+						<td> Digite uma Senha:</td> <td> <input type="password" name="senha1" size=20 maxlength=40> </td>
 					</tr>
 					
 					<tr>
-						<td> <p>Repita uma Senha: <input type="password" name="senha2" size=20 maxlength=40> </p> </td>
+						<td> Repita a Senha: </td> <td> <input type="password" name="senha2" size=20 maxlength=40> </td>
 					</tr>
 					
 					<tr>
-						<td> <p>Primeiro Nome: <input type="text" name="pnome" value="${usuario.primeiroNome}" size=20 maxlength=40> </p> </td>
+						<td> Primeiro Nome: </td> <td> <input type="text" name="pnome" value="${usuario.primeiroNome}" size=20 maxlength=40> </td>
 					</tr>
 					
 					<tr>
-						<td> <p>Ultimo Nome: <input type="text" name="unome" value="${usuario.ultimoNome}" size=20 maxlength=40> </p> </td>
+						<td> Ultimo Nome: </td> <td> <input type="text" name="unome" value="${usuario.ultimoNome}" size=20 maxlength=40> </td>
 					</tr>
 					
 					<tr>
-						<td><p>Tipo: <select name="tipo">
+						<td> Tipo: </td> <td> <select name="tipo">
 							<c:forEach var="tipos" items="${tipos}">
 								<option value=<c:out value="${tipos.id}"/> > <c:out value="${tipos.nome}"/> </option>
 						    </c:forEach>
-						</select></p></td>
+						</select> </td>
 					</tr>
 					
-					<tr>
-						<td><c:forEach var="campo" items="${chave}">
-								<p>${campo}: <input type="text" name="${campo}" size=20 maxlength=40> </p>
-						</c:forEach></td>
-					</tr>
+					<c:forEach var="campo" items="${chave}">
+						<tr>
+							<td>${campo}:</td> <td> <input type="text" name="${campo}" size=20 maxlength=40> </td>
+						</tr>
+					</c:forEach>
 			</table>
 	<p><button type="submit" class="btn btn-lg btn-primary">Cadastrar</button></p>
 	</form>

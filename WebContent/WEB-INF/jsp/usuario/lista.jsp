@@ -43,6 +43,20 @@
        		</div>
         </div>
 		</c:forEach>
+		
+		<script>
+		function editar(id) {
+			alert("clicou para editar usuario: "+id);
+		}
+		
+		function remover(id) {
+			alert("clicou para remover usuario: "+id);
+		}
+		
+		function autorizacao(id) {
+			alert("clicou visualizar autorizacoes de: "+id);
+		}
+		</script>
 
 </body>
 </html>
