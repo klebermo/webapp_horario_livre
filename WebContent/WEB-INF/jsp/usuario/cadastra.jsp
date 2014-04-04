@@ -5,17 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cadastro de Usu&aacute;rios</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="<c:out value="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/starter-template.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/grid.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/table.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/dialog.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
-
 </head>
 <body>
 
@@ -38,8 +27,8 @@
 						</select>
 					</p>
 					
-					<c:forEach var="campos" items="${campos}" varStatus="status">
-						<p>${campos.campo}: <input type="text" name="<c:out value="${campos.campo}"/>" value=" " size=20 maxlength=40> </p>
+					<c:forEach var="campo" items="${campos}" varStatus="status">
+						<p>${campo}: <input type="text" name="<c:out value="${campo}"/>" value=" " size=20 maxlength=40> </p>
 					</c:forEach>
 	<p><button type="submit" class="btn btn-lg btn-primary">Cadastrar</button></p>
 	</form>

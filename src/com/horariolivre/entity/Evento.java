@@ -77,7 +77,7 @@ public class Evento implements java.io.Serializable {
 		this.usuario = usuario;
 	}
 
-	@Column(name = "nome", nullable = false, length = 40)
+	@Column(name = "nome")
 	public String getNome() {
 		return this.nome;
 	}
@@ -95,7 +95,7 @@ public class Evento implements java.io.Serializable {
 		this.descricao = descricao;
 	}
 
-	@Column(name = "data_inicial", nullable = false, length = 13)
+	@Column(name = "data_inicial")
 	public Date getDataInicial() {
 		return this.dataInicial;
 	}
@@ -104,7 +104,7 @@ public class Evento implements java.io.Serializable {
 		this.dataInicial = dataInicial;
 	}
 
-	@Column(name = "data_final", nullable = false, length = 13)
+	@Column(name = "data_final")
 	public Date getDataFinal() {
 		return this.dataFinal;
 	}
@@ -113,7 +113,7 @@ public class Evento implements java.io.Serializable {
 		this.dataFinal = dataFinal;
 	}
 
-	@Column(name = "hora_inicial", nullable = false, length = 15)
+	@Column(name = "hora_inicial")
 	public Time getHoraInicial() {
 		return this.horaInicial;
 	}
@@ -122,7 +122,7 @@ public class Evento implements java.io.Serializable {
 		this.horaInicial = horaInicial;
 	}
 
-	@Column(name = "hora_final", nullable = false, length = 15)
+	@Column(name = "hora_final")
 	public Time getHoraFinal() {
 		return this.horaFinal;
 	}
@@ -131,7 +131,7 @@ public class Evento implements java.io.Serializable {
 		this.horaFinal = horaFinal;
 	}
 
-	@Column(name = "duracao", nullable = false)
+	@Column(name = "duracao")
 	public int getDuracao() {
 		return this.duracao;
 	}

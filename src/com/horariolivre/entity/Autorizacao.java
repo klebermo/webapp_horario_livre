@@ -14,21 +14,21 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "autorizacoes")
-public class Autorizacoes implements java.io.Serializable {
+@Table(name = "autorizacao")
+public class Autorizacao implements java.io.Serializable {
 
 	private int id;
 	private String nome;
 	private String descricao;
 
-	public Autorizacoes() {
+	public Autorizacao() {
 	}
 
-	public Autorizacoes(String nome) {
+	public Autorizacao(String nome) {
 		this.nome = nome;
 	}
 
-	public Autorizacoes(String nome, String descricao) {
+	public Autorizacao(String nome, String descricao) {
 		this.nome = nome;
 		this.descricao = descricao;
 	}

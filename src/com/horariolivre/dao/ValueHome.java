@@ -11,6 +11,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.horariolivre.entity.Atributo;
+import com.horariolivre.entity.Usuario;
 import com.horariolivre.entity.Value;
 
 /**
@@ -66,31 +69,5 @@ public class ValueHome {
 			throw re;
 		}
 	}
-
-	@Transactional
-	public Value findById(int id) {
-		log.debug("getting Value instance with id: " + id);
-		try {
-			Value instance = (Value) sessionFactory.getCurrentSession().get(Value.class, id);
-			log.debug("get successful");
-			return instance;
-		} catch (RuntimeException re) {
-			log.error("get failed", re);
-			throw re;
-		}
-	}
 	
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<Value> findALL() {
-		log.debug("getting all Usuario instance");
-		try {
-			List<Value> instance = sessionFactory.getCurrentSession().createCriteria(Value.class).list();
-			log.debug("get successful");
-			return instance;
-		} catch (RuntimeException re) {
-			log.error("get failed", re);
-			throw re;
-		}
-	}
 }

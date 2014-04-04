@@ -6,20 +6,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.horariolivre.dao.AutorizacoesHome;
-import com.horariolivre.dao.AutorizacoesUsuarioHome;
-import com.horariolivre.dao.DadosHome;
-import com.horariolivre.dao.DadosUsuarioHome;
+import com.horariolivre.dao.AtributoHome;
+import com.horariolivre.dao.AutorizacaoHome;
+import com.horariolivre.dao.KeyHome;
 import com.horariolivre.dao.TipoHome;
-import com.horariolivre.dao.TipoUsuarioHome;
 import com.horariolivre.dao.UsuarioHome;
-import com.horariolivre.entity.Autorizacoes;
-import com.horariolivre.entity.AutorizacoesUsuario;
-import com.horariolivre.entity.Dados;
-import com.horariolivre.entity.DadosUsuario;
+import com.horariolivre.dao.ValueHome;
+import com.horariolivre.entity.Atributo;
+import com.horariolivre.entity.Autorizacao;
+import com.horariolivre.entity.Key;
 import com.horariolivre.entity.Tipo;
-import com.horariolivre.entity.TipoUsuario;
 import com.horariolivre.entity.Usuario;
+import com.horariolivre.entity.Value;
 
 @Service
 public class UsuarioService {	
@@ -30,45 +28,19 @@ public class UsuarioService {
 	private TipoHome tipo;
 	
 	@Autowired
-	private TipoUsuarioHome tipo_usuario;
+	private AtributoHome atributo;
 	
 	@Autowired
-	private DadosHome dados;
+	private KeyHome key;
 	
 	@Autowired
-	private DadosUsuarioHome dados_usuario;
+	private ValueHome value;
 	
 	@Autowired
-	private AutorizacoesHome autorizacoes;
-	
-	@Autowired
-	private AutorizacoesUsuarioHome autorizacao_usuario;
-	
-	public boolean cadastra(String login, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String[] conteudo) {
-		List<Dados> lista_dados = dados.findALL();
-		String[] campos = new String[lista_dados.size()];
+	private AutorizacaoHome autorizacao;
 		
-		for(int i=0; i<lista_dados.size(); i++) {
-			campos[i] = String.valueOf(lista_dados.get(i).getId());
-		}
-		
-		Usuario novo = new Usuario(login, senha, primeiroNome, ultimoNome);
-		if(usuario.persist(novo)) {
-			List<TipoUsuario> tipo = new ArrayList<TipoUsuario>();
-			tipo.add(new TipoUsuario(novo, new Tipo(tipoUsuario)));
-			tipo_usuario.persist(tipo.get(0));
-			
-			List<DadosUsuario> dados = new ArrayList<DadosUsuario>();
-			for(int i=0; i<campos.length; i++) {
-				dados.add(new DadosUsuario(novo.getId(),Integer.valueOf(campos[i]).intValue(),conteudo[i]));
-				dados_usuario.persist(dados.get(i));
-			}
-			
-			return true;
-		}
-		else {
-			return false;
-		}
+	public boolean cadastra(String login, String senha, String primeiroNome, String ultimoNome, Tipo tipoUsuario, String[] key, String[] value) {
+		return this.usuario.persist(new Usuario(login, senha, primeiroNome, ultimoNome, tipoUsuario, key, value, -1));
 	}
 	
 	public boolean remove(Usuario usuario) {
@@ -89,24 +61,38 @@ public class UsuarioService {
 		return tipo.findALL();
 	}
 	
-	public List<TipoUsuario> listaTipoUsuario() {
-		return tipo_usuario.findALL();
+	public String[] listaKey() {
+		List<Key> lista_campos = key.findALL();
+		
+		String[] lista = new String[lista_campos.size()];
+		for(int i=0; i<lista.length; i++) {
+			lista[i] = lista_campos.get(i).getNome();
+		}
+		
+		return lista;
 	}
 	
-	public List<Dados> listaDados() {
-		return dados.findALL();
+	public String[] listaValue(Usuario user) {
+		List<Atributo> lista_atributo = user.getAtributo();
+		List<Value> lista_valores = new ArrayList<Value>();
+		for(int i=0; i<lista_atributo.size(); i++) {
+			lista_valores.add(lista_atributo.get(i).getValue());
+		}
+		
+		String[] lista = new String[lista_valores.size()];
+		for(int i=0; i<lista.length; i++) {
+			lista[i] = lista_valores.get(i).getConteudo();
+		}
+		
+		return lista;
+	}
+		
+	public List<Autorizacao> listaAutorizacoes() {
+		return autorizacao.findALL();
 	}
 	
-	public List<DadosUsuario> listaDadosUsuario() {
-		return dados_usuario.findALL();
-	}
-	
-	public List<Autorizacoes> listaAutorizacoes() {
-		return autorizacoes.findALL();
-	}
-	
-	public List<AutorizacoesUsuario> listaAutorizacoesUsuario() {
-		return autorizacao_usuario.findALL();
+	public List<Autorizacao> listaAutorizacoesUsuario(int id_usuario) {
+		return usuario.findById(id_usuario).getAutorizacao();
 	}
 	
 	public Usuario getUsuario(int id_usuario) {
@@ -116,8 +102,8 @@ public class UsuarioService {
 	public boolean temAutorizacaoCadastro(int id_usuario) {
 		Usuario novo = usuario.findById(id_usuario);
 		
-		for(int i=0; i<novo.getAutorizacoes().size(); i++) {
-			if(novo.getAutorizacoes().get(i).getNome().equals("cad_usuario"))
+		for(int i=0; i<novo.getAutorizacao().size(); i++) {
+			if(novo.getAutorizacao().get(i).getNome().equals("cad_usuario"))
 				return true;
 		}
 		
@@ -127,8 +113,8 @@ public class UsuarioService {
 	public boolean temAutorizacaoListagem(int id_usuario) {
 		Usuario novo = usuario.findById(id_usuario);
 		
-		for(int i=0; i<novo.getAutorizacoes().size(); i++) {
-			if(novo.getAutorizacoes().get(i).getNome().equals("lista_usuario"))
+		for(int i=0; i<novo.getAutorizacao().size(); i++) {
+			if(novo.getAutorizacao().get(i).getNome().equals("lista_usuario"))
 				return true;
 		}
 		

@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.horariolivre.dao.AutorizacoesUsuarioHome;
 import com.horariolivre.dao.EventoHome;
 import com.horariolivre.dao.UsuarioHome;
 import com.horariolivre.entity.Evento;
@@ -20,9 +19,6 @@ public class EventoService {
 	
 	@Autowired
 	private UsuarioHome usuario;
-	
-	@Autowired
-	private AutorizacoesUsuarioHome autorizacoes;
 	
 	public boolean cadastra(int id_usuario, String nome, String descricao, Date dataInicial, Date dataFinal, Time horaInicial, Time horaFinal, int duracao) {
 		Usuario owner = usuario.findById(id_usuario);
@@ -52,8 +48,8 @@ public class EventoService {
 	public boolean temAutorizacaoCadastro(int id_usuario) {
 		Usuario novo = usuario.findById(id_usuario);
 		
-		for(int i=0; i<novo.getAutorizacoes().size(); i++) {
-			if(novo.getAutorizacoes().get(i).getNome().equals("cad_evento"))
+		for(int i=0; i<novo.getAutorizacao().size(); i++) {
+			if(novo.getAutorizacao().get(i).getNome().equals("cad_evento"))
 				return true;
 		}
 		
@@ -63,8 +59,8 @@ public class EventoService {
 	public boolean temAutorizacaoListagem(int id_usuario) {
 		Usuario novo = usuario.findById(id_usuario);
 		
-		for(int i=0; i<novo.getAutorizacoes().size(); i++) {
-			if(novo.getAutorizacoes().get(i).getNome().equals("lista_evento"))
+		for(int i=0; i<novo.getAutorizacao().size(); i++) {
+			if(novo.getAutorizacao().get(i).getNome().equals("lista_evento"))
 				return true;
 		}
 		

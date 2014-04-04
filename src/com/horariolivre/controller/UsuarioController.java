@@ -1,7 +1,5 @@
 package com.horariolivre.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,7 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.horariolivre.dao.UsuarioHome;
-import com.horariolivre.entity.Dados;
+import com.horariolivre.entity.Tipo;
 import com.horariolivre.entity.Usuario;
 import com.horariolivre.service.UsuarioService;
 
@@ -35,7 +33,7 @@ public class UsuarioController {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("usuario/cadastra");
 			mav.addObject("tipos", usuarioService.listaTipos());
-			mav.addObject("campos", usuarioService.listaDados());
+			mav.addObject("campos", usuarioService.listaKey());
 			return mav;
 		}
 		else {
@@ -52,13 +50,14 @@ public class UsuarioController {
 		int id_usuario = usuario.findByUsername(username).getId();
 				
 		if(usuarioService.temAutorizacaoCadastro(id_usuario)) {
-			List<Dados> key = usuarioService.listaDados();
-			String [] value = new String[key.size()];
-			for(int i=0; i<key.size(); i++) {
-				value[i] = webrequest.getParameter(key.get(i).getCampo());
+			String[] key = usuarioService.listaKey();
+			String[] value = new String[key.length];
+			
+			for(int i=0; i<key.length; i++) {
+				value[i] = webrequest.getParameter(key[i]);
 			}
 			
-			if (usuarioService.cadastra(login, senha1, pnome, unome, tipo, value))
+			if (usuarioService.cadastra(login, senha1, pnome, unome, new Tipo(tipo), key, value))
 				saida = "yes";
 			else
 				saida = "no";
@@ -122,8 +121,7 @@ public class UsuarioController {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("usuario/lista");
 			mav.addObject("usuarios", usuarioService.lista());
-			mav.addObject("autorizacoes_usuario", usuarioService.listaAutorizacoesUsuario());
-			
+			mav.addObject("autorizacao", usuarioService.listaAutorizacoes());
 			return mav;
 		}
 		else {

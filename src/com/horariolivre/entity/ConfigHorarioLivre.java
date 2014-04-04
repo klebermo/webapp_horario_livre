@@ -18,21 +18,23 @@ import javax.persistence.TemporalType;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "config_horario_livre")
+@Table(name = "config_horario")
 public class ConfigHorarioLivre implements java.io.Serializable {
 
 	private int id;
 	private Date horaInicial;
 	private Date horaFinal;
-	private int duracao;
 
 	public ConfigHorarioLivre() {
 	}
+	
+	public ConfigHorarioLivre(int id) {
+		this.id = id;
+	}
 
-	public ConfigHorarioLivre(Date horaInicial, Date horaFinal,			int duracao) {
+	public ConfigHorarioLivre(Date horaInicial, Date horaFinal) {
 		this.horaInicial = horaInicial;
 		this.horaFinal = horaFinal;
-		this.duracao = duracao;
 	}
 
 	@Id
@@ -47,7 +49,7 @@ public class ConfigHorarioLivre implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIME)
-	@Column(name = "hora_inicial", nullable = false, length = 15)
+	@Column(name = "hora_inicial")
 	public Date getHoraInicial() {
 		return this.horaInicial;
 	}
@@ -57,7 +59,7 @@ public class ConfigHorarioLivre implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIME)
-	@Column(name = "hora_final", nullable = false, length = 15)
+	@Column(name = "hora_final")
 	public Date getHoraFinal() {
 		return this.horaFinal;
 	}
@@ -66,12 +68,4 @@ public class ConfigHorarioLivre implements java.io.Serializable {
 		this.horaFinal = horaFinal;
 	}
 
-	@Column(name = "duracao", nullable = false)
-	public int getDuracao() {
-		return this.duracao;
-	}
-
-	public void setDuracao(int duracao) {
-		this.duracao = duracao;
-	}
 }

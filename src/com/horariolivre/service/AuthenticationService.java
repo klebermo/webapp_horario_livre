@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.horariolivre.dao.UsuarioHome;
-import com.horariolivre.entity.Autorizacoes;
+import com.horariolivre.entity.Autorizacao;
 import com.horariolivre.entity.Usuario;
 
 @Component
@@ -34,7 +34,7 @@ public class AuthenticationService implements UserDetailsService {
     		throw new UsernameNotFoundException("No such user: " + username);
     	}
 	    
-    	List<Autorizacoes> auth = account.getAutorizacoes();
+    	List<Autorizacao> auth = account.getAutorizacao();
     	
     	if(auth.isEmpty()) {
     		throw new UsernameNotFoundException("User " + username + " has no authorities");
@@ -45,12 +45,12 @@ public class AuthenticationService implements UserDetailsService {
 	    boolean accountNonLocked = true;
 	    boolean accountEnabled = true;
 	
-	    return new User(account.getLogin(), account.getSenha(), accountEnabled, accountNonExpired, credentialsNonExpired, accountNonLocked, getAuthorities(account.getAutorizacoes()));
+	    return new User(account.getLogin(), account.getSenha(), accountEnabled, accountNonExpired, credentialsNonExpired, accountNonLocked, getAuthorities(auth));
 	}
 	
-	public List<String> getRolesAsList(List<Autorizacoes> list) {
+	public List<String> getRolesAsList(List<Autorizacao> list) {
 	    List <String> rolesAsList = new ArrayList<String>();
-	    for(Autorizacoes role : list){
+	    for(Autorizacao role : list){
 	        rolesAsList.add(role.getNome());
 	    }
 	    return rolesAsList;
@@ -64,7 +64,7 @@ public class AuthenticationService implements UserDetailsService {
 	    return authorities;
 	}
 	
-	public Collection<? extends GrantedAuthority> getAuthorities(List<Autorizacoes> list) {
+	public Collection<? extends GrantedAuthority> getAuthorities(List<Autorizacao> list) {
 	    List<GrantedAuthority> authList = getGrantedAuthorities(getRolesAsList(list));
 	    return authList;
 	}

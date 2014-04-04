@@ -5,16 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Configura&ccedil;&otilde;es</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="<c:out value="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/starter-template.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/table.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/dialog.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
-
 </head>
 <body>
 
@@ -22,10 +12,8 @@
         <h1>Intervalos</h1>
         <form method="POST" action="save_config_usuario.html">
 	        <p>Para qual intervalo do dia você deseja cadastrar horários?</p>
-	        <p> <input type="text" name="hora_inicial" value="${config.horaInicial}" pattern="\d{2}:\d{2}:\d{2}"> </p>
-	        <p> <input type="text" name="hora_final" value="${config.horaFinal}" pattern="\d{2}:\d{2}:\d{2}"> </p>
-	        <p>Quantos minutos deverá ter cada horário livre seu?</p>
-	        <p> <input type="text" name="duracao" value="${config.duracao}" pattern="\d{2}"> </p>
+	        <p> De <input type="time" name="hora_inicial" value="${usuario.config.horaInicial}" pattern="\d{2}:\d{2}:\d{2}">
+	        At&eacute; <input type="time" name="hora_final" value="${usuario.config.horaFinal}" pattern="\d{2}:\d{2}:\d{2}"> </p>
 	        <button type="submit" class="btn btn-lg btn-default">Salvar</button>
         </form>
       </div>

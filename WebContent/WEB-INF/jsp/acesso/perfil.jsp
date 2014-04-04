@@ -5,16 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Perfil</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="<c:out value="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/starter-template.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/table.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/dialog.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
-
 </head>
 <body>
 
@@ -24,21 +14,49 @@
       
 <div class="container">
 	<form method="post" action="#" id="target">
-					<p>Digite uma Senha: <input type="text" name="senha1" value="${usuario.senha}" size=20 maxlength=40> </p>
+			<table class="bordered">
+				    <thead>
+				    <tr>    
+				        <th>Atributo</th>
+				        <th>Valor</th>
+				    </tr>
+				    </thead>
+				    <tfoot>
+				    <tr>
+				        <td></td>        
+				        <td></td>
+				    </tr>
+				    </tfoot>
+				    <tr>
+						<td> <p>Digite uma Senha: <input type="password" name="senha1" size=20 maxlength=40> </p> </td>
+					</tr>
 					
-					<p>Primeiro Nome: <input type="text" name="pnome" value="${usuario.primeiroNome}" size=20 maxlength=40> </p>
+					<tr>
+						<td> <p>Repita uma Senha: <input type="password" name="senha2" size=20 maxlength=40> </p> </td>
+					</tr>
 					
-					<p>Ultimo Nome: <input type="text" name="unome" value="${usuario.ultimoNome}" size=20 maxlength=40> </p>
+					<tr>
+						<td> <p>Primeiro Nome: <input type="text" name="pnome" value="${usuario.primeiroNome}" size=20 maxlength=40> </p> </td>
+					</tr>
 					
-					<p>Tipo: <select name="tipo">
-						<c:forEach var="tipos" items="${tipos}">
-							<option value=<c:out value="${tipos.id}"/> > <c:out value="${tipos.nome}"/> </option>
-					    </c:forEach>
-					</select></p>
+					<tr>
+						<td> <p>Ultimo Nome: <input type="text" name="unome" value="${usuario.ultimoNome}" size=20 maxlength=40> </p> </td>
+					</tr>
 					
-					<c:forEach var="campos" items="${key}" varStatus="status">
-							<p>${campos.campo}: <input type="text" name="${campos.campo}" value="${value[status.index].conteudo}" size=20 maxlength=40> </p>
-					</c:forEach>
+					<tr>
+						<td><p>Tipo: <select name="tipo">
+							<c:forEach var="tipos" items="${tipos}">
+								<option value=<c:out value="${tipos.id}"/> > <c:out value="${tipos.nome}"/> </option>
+						    </c:forEach>
+						</select></p></td>
+					</tr>
+					
+					<tr>
+						<td><c:forEach var="campo" items="${chave}">
+								<p>${campo}: <input type="text" name="${campo}" size=20 maxlength=40> </p>
+						</c:forEach></td>
+					</tr>
+			</table>
 	<p><button type="submit" class="btn btn-lg btn-primary">Cadastrar</button></p>
 	</form>
 	<div id="result"> </div>
@@ -62,8 +80,6 @@
     	    // var content = $( data ).find( "#content" );
     	    $( "#result" ).empty().append( data );
     	  });
-    	  
-    	  // $("#target").trigger("reset");
     	});
     </script>
 

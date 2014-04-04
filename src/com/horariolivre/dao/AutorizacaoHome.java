@@ -11,17 +11,17 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.horariolivre.entity.Autorizacoes;
+import com.horariolivre.entity.Autorizacao;
 
 /**
- * Home object for domain model class Autorizacoes.
- * @see com.horariolivre.dao.Autorizacoes
+ * Home object for domain model class Autorizacao.
+ * @see com.horariolivre.dao.Autorizacao
  * @author Hibernate Tools
  */
 @Repository
-public class AutorizacoesHome {
+public class AutorizacaoHome {
 
-	private static final Log log = LogFactory.getLog(AutorizacoesHome.class);
+	private static final Log log = LogFactory.getLog(AutorizacaoHome.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -31,8 +31,8 @@ public class AutorizacoesHome {
 	}
 
 	@Transactional
-	public void persist(Autorizacoes transientInstance) {
-		log.debug("persisting Autorizacoes instance");
+	public void persist(Autorizacao transientInstance) {
+		log.debug("persisting Autorizacao instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
 			log.debug("persist successful");
@@ -43,8 +43,8 @@ public class AutorizacoesHome {
 	}
 
 	@Transactional
-	public void remove(Autorizacoes persistentInstance) {
-		log.debug("removing Autorizacoes instance");
+	public void remove(Autorizacao persistentInstance) {
+		log.debug("removing Autorizacao instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
 			log.debug("remove successful");
@@ -55,10 +55,10 @@ public class AutorizacoesHome {
 	}
 
 	@Transactional
-	public Autorizacoes merge(Autorizacoes detachedInstance) {
-		log.debug("merging Autorizacoes instance");
+	public Autorizacao merge(Autorizacao detachedInstance) {
+		log.debug("merging Autorizacao instance");
 		try {
-			Autorizacoes result = (Autorizacoes) sessionFactory.getCurrentSession().merge(detachedInstance);
+			Autorizacao result = (Autorizacao) sessionFactory.getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -68,10 +68,10 @@ public class AutorizacoesHome {
 	}
 
 	@Transactional
-	public Autorizacoes findById(int id) {
-		log.debug("getting Autorizacoes instance with id: " + id);
+	public Autorizacao findById(int id) {
+		log.debug("getting Autorizacao instance with id: " + id);
 		try {
-			Autorizacoes instance = (Autorizacoes) sessionFactory.getCurrentSession().get(Autorizacoes.class, id);
+			Autorizacao instance = (Autorizacao) sessionFactory.getCurrentSession().get(Autorizacao.class, id);
 			log.debug("get successful");
 			return instance;
 		} catch (RuntimeException re) {
@@ -82,10 +82,10 @@ public class AutorizacoesHome {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<Autorizacoes> findALL() {
+	public List<Autorizacao> findALL() {
 		log.debug("getting all Usuario instance");
 		try {
-			List<Autorizacoes> instance = sessionFactory.getCurrentSession().createCriteria(Autorizacoes.class).list();
+			List<Autorizacao> instance = sessionFactory.getCurrentSession().createCriteria(Autorizacao.class).list();
 			log.debug("get successful");
 			return instance;
 		} catch (RuntimeException re) {

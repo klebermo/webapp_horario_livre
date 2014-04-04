@@ -1,6 +1,10 @@
 package com.horariolivre.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 // Generated 24/03/2014 06:49:18 by Hibernate Tools 3.4.0.CR1
@@ -11,7 +15,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "dados")
+@Table(name = "key")
 public class Key implements java.io.Serializable {
 
 	private int id;
@@ -19,7 +23,14 @@ public class Key implements java.io.Serializable {
 
 	public Key() {
 	}
+	
+	public Key(String nome) {
+		this.nome = nome;
+	}
 
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getId() {
 		return id;
 	}
@@ -28,6 +39,7 @@ public class Key implements java.io.Serializable {
 		this.id = id;
 	}
 
+	@Column(name = "nome")
 	public String getNome() {
 		return nome;
 	}

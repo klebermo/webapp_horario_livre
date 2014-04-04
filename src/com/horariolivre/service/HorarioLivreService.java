@@ -1,6 +1,7 @@
 package com.horariolivre.service;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,9 @@ public class HorarioLivreService {
 	@Autowired
 	private UsuarioHome usuario;
 	
-	public boolean cadastra(int id_usuario, Date data, Date hora, int duracao) {
+	public boolean cadastra(Date data, Time hora, int id_usuario) {
 		Usuario owner = usuario.findById(id_usuario);
-		HorarioLivre horario = new HorarioLivre(owner, data, hora, duracao);
+		HorarioLivre horario = new HorarioLivre(data, hora, owner);
 		return horariolivre.persist(horario);
 	}
 	
