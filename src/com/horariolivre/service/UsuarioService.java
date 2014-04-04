@@ -102,13 +102,8 @@ public class UsuarioService {
 		return usuario.findById(id_usuario).getAutorizacao();
 	}
 	
-	public Usuario getUsuario(int id_usuario) {
-		return usuario.findById(id_usuario);
-	}
-	
 	public boolean salva_config(Time data_inicial, Time data_final) {
-		ConfigHorarioLivre novo = new ConfigHorarioLivre(data_inicial, data_final);
-		return config.persist(novo);
+		return config.persist(new ConfigHorarioLivre(data_inicial, data_final));
 	}
 	
 	public boolean temAutorizacaoCadastro(int id_usuario) {
