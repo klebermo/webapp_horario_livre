@@ -1,5 +1,6 @@
 package com.horariolivre.service;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.horariolivre.dao.AtributoHome;
 import com.horariolivre.dao.AutorizacaoHome;
+import com.horariolivre.dao.ConfigHorarioLivreHome;
 import com.horariolivre.dao.KeyHome;
 import com.horariolivre.dao.TipoHome;
 import com.horariolivre.dao.UsuarioHome;
 import com.horariolivre.dao.ValueHome;
 import com.horariolivre.entity.Atributo;
 import com.horariolivre.entity.Autorizacao;
+import com.horariolivre.entity.ConfigHorarioLivre;
 import com.horariolivre.entity.Key;
 import com.horariolivre.entity.Tipo;
 import com.horariolivre.entity.Usuario;
@@ -38,6 +41,9 @@ public class UsuarioService {
 	
 	@Autowired
 	private AutorizacaoHome autorizacao;
+	
+	@Autowired
+	private ConfigHorarioLivreHome config;
 		
 	public boolean cadastra(String login, String senha, String primeiroNome, String ultimoNome, Tipo tipoUsuario, String[] key, String[] value) {
 		System.out.println("UsuarioService.cadastra");
@@ -98,6 +104,11 @@ public class UsuarioService {
 	
 	public Usuario getUsuario(int id_usuario) {
 		return usuario.findById(id_usuario);
+	}
+	
+	public boolean salva_config(Time data_inicial, Time data_final) {
+		ConfigHorarioLivre novo = new ConfigHorarioLivre(data_inicial, data_final);
+		return config.persist(novo);
 	}
 	
 	public boolean temAutorizacaoCadastro(int id_usuario) {

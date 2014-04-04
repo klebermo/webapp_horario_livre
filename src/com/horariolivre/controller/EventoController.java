@@ -45,8 +45,8 @@ public class EventoController {
 	}
 	
 	@RequestMapping(value="cadastra_evento", method=RequestMethod.POST)
-	public String cadastra_evento(@ModelAttribute("username") String username, @RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") String dataInicial, @RequestParam("data_final") String dataFinal, @RequestParam("hora_inicial") String horaInicial, @RequestParam("hora_final") String horaFinal, @RequestParam("duracao") String duracao) {
-		String saida = new String();
+	public int cadastra_evento(@ModelAttribute("username") String username, @RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") String dataInicial, @RequestParam("data_final") String dataFinal, @RequestParam("hora_inicial") String horaInicial, @RequestParam("hora_final") String horaFinal, @RequestParam("duracao") String duracao) {
+		int saida;
 		
 		int id_usuario = usuario.findByUsername(username).getId();
 		
@@ -57,9 +57,9 @@ public class EventoController {
 		
 
 		if (evento.cadastra(id_usuario, nome, descricao, d_inicial, d_final, h_inicial, h_final, Integer.parseInt(duracao)))
-			saida = "yes";
+			saida = 1;
 		else
-			saida = "no";
+			saida = 0;
 		
 		return saida;
 	}

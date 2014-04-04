@@ -59,6 +59,7 @@ public class Usuario implements java.io.Serializable {
 			this.autorizacao = new ArrayList<Autorizacao>();
 			for(int i=0; i<key.length; i++)
 				this.atributo.add(new Atributo(new Key(key[i]), new Value(value[i])));
+			this.config = new ConfigHorarioLivre();
 		}
 	}
 

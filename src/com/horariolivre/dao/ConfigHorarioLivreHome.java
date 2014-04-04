@@ -31,26 +31,28 @@ public class ConfigHorarioLivreHome {
 	}
 
 	@Transactional
-	public void persist(ConfigHorarioLivre transientInstance) {
+	public boolean persist(ConfigHorarioLivre transientInstance) {
 		log.debug("persisting ConfigHorarioLivre instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
 			log.debug("persist successful");
+			return true;
 		} catch (RuntimeException re) {
 			log.error("persist failed", re);
-			throw re;
+			return false;
 		}
 	}
 
 	@Transactional
-	public void remove(ConfigHorarioLivre persistentInstance) {
+	public boolean remove(ConfigHorarioLivre persistentInstance) {
 		log.debug("removing ConfigHorarioLivre instance");
 		try {
 			sessionFactory.getCurrentSession().delete(persistentInstance);
 			log.debug("remove successful");
+			return true;
 		} catch (RuntimeException re) {
 			log.error("remove failed", re);
-			throw re;
+			return false;
 		}
 	}
 

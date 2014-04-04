@@ -76,7 +76,7 @@
     	  posting.done(function( data ) {
     		  alert("done submit cadastro_evento: "+data);
     		  
-    		  if(data == "yes")
+    		  if(data == 1)
     			  $( "#result" ).empty().append( "Evento cadastrado com sucesso" );
     		  else
     			  $( "#result" ).empty().append( "Evento n&atilde;o cadastrado" );

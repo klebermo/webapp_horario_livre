@@ -10,37 +10,46 @@
 
       <div class="jumbotron">
         <h1>Intervalos</h1>
-        <form method="POST" action="save_config_usuario.html">
+        <form method="POST" action="<c:out value="${pageContext.request.contextPath}/acesso/salvar_config"/>">
 	        <p>Para qual intervalo do dia você deseja cadastrar horários?</p>
-	        <p> De <input type="time" name="hora_inicial" value="${usuario.config.horaInicial}" pattern="\d{2}:\d{2}:\d{2}">
-	        At&eacute; <input type="time" name="hora_final" value="${usuario.config.horaFinal}" pattern="\d{2}:\d{2}:\d{2}"> </p>
+	        <p> De <input type="time" name="hora_inicial" value="${config.horaInicial}" pattern="\d{2}:\d{2}:\d{2}">
+	        At&eacute; <input type="time" name="hora_final" value="${config.horaFinal}" pattern="\d{2}:\d{2}:\d{2}"> </p>
 	        <button type="submit" class="btn btn-lg btn-default">Salvar</button>
         </form>
       </div>
       
-      <div id="result"> </div>
+      <div class="alert alert-info"> <strong>Resultado</strong> <div id="result"></div> </div>
     
     <script>
-    $(document).ready(function(){
-        $( "#target" ).submit(function( event ) {
-       	 debugger;
-       	  // Stop form from submitting normally
-       	  event.preventDefault();
-       	 
-       	  // Get some values from elements on the page:
-       	  var $form = $( this ),
-       	  	url = $form.attr( "action" );
-       	 
-       	  // Send the data using post
-       	  var posting = $.post( url, $(this).serialize() );
-       	 
-       	  // Put the results in a div
-       	  posting.done(function( data ) {
-       	    // var content = $( data ).find( "#content" );
-       	    $( "#result" ).empty().append( data );
-       	  });
-       	});
-    })
+    $( "#target" ).submit(function( event ) {
+    	 
+    	  // Stop form from submitting normally
+    	  event.preventDefault();
+    	 
+    	  // Get some values from elements on the page:
+    	  var $form = $( this ),
+    	  	url = $form.attr( "action" );
+    	 
+    	  // Send the data using post
+    	  var posting = $.post( url, $(this).serialize() );
+    	 
+    	  // Put the results in a div
+    	  posting.done(function( data ) {
+    		  alert("done submit salva_config: "+data);
+    		  
+    		  if(data == 1)
+    			  $( "#result" ).empty().append( "Evento cadastrado com sucesso" );
+    		  else
+    			  $( "#result" ).empty().append( "Evento n&atilde;o cadastrado" );
+    		  
+    		  $("#target").each (function(){
+    			  this.reset();
+    		  });
+    	  });
+    	  posting.fail(function( data ) {
+    		  alert("fail submit salva_config: "+data);
+    	  });
+    	});
     </script>
 
 </body>

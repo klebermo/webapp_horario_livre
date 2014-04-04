@@ -13,7 +13,7 @@
 </div>
       
 <div class="container">
-	<form method="post" action="#" id="target">
+	<form method="post" action="<c:out value="${pageContext.request.contextPath}/acesso/salvar_perfil"/>" id="target">
 			<table class="bordered">
 				    <thead>
 				    <tr>    
@@ -56,10 +56,13 @@
 							<td>${campo}:</td> <td> <input type="text" name="${campo}" size=20 maxlength=40> </td>
 						</tr>
 					</c:forEach>
+					
+					<tr>
+						<td> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </td>
+						<td> <div class="alert alert-info"> <strong>Resultado</strong> <div id="result"></div> </div> </td>
+					</tr>
 			</table>
-	<p><button type="submit" class="btn btn-lg btn-primary">Cadastrar</button></p>
 	</form>
-	<div id="result"> </div>
 </div>
 
     <script>
@@ -77,8 +80,19 @@
     	 
     	  // Put the results in a div
     	  posting.done(function( data ) {
-    	    // var content = $( data ).find( "#content" );
-    	    $( "#result" ).empty().append( data );
+    		  alert("done submit salva_perfil: "+data);
+    		  
+    		  if(data == 1)
+    			  $( "#result" ).empty().append( "Perfil salvo com sucesso" );
+    		  else
+    			  $( "#result" ).empty().append( "Perfil n&atilde;o salvo" );
+    		  
+    		  $("#target").each (function(){
+    			  this.reset();
+    		  });
+    	  });
+    	  posting.fail(function( data ) {
+    		  alert("fail submit salva_perfil: "+data);
     	  });
     	});
     </script>
