@@ -38,9 +38,9 @@
     		  alert("done submit salva_config: "+data);
     		  
     		  if(data == 1)
-    			  $( "#result" ).empty().append( "Evento cadastrado com sucesso" );
+    			  $( "#result" ).empty().append( "Configura&ccedil;&otilde;es salvas com sucesso" );
     		  else
-    			  $( "#result" ).empty().append( "Evento n&atilde;o cadastrado" );
+    			  $( "#result" ).empty().append( "Configura&ccedil;&otilde;es n&atilde;o cadastradas" );
     		  
     		  $("#target").each (function(){
     			  this.reset();

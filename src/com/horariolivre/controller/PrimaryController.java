@@ -16,7 +16,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.horariolivre.dao.UsuarioHome;
-import com.horariolivre.entity.ConfigHorarioLivre;
 import com.horariolivre.entity.Tipo;
 import com.horariolivre.entity.Usuario;
 import com.horariolivre.service.UsuarioService;
@@ -123,10 +122,10 @@ public class PrimaryController {
 	}
 	
 	@RequestMapping(value="salvar_config", method=RequestMethod.POST)
-	public int salvar_config(@ModelAttribute("username") String username, @RequestParam("data_inicial") String dataInicial, @RequestParam("data_final") String dataFinal) {
+	public int salvar_config(@ModelAttribute("username") String username, @RequestParam("hora_inicial") String horaInicial, @RequestParam("hora_final") String horaFinal) {
 		int saida;
 		
-		if (usuario_service.salva_config(parseTime(dataInicial), parseTime(dataFinal)))
+		if (usuario_service.salva_config(parseTime(horaInicial), parseTime(horaFinal)))
 			saida = 1;
 		else
 			saida = 0;
