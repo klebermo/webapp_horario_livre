@@ -41,14 +41,19 @@ public class Usuario implements java.io.Serializable {
 	private List<Autorizacao> autorizacao;
 
 	public Usuario() {
+		System.out.println("Usuario.constructor1");
 	}
 
 	public Usuario(String login, String senha) {
+		System.out.println("Usuario.constructor1");
+		
 		this.setLogin(login);
 		this.setSenha(senha);
 	}
 
 	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, Tipo tipo, String [] key, String [] value) {
+		System.out.println("Usuario.constructor3");
+		
 		if(key.length == value.length) {
 			this.setLogin(login);
 			this.setSenha(senha);
@@ -58,7 +63,7 @@ public class Usuario implements java.io.Serializable {
 			this.atributo = new ArrayList<Atributo>();
 			this.autorizacao = new ArrayList<Autorizacao>();
 			for(int i=0; i<key.length; i++)
-				this.atributo.add(new Atributo(new Key(key[i]), new Value(value[i])));
+				this.atributo.add(new Atributo(key[i], value[i]));
 			this.config = new ConfigHorarioLivre();
 		}
 	}
@@ -141,7 +146,7 @@ public class Usuario implements java.io.Serializable {
 		this.config = config;
 	}
 
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="autorizacao_usuario", joinColumns={@JoinColumn(name="fk_usuario")}, inverseJoinColumns={@JoinColumn(name="fk_autorizacao")})
 	@LazyCollection(LazyCollectionOption.FALSE)
 	public List<Autorizacao> getAutorizacao() {

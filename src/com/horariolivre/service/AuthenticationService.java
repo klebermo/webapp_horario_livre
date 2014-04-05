@@ -28,6 +28,8 @@ public class AuthenticationService implements UserDetailsService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		System.out.println("AuthenticationService.loadUserByUSername");
+		
 	    Usuario account = accountDao.findByUsername(username);
 	    
     	if(account == null) {

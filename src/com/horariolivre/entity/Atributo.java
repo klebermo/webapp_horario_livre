@@ -28,6 +28,11 @@ public class Atributo implements java.io.Serializable {
 		this.value = value;
 	}
 	
+	public Atributo(String key, String value) {
+		this.key = new Key(key);
+		this.value = new Value(value);
+	}
+	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy=GenerationType.AUTO)

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.horariolivre.dao.UsuarioHome;
 import com.horariolivre.entity.Evento;
 import com.horariolivre.service.EventoService;
 
@@ -25,12 +24,9 @@ public class EventoController {
 	@Autowired
 	private EventoService evento;
 	
-	@Autowired
-	private UsuarioHome usuario;
-	
 	@RequestMapping(value="cadastra")
 	public ModelAndView cadastra(@ModelAttribute("username") String username) {
-		int id_usuario = usuario.findByUsername(username).getId();
+		int id_usuario = evento.getUsuarioByUsername(username).getId();
 		
 		if(evento.temAutorizacaoCadastro(id_usuario)) {
 			ModelAndView mav = new ModelAndView();
@@ -45,10 +41,10 @@ public class EventoController {
 	}
 	
 	@RequestMapping(value="cadastra_evento", method=RequestMethod.POST)
-	public int cadastra_evento(@ModelAttribute("username") String username, @RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") String dataInicial, @RequestParam("data_final") String dataFinal, @RequestParam("hora_inicial") String horaInicial, @RequestParam("hora_final") String horaFinal, @RequestParam("duracao") String duracao) {
-		int saida;
+	public String cadastra_evento(@ModelAttribute("username") String username, @RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") String dataInicial, @RequestParam("data_final") String dataFinal, @RequestParam("hora_inicial") String horaInicial, @RequestParam("hora_final") String horaFinal, @RequestParam("duracao") String duracao) {
+		String saida = new String();
 		
-		int id_usuario = usuario.findByUsername(username).getId();
+		int id_usuario = evento.getUsuarioByUsername(username).getId();
 		
 		Date d_inicial = parseDate(dataInicial);
 		Date d_final = parseDate(dataFinal);
@@ -57,9 +53,9 @@ public class EventoController {
 		
 
 		if (evento.cadastra(id_usuario, nome, descricao, d_inicial, d_final, h_inicial, h_final, Integer.parseInt(duracao)))
-			saida = 1;
+			saida = "yes";
 		else
-			saida = 0;
+			saida = "not";
 		
 		return saida;
 	}
@@ -73,12 +69,12 @@ public class EventoController {
 			saida = "yes";
 		}
 		else {
-			saida = "no";
+			saida = "not";
 		}
 		return saida;
 	}
 	
-	@RequestMapping(value="altera_evento", method=RequestMethod.GET)
+	@RequestMapping(value="altera_evento", method=RequestMethod.POST)
 	public String altera_evento(@RequestParam("id") String id_evento_alterar, @RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") Date dataInicial, @RequestParam("data_final") Date dataFinal, @RequestParam("hora_inicial") Time horaInicial, @RequestParam("hora_final") Time horaFinal, @RequestParam("duracao") String duracao) {
 		String saida = new String();
 		
@@ -95,14 +91,14 @@ public class EventoController {
 			saida = "yes";
 		}
 		else {
-			saida = "no";
+			saida = "not";
 		}
 		return saida;
 	}
 	
 	@RequestMapping(value="lista")
 	public ModelAndView lista(@ModelAttribute("username") String username) {
-		int id_usuario = usuario.findByUsername(username).getId();
+		int id_usuario = evento.getUsuarioByUsername(username).getId();
 		
 		if(evento.temAutorizacaoListagem(id_usuario)) {
 			ModelAndView mav = new ModelAndView();

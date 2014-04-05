@@ -45,6 +45,10 @@ public class EventoService {
 		return evento.findById(id_evento);
 	}
 	
+	public Usuario getUsuarioByUsername(String username) {
+		return usuario.findByUsername(username);
+	}
+	
 	public boolean temAutorizacaoCadastro(int id_usuario) {
 		Usuario novo = usuario.findById(id_usuario);
 		

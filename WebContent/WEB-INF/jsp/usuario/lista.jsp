@@ -14,60 +14,72 @@ $(document).ready(function(){
 	$("#edit_tipos").hide();
 })
 </script>
+<c:forEach var="item" items="${usuarios}">
+<script>
+$(document).ready(function(){
+	$("#edit_usuario_${item.id}").hide();
+	$("#edit_autorizacao_${item.id}").hide();
+})
+</script>
+</c:forEach>
 
+<p>
 <button type="button" class="btn btn-primary" onclick="edit_campos()">Atributos do usu&aacute;rio</button>
 <button type="button" class="btn btn-primary" onclick="edit_tipos()">Tipos de usu&aacute;rio</button>
+</p>
 
-<table class="bordered" id="edit_campos">
-  <thead>
-  <tr>    
-      <th>Campo</th>
-      <th>#</th>
-  </tr>
-  </thead>
-  <tfoot>
-  <tr>
-  	<td> <input type="text" name="nome_campo"> </td>
-  	<td> <button type="button" class="btn btn-link" onclick="add_campo()">Incluir</button> </td>
-  </tr>
-  </tfoot>
-  
-  <c:forEach var="item_key" items="${campos}">
-  <tr>
-	<td> <input type="text" name="${item_key.id}" value="${item_key.nome}"> </td>
-	<td> <button type="button" class="btn btn-link" onclick="del_campo(${item_key.id})">Excluir</button> </td>
-  </tr>
-  </c:forEach>
-  
-</table>
+<p>
+	<table class="bordered" id="edit_campos">
+	  <thead>
+	  <tr>    
+	      <th>Campo</th>
+	      <th>#</th>
+	  </tr>
+	  </thead>
+	  <tfoot>
+	  <tr>
+	  	<td> <input type="text" name="nome_campo"> </td>
+	  	<td> <button type="button" class="btn btn-link">Incluir</button> </td>
+	  </tr>
+	  </tfoot>
+	  
+	  <c:forEach var="item_key" items="${campos}">
+	  <tr>
+		<td> <input type="text" name="${item_key.id}" value="${item_key.nome}"> </td>
+		<td> <button type="button" class="btn btn-link">Excluir</button> </td>
+	  </tr>
+	  </c:forEach>
+	</table>
+</p>
 
-<table class="bordered" id="edit_tipos">
-  <thead>
-  <tr>    
-      <th>Tipo</th>
-      <th>#</th>
-  </tr>
-  </thead>
-  <tfoot>
-  <tr>
-      <td></td>        
-      <td></td>
-  </tr>
-  </tfoot>
-  
-  <c:forEach var="item_tipo" items="${tipos}">
-  <tr>
-	<td> <input type="text" name="item_tipo.id" value="item_tipo.nome"> </td>
-	<td> <button type="button" class="btn btn-link">Salvar</button> </td>
-  </tr>
-  </c:forEach>
-  
-  <tr>
-  	<td> <input type="text" name="nome_tipo"> </td>
-  	<td> <button type="button" class="btn btn-link" onclick="add_tipo()">Incluir</button> </td>
-  </tr>
-</table>
- 
+<p>
+	<table class="bordered" id="edit_tipos">
+	  <thead>
+	  <tr>    
+	      <th>Tipo</th>
+	      <th>#</th>
+	  </tr>
+	  </thead>
+	  <tfoot>
+	  <tr>
+	  	<form id="incluir_campo" method="post">
+	  	<td> <input type="text" name="nome_tipo"> </td>
+	  	<td> <button type="submit" class="btn btn-link">Incluir</button> </td>
+	  	</form>
+	  </tr>
+	  </tfoot>
+	  
+	  <c:forEach var="item_tipo" items="${tipos}">
+	  <tr>
+	  	<form id="incluir_tipo" method="post">
+		<td> <input type="text" name="item_tipo.id" value="item_tipo.nome"> </td>
+		<td> <button type="submit" class="btn btn-link">Excluir</button> </td>
+		</form>
+	  </tr>
+	  </c:forEach>
+	</table>
+</p>
+
 		<div class="row">
         	<div class="col-md-3">
         		username
@@ -101,63 +113,133 @@ $(document).ready(function(){
         		</tr>
         		</table>
        		</div>
-        </div>
+     	</div>
+     	
+     		<div id="edit_autorizacao_${item.id}" class="row">
+     			<div class="col-md-3"> Editar autoriza&ccedil;&otilde;es </div>
+     			
+     			<div class="col-md-6">
+     				<table class="bordered">
+						    <thead>
+							    <tr>    
+							        <th>#</th>
+							        <th>Nome</th>
+							        <th>Descri&ccedil;&atilde;o</th>
+							    </tr>
+						    </thead>
+						    
+						    <tfoot>
+							    <tr>
+							        <td></td>        
+							        <td></td>
+							        <td></td>
+							    </tr>
+						    </tfoot>
+						    
+							<c:forEach var="item_auth" items="${autorizacao}">
+				            	<c:set var="isChecked" value="${false}"/>
+						        <c:forEach var="user_auth" items="${item.autorizacao}">
+					                <c:if test="${user_auth.nome == item_auth.nome}">
+					                	<c:set var="isChecked" value="${true}"/>
+					                </c:if>
+						        </c:forEach>
+								<tr>
+									<td> <input type="checkbox" name="${item_auth.nome}" <c:if test="${isChecked}">checked="checked"</c:if> /> </td>
+									<td>  ${item_auth.nome} </td>
+									<td> ${item_auth.descricao} </td>
+								</tr>
+							</c:forEach>
+     				</table>
+     			</div>
+     			
+     			<div class="col-md-3"> ${item.login} </div>
+     		</div>
+       		
+       		<div id="edit_usuario_${item.id}" class="row">
+	        	<div class="col-md-3"> Editar dados </div>
+	       		
+	        	<div class="col-md-6">
+					<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/altera_usuario"/>" id="target">
+						<table class="bordered">
+						    <thead>
+							    <tr>    
+							        <th>Atributo</th>
+							        <th>Valor</th>
+							    </tr>
+						    </thead>
+						    
+						    <tfoot>
+							    <tr>
+							        <td></td>        
+							        <td></td>
+							    </tr>
+						    </tfoot>
+					    
+						    <tr>
+								<td> Digite uma Senha:</td> <td> <input type="password" name="senha1" size=20 maxlength=40> </td>
+							</tr>
+							
+							<tr>
+								<td> Repita a Senha: </td> <td> <input type="password" name="senha2" size=20 maxlength=40> </td>
+							</tr>
+							
+							<tr>
+								<td> Primeiro Nome: </td> <td> <input type="text" name="pnome" value="${item.primeiroNome}" size=20 maxlength=40> </td>
+							</tr>
+							
+							<tr>
+								<td> Ultimo Nome: </td> <td> <input type="text" name="unome" value="${item.ultimoNome}" size=20 maxlength=40> </td>
+							</tr>
+							
+							<tr>
+								<td> Tipo: </td> <td> <select name="tipo">
+									<c:forEach var="tipos" items="${tipos}">
+										<option value=<c:out value="${tipos.id}"/> > <c:out value="${tipos.nome}"/> </option>
+								    </c:forEach>
+								</select> </td>
+							</tr>
+							
+							<c:forEach var="campo" items="${campos}">
+							<tr>
+								<td>${campo}:</td> <td> <input type="text" name="${campo}" value="${item.atributo.value.conteudo}" size=20 maxlength=40> </td>
+							</tr>
+							</c:forEach>
+							
+							<tr>
+								<td> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </td>
+								<td> <div class="alert alert-info"> 		<strong>Resultado</strong> <div id="result"></div>	</div> </td>
+							</tr>
+						</table>
+					</form>
+	       		</div>
+       		
+	        	<div class="col-md-3"> Login: ${item.login} </div>
+       		</div>
 		</c:forEach>
-		
-		<script>
-		function editar(id) {
-			alert("clicou para editar usuario: "+id);
-		}
-		
-		function remover(id) {
-			alert("clicou para remover usuario: "+id);
-		}
-		
-		function autorizacao(id) {
-			alert("clicou visualizar autorizacoes de: "+id);
-		}
-		function edit_campos() {
-			if ($("#edit_campos").is(":visible"))
-				$("#edit_campos").hide();
-			else
-				$("#edit_campos").show();
-		}
-		
-		function del_campo(data) {
-			//
-		}
-		
-		function add_campo(data) {
-			$.ajax({
-				  type: "GET",
-				  url: "<c:out value="${pageContext.request.contextPath}/usuario/cadastra_campo"/>",
-				  data: { nome: $(data) }
-			}).done(function( msg ) {
-				    alert( "Data Saved: " + data );
-			});
-		}
-		
-		function del_tipo(data) {
-			//
-		}
-		
-		function edit_tipos() {
-			if ($("#edit_tipos").is(":visible"))
-				$("#edit_tipos").hide();
-			else
-				$("#edit_tipos").show();
-		}
-		
-		function add_tipo(data) {
-			$.ajax({
-				  type: "GET",
-				  url: "<c:out value="${pageContext.request.contextPath}/usuario/cadastra_tipo"/>",
-				  data: { nome: $(data) }
-			}).done(function( msg ) {
-				    alert( "Data Saved: " + data );
-			});
-		}
-		</script>
+
+<script>
+function edit_campos() {
+	$("#edit_campos").toggle();
+}
+
+function edit_tipos() {
+	$("#edit_tipos").toggle();
+}
+
+function editar(data) {
+	var div = "#edit_usuario_"+data
+	$(div).toggle();
+}
+
+function remover(data) {
+	alert("remover usuario: "+data);
+}
+
+function autorizacao(data) {
+	var div = "#edit_autorizacao_"+data;
+	$(div).toggle();
+}
+</script>
 
 </body>
 </html>

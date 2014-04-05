@@ -64,8 +64,8 @@
 	          <li class="dropdown">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">${usuario.primeiroNome} ${usuario.ultimoNome}<b class="caret"></b></a>
 		          <ul class="dropdown-menu">
-		            <li><a href="<c:out value="${pageContext.request.contextPath}/acesso/perfil"/>">Perfil</a></li>
-		            <li><a href="<c:out value="${pageContext.request.contextPath}/acesso/config"/>">Configura&ccedil;&otilde;es</a></li>
+		            <li><a href="<c:out value="${pageContext.request.contextPath}/usuario/perfil"/>">Perfil</a></li>
+		            <li><a href="<c:out value="${pageContext.request.contextPath}/usuario/config"/>">Configura&ccedil;&otilde;es</a></li>
 		            <c:url value="/logout" var="logoutUrl"/>
 		            <li><a href="${logoutUrl}">Sair</a></li>
 		          </ul>
