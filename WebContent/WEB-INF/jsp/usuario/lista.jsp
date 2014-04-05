@@ -19,7 +19,7 @@ $(document).ready(function(){
 $(document).ready(function(){
 	$("#edit_usuario_${item.id}").hide();
 	$("#edit_autorizacao_${item.id}").hide();
-})
+});
 </script>
 </c:forEach>
 
@@ -29,7 +29,7 @@ $(document).ready(function(){
 </p>
 
 <p>
-	<table class="bordered" id="edit_campos">
+	<table class="bordered campos" id="edit_campos">
 	  <thead>
 	  <tr>    
 	      <th>Campo</th>
@@ -39,21 +39,59 @@ $(document).ready(function(){
 	  <tfoot>
 	  <tr>
 	  	<td> <input type="text" name="nome_campo"> </td>
-	  	<td> <button type="button" class="btn btn-link">Incluir</button> </td>
+	  	<td> <button type="button" id="incluir_campo" class="btn btn-link">Incluir</button> </td>
 	  </tr>
 	  </tfoot>
 	  
 	  <c:forEach var="item_key" items="${campos}">
-	  <tr>
-		<td> <input type="text" name="${item_key.id}" value="${item_key.nome}"> </td>
-		<td> <button type="button" class="btn btn-link">Excluir</button> </td>
+	  <tr id="linha_${item_key.id}">
+		<td> <input type="text" name="${item_key.nome}" value="${item_key.nome}"> </td>
+		<td> <button type="button" id="excluir_campo" class="btn btn-link">Excluir</button> </td>
 	  </tr>
 	  </c:forEach>
 	</table>
 </p>
 
+<script>
+$("#incluir_campo").on("click", function () {
+	$.ajax({
+		type: "GET",
+		url: "<c:out value="${pageContext.request.contextPath}/key/cadastra_campo"/>",
+		data: {nome: "input[name=nome_campo]"}
+	}).done(function(){
+		var newRow = $("<tr>");
+		var cols = "";
+		
+		cols += 'td> <input type="text" name="${item_key.nome}" value="${item_key.nome}"> </td>';
+        cols += '<td> <button type="button" id="excluir_campo_${item_campo.id}" class="btn btn-link">Excluir</button> </td>';
+        
+        newRow.append(cols);
+        $("table.campos").append(newRow);
+        $("input[name=nome_campo]").empty();
+	}).fail(function(){
+		alert("falha ao incluir campo");
+	});
+});
+</script>
+
+<c:forEach var="item_key" items="${campos}">
+<script>
+$("#excluir_campo_${item_campo.id}").on("click", function () {
+	$.ajax({
+		type: "GET",
+		url: "<c:out value="${pageContext.request.contextPath}/tipo/cadastra_tipo"/>",
+		data: {nome: "${item_campo.nome}"}
+	}).done(function(){
+		$("linha_${item_campo.id}").remove();
+	}).fail(function(){
+		alert("falha ao excluir campo");
+	});
+});
+</script>
+</c:forEach>
+
 <p>
-	<table class="bordered" id="edit_tipos">
+	<table class="bordered tipos" id="edit_tipos">
 	  <thead>
 	  <tr>    
 	      <th>Tipo</th>
@@ -62,23 +100,57 @@ $(document).ready(function(){
 	  </thead>
 	  <tfoot>
 	  <tr>
-	  	<form id="incluir_campo" method="post">
 	  	<td> <input type="text" name="nome_tipo"> </td>
-	  	<td> <button type="submit" class="btn btn-link">Incluir</button> </td>
-	  	</form>
+	  	<td> <button type="button" id="incluir_tipo" class="btn btn-link">Incluir</button> </td>
 	  </tr>
 	  </tfoot>
 	  
 	  <c:forEach var="item_tipo" items="${tipos}">
-	  <tr>
-	  	<form id="incluir_tipo" method="post">
-		<td> <input type="text" name="item_tipo.id" value="item_tipo.nome"> </td>
-		<td> <button type="submit" class="btn btn-link">Excluir</button> </td>
-		</form>
+	  <tr id="linha_${item_tipo.id}">
+		<td> <input type="text" name="${item_tipo.nome}" value="${item_tipo.nome}"> </td>
+		<td> <button type="button" id="excluir_tipo_${item_tipo.id}" class="btn btn-link">Excluir</button> </td>
 	  </tr>
 	  </c:forEach>
 	</table>
 </p>
+
+<script>
+$("#incluir_tipo").on("click", function () {
+	$.ajax({
+		type: "GET",
+		url: "<c:out value="${pageContext.request.contextPath}/tipo/cadastra_tipo"/>",
+		data: {nome: "input[name=nome_campo]"}
+	}).done(function(){
+		var newRow = $("<tr>");
+		var cols = "";
+		
+		cols += 'td> <input type="text" name="${item_tipo.nome}" value="${item_tipo.nome}"> </td>';
+        cols += '<td> <button type="button" id="excluir_tipo" class="btn btn-link">Excluir</button> </td>';
+        
+        newRow.append(cols);
+        $("table.campos").append(newRow);
+        $("input[name=nome_campo]").empty();
+	}).fail(function(){
+		alert("falha ao incluir campo");
+	});
+});
+</script>
+
+<c:forEach var="item_tipo" items="${tipos}">
+<script>
+$("#excluir_tipo_${item_tipo.id}").on("click", function () {
+	$.ajax({
+		type: "GET",
+		url: "<c:out value="${pageContext.request.contextPath}/tipo/remove_tipo"/>",
+		data: {nome: "${item_tipo.nome}"}
+	}).done(function(){
+		$("linha_${item_tipo.id}").remove();
+	}).fail(function(){
+		alert("falha ao excluir tipo");
+	});
+});
+</script>
+</c:forEach>
 
 		<div class="row">
         	<div class="col-md-3">

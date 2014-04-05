@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.horariolivre.dao.AtributoHome;
 import com.horariolivre.dao.KeyHome;
+import com.horariolivre.dao.UsuarioHome;
 import com.horariolivre.dao.ValueHome;
 import com.horariolivre.entity.Atributo;
 import com.horariolivre.entity.Key;
@@ -18,6 +19,9 @@ import com.horariolivre.entity.Value;
 public class AtributoService {
 	
 	@Autowired
+	private UsuarioHome usuario;
+	
+	@Autowired
 	private AtributoHome atributo;
 	
 	@Autowired
@@ -25,6 +29,14 @@ public class AtributoService {
 	
 	@Autowired
 	private ValueHome value;
+	
+	public boolean cadastra(String campo) {
+		return key.persist(new Key(campo));
+	}
+	
+	public boolean remover(String campo) {
+		return key.remove(new Key(campo));
+	}
 	
 	public List<Key> listaCampos() {
 		return key.findALL();
@@ -54,5 +66,24 @@ public class AtributoService {
 		}
 		
 		return lista;
+	}
+	
+	public Usuario getUsuarioById(int id_usuario) {
+		return usuario.findById(id_usuario);
+	}
+	
+	public Usuario getUsuarioByUsername(String username) {
+		return usuario.findByUsername(username);
+	}
+	
+	public boolean temAutorizacao(int id_usuario) {
+		Usuario novo = usuario.findById(id_usuario);
+		
+		for(int i=0; i<novo.getAutorizacao().size(); i++) {
+			if(novo.getAutorizacao().get(i).getNome().equals("cad_campo"))
+				return true;
+		}
+		
+		return false;
 	}
 }
