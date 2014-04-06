@@ -12,16 +12,18 @@
 
     <!-- Bootstrap core CSS -->
     <link href="<c:out value="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/bootstrap/css/bootstrap-formhelpers.min.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/bootstrap/css/bootstrap-theme.min.css"/>" rel="stylesheet">
 
     <!-- Custom styles for this template -->
+    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/starter-template.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/grid.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/table.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/dialog.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/signin.css"/>" rel="stylesheet">
     
 	<link href="${pageContext.request.contextPath}/extras/css/normalize.css" rel="stylesheet" type="text/css"/>
 	<link href="${pageContext.request.contextPath}/extras/css/datepicker.css" rel="stylesheet" type="text/css"/>
+	
 	
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -88,9 +90,11 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="<c:out value="${pageContext.request.contextPath}/jquery/js/jquery-2.1.0.min.js"/>"></script>
-    <script src="<c:out value="${pageContext.request.contextPath}/jquery/js/jquery-ui-1.10.4.custom.js"/>"></script>
+    <script src="<c:out value="${pageContext.request.contextPath}/jquery/js/jquery-1.10.2.min.js"/>"></script>
+    <script src="<c:out value="${pageContext.request.contextPath}/jquery/js/jquery-ui-1.10.4.custom.min.js"/>"></script>
     <script src="<c:out value="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"/>"></script>
+    <script src="<c:out value="${pageContext.request.contextPath}/bootstrap/js/bootstrap-formhelpers.min.js"/>"></script>
+    
     <script>
     $('document').ready(function(){
     	$( "#dialog" ).dialog({

@@ -59,7 +59,7 @@
 					
 					<tr>
 						<td> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </td>
-						<td> <div class="alert alert-info"> 		<strong>Resultado</strong> <div id="result"></div>	</div> </td>
+						<td> <div id="result"></div> </td>
 					</tr>
 				</table>
 			</form>

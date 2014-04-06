@@ -8,17 +8,101 @@
 </head>
 <body>
 
-      <div class="jumbotron">
-        <h1>Intervalos</h1>
-        <form method="POST" action="<c:out value="${pageContext.request.contextPath}/acesso/salvar_config"/>">
-	        <p>Para qual intervalo do dia você deseja cadastrar horários?</p>
-	        <p> De <input type="time" name="hora_inicial" value="${config.horaInicial}">
-	        At&eacute; <input type="time" name="hora_final" value="${config.horaFinal}"> </p>
-	        <button type="submit" class="btn btn-lg btn-default">Salvar</button>
-        </form>
-      </div>
-      
-      <div class="alert alert-info"> <strong>Resultado</strong> <div id="result"></div> </div>
+<h1>Intervalos</h1>
+
+<form method="POST" action="<c:out value="${pageContext.request.contextPath}/acesso/salvar_config"/>">
+<p>Para qual intervalo do dia você deseja cadastrar horários?</p>
+
+<table>
+<tr>
+<td>In&iacute;cio:
+<div class="bfh-timepicker open">
+	<div class="input-group bfh-timepicker-toggle" data-toggle="bfh-timepicker">
+		<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+		<input type="text" name="hora_inicial" class="form-control" placeholder="" readonly="">
+	</div>
+	<div class="bfh-timepicker-popover">
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class="hour">
+						<div class="input-group">
+							<input type="text" class="form-control bfh-number" data-min="0" data-max="23" data-zeros="true" data-wrap="true">
+							<span class="input-group-addon bfh-number-btn inc">
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</span>
+							<span class="input-group-addon bfh-number-btn dec">
+								<span class="glyphicon glyphicon-chevron-down"></span>
+							</span>
+						</div>
+					</td>
+					<td class="separator">:</td>
+					<td class="minute">
+						<div class="input-group">
+							<input type="text" class="form-control bfh-number" data-min="0" data-max="59" data-zeros="true" data-wrap="true">
+							<span class="input-group-addon bfh-number-btn inc">
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</span>
+							<span class="input-group-addon bfh-number-btn dec">
+								<span class="glyphicon glyphicon-chevron-down"></span>
+							</span>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</td>
+
+<td> Final:
+<div class="bfh-timepicker open">
+	<div class="input-group bfh-timepicker-toggle" data-toggle="bfh-timepicker">
+		<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+		<input type="text" name="hora_final" class="form-control" placeholder="" readonly="">
+	</div>
+	<div class="bfh-timepicker-popover">
+		<table class="table">
+			<tbody>
+				<tr>
+					<td class="hour">
+						<div class="input-group">
+							<input type="text" class="form-control bfh-number" data-min="0" data-max="23" data-zeros="true" data-wrap="true">
+							<span class="input-group-addon bfh-number-btn inc">
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</span>
+							<span class="input-group-addon bfh-number-btn dec">
+								<span class="glyphicon glyphicon-chevron-down"></span>
+							</span>
+						</div>
+					</td>
+					<td class="separator">:</td>
+					<td class="minute">
+						<div class="input-group">
+							<input type="text" class="form-control bfh-number" data-min="0" data-max="59" data-zeros="true" data-wrap="true">
+							<span class="input-group-addon bfh-number-btn inc">
+								<span class="glyphicon glyphicon-chevron-up"></span>
+							</span>
+							<span class="input-group-addon bfh-number-btn dec">
+								<span class="glyphicon glyphicon-chevron-down"></span>
+							</span>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</td>
+</tr>
+</table>
+
+<p><button type="submit" class="btn btn-lg btn-default">Salvar</button></p>
+
+</form>
+
+
+<div id="result"></div>
     
     <script>
     $( "#target" ).submit(function( event ) {

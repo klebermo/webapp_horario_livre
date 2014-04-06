@@ -44,7 +44,7 @@
 		
 		<tr>
 			<td> <h3>Periodo do Hor&aacute;rio</h3> </td>
-			<td>inicio: <input type="text" name="hora_inicial"/> final: <input type="text" name="hora_final"/> </td>
+			<td>inicio: <input type="text" name="hora_inicial" id="hora_inicial"/> final: <input type="text" name="hora_final" id="hora_final"/> </td>
 		</tr>
 		
 		<tr>
@@ -54,7 +54,7 @@
 		
 		<tr>
 			<td> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </td>
-			<td> <div class="alert alert-info"> <strong>Resultado</strong> <div id="result"></div> </div> </td>
+			<td> <div id="result"> </div> </td>
 		</tr>
 	</table>
 	</form>
@@ -75,6 +75,8 @@
 				dateFormat: 'dd/mm/yy',
 				dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
 			});
+			$('#hora_inicial').timepicker();
+			$('#hora_final').timepicker();
 		});
 	</script>
   
