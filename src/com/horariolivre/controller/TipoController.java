@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.horariolivre.service.TipoService;
@@ -16,25 +17,33 @@ import com.horariolivre.service.TipoService;
 public class TipoController {
 	
 	@Autowired
-	private TipoService tipoUsuario;
+	private TipoService tipo;
 
 	@RequestMapping(value="cadastra_tipo", method=RequestMethod.GET)
-	public boolean cadastra_tipo(@ModelAttribute("username") String username, @RequestParam("tipo") String tipo) {
-		if(tipoUsuario.temAutorizacao(tipoUsuario.getUsuarioByUsername(username).getId())) {
-			return tipoUsuario.cadastra(tipo);
+	@ResponseBody
+	public String cadastra_tipo(@ModelAttribute("username") String username, @RequestParam("nome") String tipoUsuario) {
+		if(tipo.temAutorizacao(tipo.getUsuarioByUsername(username).getId())) {
+			if (tipo.cadastra(tipoUsuario))
+				return "yes";
+			else
+				return "not";
 		}
 		else {
-			return false;
+			return "no_permit";
 		}
 	}
 	
 	@RequestMapping(value="remove_tipo", method=RequestMethod.GET)
-	public boolean remove_tipo(@ModelAttribute("username") String username, @RequestParam("tipo") String tipo) {
-		if(tipoUsuario.temAutorizacao(tipoUsuario.getUsuarioByUsername(username).getId())) {
-			return tipoUsuario.remover(tipo);
+	@ResponseBody
+	public String remove_tipo(@ModelAttribute("username") String username, @RequestParam("nome") String tipoUsuario) {
+		if(tipo.temAutorizacao(tipo.getUsuarioByUsername(username).getId())) {
+			if (tipo.remover(tipoUsuario))
+				return "yes";
+			else
+				return "not";
 		}
 		else {
-			return false;
+			return "not_permit";
 		}
 	}
 	

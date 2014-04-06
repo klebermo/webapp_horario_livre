@@ -12,8 +12,8 @@
         <h1>Intervalos</h1>
         <form method="POST" action="<c:out value="${pageContext.request.contextPath}/acesso/salvar_config"/>">
 	        <p>Para qual intervalo do dia você deseja cadastrar horários?</p>
-	        <p> De <input type="time" name="hora_inicial" value="${config.horaInicial}" pattern="\d{2}:\d{2}:\d{2}">
-	        At&eacute; <input type="time" name="hora_final" value="${config.horaFinal}" pattern="\d{2}:\d{2}:\d{2}"> </p>
+	        <p> De <input type="time" name="hora_inicial" value="${config.horaInicial}">
+	        At&eacute; <input type="time" name="hora_final" value="${config.horaFinal}"> </p>
 	        <button type="submit" class="btn btn-lg btn-default">Salvar</button>
         </form>
       </div>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,6 +28,7 @@ import com.horariolivre.service.UsuarioService;
 @SessionAttributes({"username"})
 @RequestMapping(value="usuario")
 public class UsuarioController {
+	
 	@Autowired
 	private UsuarioService usuario;
 	
@@ -45,7 +47,7 @@ public class UsuarioController {
 			mav.setViewName("usuario/cadastra");
 			
 			mav.addObject("tipos", tipo.listaTipos());
-			mav.addObject("campos", atributo.listaCampos());
+			mav.addObject("campos", atributo.listaKey());
 			return mav;
 		}
 		else {
@@ -56,6 +58,7 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value="cadastra_usuario", method=RequestMethod.POST)
+	@ResponseBody
 	public String cadastra_usuario(@ModelAttribute("username") String username, @RequestParam("login") String login, @RequestParam("senha1") String senha1, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, WebRequest webrequest) {
 		System.out.println("cadastra_usuario");
 		String saida = new String();
@@ -91,6 +94,7 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value="remove_usuario", method=RequestMethod.GET)
+	@ResponseBody
 	public String remove_usuario(@ModelAttribute("username") String username, @RequestParam("id_usuario") String id_usuario_apagar) {
 		String saida = new String();
 		
@@ -110,6 +114,7 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value="altera_usuario", method=RequestMethod.POST)
+	@ResponseBody
 	public String altera_usuario(@ModelAttribute("username") String username, @RequestParam("id_usuario") String id_usuario_alterar, @RequestParam("login") String login, @RequestParam("senha") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
 		String saida = new String();
 		
@@ -154,9 +159,10 @@ public class UsuarioController {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("usuario/lista");
 			mav.addObject("usuarios", usuario.lista());
+			mav.addObject("atributos", atributo.listaValue(user));
 			
 			mav.addObject("tipos", tipo.listaTipos());
-			mav.addObject("campos", atributo.listaCampos());
+			mav.addObject("campos", atributo.listaKey());
 			mav.addObject("autorizacao", usuario.listaAutorizacoes());
 			return mav;
 		}
@@ -175,7 +181,7 @@ public class UsuarioController {
 		mav.setViewName("/acesso/perfil");
 		mav.addObject("usuario", user);
 		mav.addObject("tipos", tipo.listaTipos());
-		mav.addObject("chave", atributo.listaCampos());
+		mav.addObject("chave", atributo.listaKey());
 		mav.addObject("valor", atributo.listaValue(user));
 		
 		return mav;

@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -44,9 +44,9 @@ $(document).ready(function(){
 	  </tfoot>
 	  
 	  <c:forEach var="item_key" items="${campos}">
-	  <tr id="linha_${item_key.id}">
-		<td> <input type="text" name="${item_key.nome}" value="${item_key.nome}"> </td>
-		<td> <button type="button" id="excluir_campo" class="btn btn-link">Excluir</button> </td>
+	  <tr id="linha_${item_key}">
+		<td> <input type="text" name="${item_key}" value="${item_key}"> </td>
+		<td> <button type="button" id="excluir_campo_${item_key}" class="btn btn-link">Excluir</button> </td>
 	  </tr>
 	  </c:forEach>
 	</table>
@@ -57,17 +57,21 @@ $("#incluir_campo").on("click", function () {
 	$.ajax({
 		type: "GET",
 		url: "<c:out value="${pageContext.request.contextPath}/key/cadastra_campo"/>",
-		data: {nome: "input[name=nome_campo]"}
-	}).done(function(){
-		var newRow = $("<tr>");
-		var cols = "";
-		
-		cols += 'td> <input type="text" name="${item_key.nome}" value="${item_key.nome}"> </td>';
-        cols += '<td> <button type="button" id="excluir_campo_${item_campo.id}" class="btn btn-link">Excluir</button> </td>';
-        
-        newRow.append(cols);
-        $("table.campos").append(newRow);
-        $("input[name=nome_campo]").empty();
+		data: {nome: $("input[name=nome_campo]").val() }
+	}).done(function(data){
+		if(data=="yes") {
+			var newRow = $('<tr id="linha_${item_key}">');
+			
+			cols = '<td> <input type="text" name="${item_key.nome}" value="${item_key.nome}"> </td>';
+	        cols += '<td> <button type="button" id="excluir_campo_${item_campo}" class="btn btn-link">Excluir</button> </td>';
+	        
+	        newRow.append(cols);
+	        $("table.campos").append(newRow);
+	        $("input[name=nome_campo]").val("");
+		}
+		else {
+			alert("erro ao incluir campo");
+		}
 	}).fail(function(){
 		alert("falha ao incluir campo");
 	});
@@ -76,13 +80,18 @@ $("#incluir_campo").on("click", function () {
 
 <c:forEach var="item_key" items="${campos}">
 <script>
-$("#excluir_campo_${item_campo.id}").on("click", function () {
+$("#excluir_campo_${item_key}").on("click", function () {
 	$.ajax({
 		type: "GET",
-		url: "<c:out value="${pageContext.request.contextPath}/tipo/cadastra_tipo"/>",
-		data: {nome: "${item_campo.nome}"}
-	}).done(function(){
-		$("linha_${item_campo.id}").remove();
+		url: "<c:out value="${pageContext.request.contextPath}/key/remove_campo"/>",
+		data: {nome: "${item_key}"}
+	}).done(function(data){
+		if(data=="yes") {
+			$("linha_${item_campo}").remove();
+		}
+		else {
+			alert("erro ao excluir campo");
+		}
 	}).fail(function(){
 		alert("falha ao excluir campo");
 	});
@@ -119,19 +128,23 @@ $("#incluir_tipo").on("click", function () {
 	$.ajax({
 		type: "GET",
 		url: "<c:out value="${pageContext.request.contextPath}/tipo/cadastra_tipo"/>",
-		data: {nome: "input[name=nome_campo]"}
-	}).done(function(){
-		var newRow = $("<tr>");
-		var cols = "";
-		
-		cols += 'td> <input type="text" name="${item_tipo.nome}" value="${item_tipo.nome}"> </td>';
-        cols += '<td> <button type="button" id="excluir_tipo" class="btn btn-link">Excluir</button> </td>';
-        
-        newRow.append(cols);
-        $("table.campos").append(newRow);
-        $("input[name=nome_campo]").empty();
+		data: {nome: $("input[name=nome_tipo]").val() }
+	}).done(function(data){
+		if(data=="yes") {
+			var newRow = $("<tr>");
+			
+			cols = '<td> <input type="text" name="${item_tipo.nome}" value="${item_tipo.nome}"> </td>';
+	        cols += '<td> <button type="button" id="excluir_tipo" class="btn btn-link">Excluir</button> </td>';
+	        
+	        newRow.append(cols);
+	        $("table.tipos").append(newRow);
+	        $("input[name=nome_tipo]").val("");
+		}
+		else {
+			alert("erro ao incluir tipo");
+		}
 	}).fail(function(){
-		alert("falha ao incluir campo");
+		alert("falha ao incluir tipo");
 	});
 });
 </script>
@@ -143,8 +156,13 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 		type: "GET",
 		url: "<c:out value="${pageContext.request.contextPath}/tipo/remove_tipo"/>",
 		data: {nome: "${item_tipo.nome}"}
-	}).done(function(){
-		$("linha_${item_tipo.id}").remove();
+	}).done(function(data){
+		if(data=="yes") {
+			$("linha_${item_tipo.id}").remove();
+		}
+		else {
+			alert("erro ao incluir tipo");
+		}
 	}).fail(function(){
 		alert("falha ao excluir tipo");
 	});
@@ -271,9 +289,9 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 								</select> </td>
 							</tr>
 							
-							<c:forEach var="campo" items="${campos}">
+							<c:forEach var="campo" items="${campos}" varStatus="status">
 							<tr>
-								<td>${campo}:</td> <td> <input type="text" name="${campo}" value="${item.atributo.value.conteudo}" size=20 maxlength=40> </td>
+								<td><c:out value="${campo}"/>:</td> <td> <input type="text" name="${campo}" value="${atributo[status.index]}" size=20 maxlength=40> </td>
 							</tr>
 							</c:forEach>
 							

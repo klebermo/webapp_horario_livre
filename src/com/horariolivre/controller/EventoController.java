@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -41,6 +42,7 @@ public class EventoController {
 	}
 	
 	@RequestMapping(value="cadastra_evento", method=RequestMethod.POST)
+	@ResponseBody
 	public String cadastra_evento(@ModelAttribute("username") String username, @RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") String dataInicial, @RequestParam("data_final") String dataFinal, @RequestParam("hora_inicial") String horaInicial, @RequestParam("hora_final") String horaFinal, @RequestParam("duracao") String duracao) {
 		String saida = new String();
 		
@@ -61,6 +63,7 @@ public class EventoController {
 	}
 	
 	@RequestMapping(value="remove_evento", method=RequestMethod.GET)
+	@ResponseBody
 	public String remove_evento(@RequestParam("id") String id_evento_apagar) {
 		String saida = new String();
 		int id_evento = Integer.valueOf(id_evento_apagar).intValue();
@@ -75,6 +78,7 @@ public class EventoController {
 	}
 	
 	@RequestMapping(value="altera_evento", method=RequestMethod.POST)
+	@ResponseBody
 	public String altera_evento(@RequestParam("id") String id_evento_alterar, @RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") Date dataInicial, @RequestParam("data_final") Date dataFinal, @RequestParam("hora_inicial") Time horaInicial, @RequestParam("hora_final") Time horaFinal, @RequestParam("duracao") String duracao) {
 		String saida = new String();
 		

@@ -39,12 +39,14 @@
 		
 		<tr>
 			<td> <h3>Periodo da Data</h3> </td>
-			<td>inicio: <input type="date" name="data_inicial" placeholder="DD/MM/AAAA" pattern="\d{2}/\d{2}/\d{4}" /> | final: <input type="date" name="data_final" placeholder="DD/MM/AAAA" pattern="\d{2}/\d{2}/\d{4}" /> </td>
+			<td>inicio: <input type="text" name="data_inicial" id="hora_inicial"/>
+				final: <input type="text" name="data_final" id="hora_final"/> </td>
 		</tr>
 		
 		<tr>
 			<td> <h3>Periodo do Hor&aacute;rio</h3> </td>
-			<td>inicio: <input type="time" name="hora_inicial" placeholder="HH:MM:SS" pattern="\d{2}:\d{2}:\d{2}" /> | final: <input type="time" name="hora_final" placeholder="HH:MM:SS" pattern="\d{2}:\d{2}:\d{2}" /> </td>
+			<td>inicio: <input type="text" name="hora_inicial"/>
+				final: <input type="text" name="hora_final"/> </td>
 		</tr>
 		
 		<tr>
@@ -59,6 +61,34 @@
 	</table>
 	</form>
 </div>
+
+	<script type="text/javascript">
+		$(function(){
+			$('#hora_inicial').datepicker({
+				inline: true,
+				//nextText: '&rarr;',
+				//prevText: '&larr;',
+				showOtherMonths: true,
+				dateFormat: 'dd/mm/yy',
+				dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+				//showOn: "button",
+				//buttonImage: "img/calendar-blue.png",
+				//buttonImageOnly: true,
+			});
+			$('#hora_final').datepicker({
+				inline: true,
+				//nextText: '&rarr;',
+				//prevText: '&larr;',
+				showOtherMonths: true,
+				dateFormat: 'dd/mm/yy',
+				dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+				//showOn: "button",
+				//buttonImage: "img/calendar-blue.png",
+				//buttonImageOnly: true,
+			});
+		});
+	</script>
+  
     <script>
     $( "#target" ).submit(function( event ) {
     	 
