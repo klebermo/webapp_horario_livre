@@ -72,8 +72,6 @@ $("#incluir_campo").on("click", function () {
 		else {
 			alert("erro ao incluir campo");
 		}
-	}).fail(function(){
-		alert("falha ao incluir campo");
 	});
 });
 </script>
@@ -92,8 +90,6 @@ $("#excluir_campo_${item_key}").on("click", function () {
 		else {
 			alert("erro ao excluir campo");
 		}
-	}).fail(function(){
-		alert("falha ao excluir campo");
 	});
 });
 </script>
@@ -143,8 +139,6 @@ $("#incluir_tipo").on("click", function () {
 		else {
 			alert("erro ao incluir tipo");
 		}
-	}).fail(function(){
-		alert("falha ao incluir tipo");
 	});
 });
 </script>
@@ -163,8 +157,6 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 		else {
 			alert("erro ao incluir tipo");
 		}
-	}).fail(function(){
-		alert("falha ao excluir tipo");
 	});
 });
 </script>
@@ -209,7 +201,7 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
      			<div class="col-md-3"> Editar autoriza&ccedil;&otilde;es </div>
      			
      			<div class="col-md-6">
-     				<table class="bordered">
+     				<table class="hor-minimalist-a">
 						    <thead>
 							    <tr>    
 							        <th>#</th>
@@ -246,11 +238,12 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
      		</div>
        		
        		<div id="edit_usuario_${item.id}" class="row">
-	        	<div class="col-md-3"> Editar dados </div>
-	       		
+       			<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/altera_usuario"/>" id="target">
+	        	<div class="col-md-3">
+	        		Editar dados de <br/> <i> ${item.primeiroNome} ${item.ultimoNome} </i>
+        		</div>
 	        	<div class="col-md-6">
-					<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/altera_usuario"/>" id="target">
-						<table class="bordered">
+						<table class="hor-minimalist-a">
 						    <thead>
 							    <tr>    
 							        <th>Atributo</th>
@@ -294,16 +287,12 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 								<td><c:out value="${campo}"/>:</td> <td> <input type="text" name="${campo}" value="${atributo[status.index]}" size=20 maxlength=40> </td>
 							</tr>
 							</c:forEach>
-							
-							<tr>
-								<td> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </td>
-								<td> <div class="alert alert-info"> 		<strong>Resultado</strong> <div id="result"></div>	</div> </td>
-							</tr>
 						</table>
-					</form>
 	       		</div>
-       		
-	        	<div class="col-md-3"> Login: ${item.login} </div>
+	        	<div class="col-md-3">
+	        		<button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> <br/> <div id="result"></div>
+        		</div>
+	        	</form>
        		</div>
 		</c:forEach>
 
@@ -330,6 +319,33 @@ function autorizacao(data) {
 	$(div).toggle();
 }
 </script>
+
+    <script>
+    $( "#target" ).submit(function( event ) {
+    	 
+    	  // Stop form from submitting normally
+    	  event.preventDefault();
+    	 
+    	  // Get some values from elements on the page:
+    	  var $form = $( this ),
+    	  	url = $form.attr( "action" );
+    	 
+    	  // Send the data using post
+    	  var posting = $.post( url, $(this).serialize() );
+    	 
+    	  // Put the results in a div
+    	  posting.done(function( data ) {
+    		  if(data == "yes")
+    			  $( "#result" ).empty().append( "Usu&aacute;rio atualizado com sucesso" );
+    		  else
+    			  $( "#result" ).empty().append( "Usu&aacute;rio n&atilde;o atualizado" );
+    		  
+    		  $("#target").each (function(){
+    			  this.reset();
+    		  });
+    	  });
+    	});
+    </script>
 
 </body>
 </html>

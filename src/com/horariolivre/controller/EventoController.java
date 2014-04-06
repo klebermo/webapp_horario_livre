@@ -62,21 +62,6 @@ public class EventoController {
 		return saida;
 	}
 	
-	@RequestMapping(value="remove_evento", method=RequestMethod.GET)
-	@ResponseBody
-	public String remove_evento(@RequestParam("id") String id_evento_apagar) {
-		String saida = new String();
-		int id_evento = Integer.valueOf(id_evento_apagar).intValue();
-		
-		if(evento.remove(evento.getEvento(id_evento))) {
-			saida = "yes";
-		}
-		else {
-			saida = "not";
-		}
-		return saida;
-	}
-	
 	@RequestMapping(value="altera_evento", method=RequestMethod.POST)
 	@ResponseBody
 	public String altera_evento(@RequestParam("id") String id_evento_alterar, @RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") Date dataInicial, @RequestParam("data_final") Date dataFinal, @RequestParam("hora_inicial") Time horaInicial, @RequestParam("hora_final") Time horaFinal, @RequestParam("duracao") String duracao) {
@@ -92,6 +77,21 @@ public class EventoController {
 		altera.setDuracao(Integer.valueOf(duracao).intValue());
 		
 		if(evento.altera(altera)) {
+			saida = "yes";
+		}
+		else {
+			saida = "not";
+		}
+		return saida;
+	}
+	
+	@RequestMapping(value="remove_evento", method=RequestMethod.GET)
+	@ResponseBody
+	public String remove_evento(@RequestParam("id") String id_evento_apagar) {
+		String saida = new String();
+		int id_evento = Integer.valueOf(id_evento_apagar).intValue();
+		
+		if(evento.remove(evento.getEvento(id_evento))) {
 			saida = "yes";
 		}
 		else {

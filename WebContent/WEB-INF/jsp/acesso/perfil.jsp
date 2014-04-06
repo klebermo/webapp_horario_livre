@@ -13,7 +13,7 @@
 </div>
       
 <div class="container">
-	<form method="post" action="<c:out value="${pageContext.request.contextPath}/acesso/salvar_perfil"/>" id="target">
+	<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/salva_perfil"/>" id="target">
 			<table class="hor-minimalist-a">
 				    <thead>
 				    <tr>    
@@ -51,9 +51,9 @@
 						</select> </td>
 					</tr>
 					
-					<c:forEach var="campo" items="${chave}">
+					<c:forEach var="campo" items="${chave}" varStatus="status">
 						<tr>
-							<td>${campo}:</td> <td> <input type="text" name="${campo}" size=20 maxlength=40> </td>
+							<td>${campo}:</td> <td> <input type="text" name="${campo}" value="${value[status.index]}" size=20 maxlength=40> </td>
 						</tr>
 					</c:forEach>
 					

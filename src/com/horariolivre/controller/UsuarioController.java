@@ -115,14 +115,14 @@ public class UsuarioController {
 	
 	@RequestMapping(value="altera_usuario", method=RequestMethod.POST)
 	@ResponseBody
-	public String altera_usuario(@ModelAttribute("username") String username, @RequestParam("id_usuario") String id_usuario_alterar, @RequestParam("login") String login, @RequestParam("senha") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
+	public String altera_usuario(@ModelAttribute("username") String username, @RequestParam("id") String id_usuario_alterar, @RequestParam("login") String login, @RequestParam("senha1") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
 		String saida = new String();
 		
-		int id_usuario = usuario.getUsuarioByUsername(username).getId();
+		Usuario user = usuario.getUsuarioByUsername(username);
 
-		if(usuario.temAutorizacaoCadastro(id_usuario)) {
+		if(usuario.temAutorizacaoCadastro(user.getId())) {
 			Usuario altera = usuario.getUsuarioById(Integer.valueOf(id_usuario_alterar).intValue());
-			altera.setLogin(login);
+			
 			altera.setSenha(senha);
 			altera.setPrimeiroNome(pnome);
 			altera.setUltimoNome(unome);
@@ -188,7 +188,7 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value="salva_perfil", method=RequestMethod.POST)
-	public String salva_perfil(@ModelAttribute("username") String username, @RequestParam("senha") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
+	public String salva_perfil(@ModelAttribute("username") String username, @RequestParam("senha1") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
 		String saida = new String();
 		
 		Usuario altera = usuario.getUsuarioByUsername(username);
