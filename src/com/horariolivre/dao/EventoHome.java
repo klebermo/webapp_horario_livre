@@ -57,6 +57,7 @@ public class EventoHome {
 		}
 	}
 
+	@Transactional
 	public Evento merge(Evento detachedInstance) {
 		log.debug("merging Evento instance");
 		try {

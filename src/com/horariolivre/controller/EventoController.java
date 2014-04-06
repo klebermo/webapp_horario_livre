@@ -64,16 +64,16 @@ public class EventoController {
 	
 	@RequestMapping(value="altera_evento", method=RequestMethod.POST)
 	@ResponseBody
-	public String altera_evento(@RequestParam("id") String id_evento_alterar, @RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") Date dataInicial, @RequestParam("data_final") Date dataFinal, @RequestParam("hora_inicial") Time horaInicial, @RequestParam("hora_final") Time horaFinal, @RequestParam("duracao") String duracao) {
+	public String altera_evento(@RequestParam("id") String id_evento_alterar, @RequestParam("nome") String nome, @RequestParam("descricao") String descricao, @RequestParam("data_inicial") String dataInicial, @RequestParam("data_final") String dataFinal, @RequestParam("hora_inicial") String horaInicial, @RequestParam("hora_final") String horaFinal, @RequestParam("duracao") String duracao) {
 		String saida = new String();
 		
 		Evento altera = evento.getEvento(Integer.valueOf(id_evento_alterar).intValue());
 		altera.setNome(nome);
 		altera.setDescricao(descricao);
-		altera.setDataInicial(dataInicial);
-		altera.setDataFinal(dataFinal);
-		altera.setHoraInicial(horaInicial);
-		altera.setHoraFinal(horaFinal);
+		altera.setDataInicial(parseDate(dataInicial));
+		altera.setDataFinal(parseDate(dataFinal));
+		altera.setHoraInicial(parseTime(horaInicial));
+		altera.setHoraFinal(parseTime(horaFinal));
 		altera.setDuracao(Integer.valueOf(duracao).intValue());
 		
 		if(evento.altera(altera)) {

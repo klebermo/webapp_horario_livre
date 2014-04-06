@@ -10,6 +10,7 @@ import com.horariolivre.dao.AutorizacaoHome;
 import com.horariolivre.dao.ConfigHorarioLivreHome;
 import com.horariolivre.dao.UsuarioHome;
 import com.horariolivre.entity.Autorizacao;
+import com.horariolivre.entity.ConfigHorarioLivre;
 import com.horariolivre.entity.Tipo;
 import com.horariolivre.entity.Usuario;
 
@@ -40,8 +41,18 @@ public class UsuarioService {
 		return false;
 	}
 	
-	public boolean salva_config(Time horaInicial, Time horaFinal) {
-		return false;
+	public boolean salva_config(Time horaInicial, Time horaFinal, Usuario user) {
+		ConfigHorarioLivre config_horario = new ConfigHorarioLivre(horaInicial, horaFinal);
+		if(config.persist(config_horario)) {
+			user.setConfig(config_horario);
+			if(usuario.merge(user) != null)
+				return true;
+			else
+				return false;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public List<Usuario> lista() {

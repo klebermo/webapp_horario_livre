@@ -10,90 +10,13 @@
 
 <h1>Intervalos</h1>
 
-<form method="POST" action="<c:out value="${pageContext.request.contextPath}/acesso/salvar_config"/>">
+<form method="POST" action="<c:out value="${pageContext.request.contextPath}/usuario/salvar_config"/>">
 <p>Para qual intervalo do dia você deseja cadastrar horários?</p>
 
 <table>
 <tr>
-<td>In&iacute;cio:
-<div class="bfh-timepicker open">
-	<div class="input-group bfh-timepicker-toggle" data-toggle="bfh-timepicker">
-		<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-		<input type="text" name="hora_inicial" class="form-control" placeholder="" readonly="">
-	</div>
-	<div class="bfh-timepicker-popover">
-		<table class="table">
-			<tbody>
-				<tr>
-					<td class="hour">
-						<div class="input-group">
-							<input type="text" class="form-control bfh-number" data-min="0" data-max="23" data-zeros="true" data-wrap="true">
-							<span class="input-group-addon bfh-number-btn inc">
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</span>
-							<span class="input-group-addon bfh-number-btn dec">
-								<span class="glyphicon glyphicon-chevron-down"></span>
-							</span>
-						</div>
-					</td>
-					<td class="separator">:</td>
-					<td class="minute">
-						<div class="input-group">
-							<input type="text" class="form-control bfh-number" data-min="0" data-max="59" data-zeros="true" data-wrap="true">
-							<span class="input-group-addon bfh-number-btn inc">
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</span>
-							<span class="input-group-addon bfh-number-btn dec">
-								<span class="glyphicon glyphicon-chevron-down"></span>
-							</span>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</div>
-</td>
-
-<td> Final:
-<div class="bfh-timepicker open">
-	<div class="input-group bfh-timepicker-toggle" data-toggle="bfh-timepicker">
-		<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-		<input type="text" name="hora_final" class="form-control" placeholder="" readonly="">
-	</div>
-	<div class="bfh-timepicker-popover">
-		<table class="table">
-			<tbody>
-				<tr>
-					<td class="hour">
-						<div class="input-group">
-							<input type="text" class="form-control bfh-number" data-min="0" data-max="23" data-zeros="true" data-wrap="true">
-							<span class="input-group-addon bfh-number-btn inc">
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</span>
-							<span class="input-group-addon bfh-number-btn dec">
-								<span class="glyphicon glyphicon-chevron-down"></span>
-							</span>
-						</div>
-					</td>
-					<td class="separator">:</td>
-					<td class="minute">
-						<div class="input-group">
-							<input type="text" class="form-control bfh-number" data-min="0" data-max="59" data-zeros="true" data-wrap="true">
-							<span class="input-group-addon bfh-number-btn inc">
-								<span class="glyphicon glyphicon-chevron-up"></span>
-							</span>
-							<span class="input-group-addon bfh-number-btn dec">
-								<span class="glyphicon glyphicon-chevron-down"></span>
-							</span>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</div>
-</td>
+	<td>inicio: <input type="text" name="hora_inicial" id="hora_inicial"/> </td>
+	<td> final: <input type="text" name="hora_final" id="hora_final"/> </td>
 </tr>
 </table>
 
@@ -103,6 +26,26 @@
 
 
 <div id="result"></div>
+
+	<script type="text/javascript">
+		$(function(){
+			$('#data_inicial').datepicker({
+				inline: true,
+				showOtherMonths: true,
+				dateFormat: 'dd/mm/yy',
+				dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+
+			});
+			$('#data_final').datepicker({
+				inline: true,
+				showOtherMonths: true,
+				dateFormat: 'dd/mm/yy',
+				dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+			});
+			$('#hora_inicial').timepicker();
+			$('#hora_final').timepicker();
+		});
+	</script>
     
     <script>
     $( "#target" ).submit(function( event ) {
@@ -119,8 +62,6 @@
     	 
     	  // Put the results in a div
     	  posting.done(function( data ) {
-    		  alert("done submit salva_config: "+data);
-    		  
     		  if(data == 1)
     			  $( "#result" ).empty().append( "Configura&ccedil;&otilde;es salvas com sucesso" );
     		  else
@@ -129,9 +70,6 @@
     		  $("#target").each (function(){
     			  this.reset();
     		  });
-    	  });
-    	  posting.fail(function( data ) {
-    		  alert("fail submit salva_config: "+data);
     	  });
     	});
     </script>

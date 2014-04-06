@@ -44,7 +44,7 @@ public class Atributo implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="fk_key")
 	public Key getKey() {
 		return key;

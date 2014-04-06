@@ -223,17 +223,17 @@ public class UsuarioController {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/acesso/config");
-		mav.addObject("usuario", user);
 		mav.addObject("config", user.getConfig());
 		
 		return mav;
 	}
 	
 	@RequestMapping(value="salvar_config", method=RequestMethod.POST)
+	@ResponseBody
 	public String salvar_config(@ModelAttribute("username") String username, @RequestParam("hora_inicial") String horaInicial, @RequestParam("hora_final") String horaFinal) {
 		String saida = new String();
 		
-		if (usuario.salva_config(parseTime(horaInicial), parseTime(horaFinal)))
+		if (usuario.salva_config(parseTime(horaInicial), parseTime(horaFinal), usuario.getUsuarioByUsername(username)))
 			saida = "yes";
 		else
 			saida = "not";

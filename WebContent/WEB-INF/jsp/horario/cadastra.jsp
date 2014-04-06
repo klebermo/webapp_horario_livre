@@ -4,19 +4,53 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="<c:out value="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/starter-template.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/table.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/dialog.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
-
+<title>Cadastra Hor&aacute;rios Livres</title>
 </head>
 <body>
-cadastra_horario
+
+<table id="hor-zebra" border = 2>
+
+<tr>
+	<th>  </th>
+	<c:forEach var="item" items="${lista_data}">
+	    <th> <c:out value="${item}"/> </th>
+	</c:forEach>
+</tr>
+
+<c:forEach var="item2" items="${lista_hora}">
+<tr>
+	<td>
+		<c:out value="${item2}"/>
+	</td>
+	
+	<c:forEach var="item" items="${lista_data}">
+    <td>
+          	<c:set var="isChecked" value="${false}"/>
+          	<c:forEach var="user" items="${lista_horarios}">
+                <c:if test="${item2 == user.hora && item == user.data}">
+                		<c:set var="isChecked" value="${true}"/>
+                </c:if>
+    		</c:forEach>
+    		
+	    	<input type="checkbox" <c:if test="${isChecked==true}">checked="checked"</c:if> id="cb_001_${item}_${item2}">
+	    	
+		    <script>
+				$("#cb_001_${item}_${item2}").click(function(){
+					$.ajax({
+						  url: "<c:out value="${pageContext.request.contextPath}/horario/toggle_horario"/>",
+						  data: { data: "${item}", hora: "${item2}" },
+						  cache: false
+						}).done(function(data) {
+							$("#result_1").empty().append( data );
+						});
+				});
+		    </script>	    
+    </td>
+	</c:forEach>
+</tr>
+</c:forEach>
+
+</table>
+
 </body>
 </html>

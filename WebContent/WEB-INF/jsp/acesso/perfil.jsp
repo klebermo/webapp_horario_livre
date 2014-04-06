@@ -13,6 +13,38 @@
 </div>
       
 <div class="container">
+
+<table>
+<tr>
+			<table id="hor-minimalist-a">
+				    <thead>
+				    <tr>    
+				        <th colspan=2><div align="center"><h2>Dados de <strong>${usuario.login}</strong></h2></div></th>
+				    </tr>
+				    </thead>
+					
+					<tbody>
+					<tr>
+						<th> Primeiro Nome: </th> <td> ${usuario.primeiroNome} </td>
+					</tr>
+					
+					<tr>
+						<th> Ultimo Nome: </th> <td> ${usuario.ultimoNome} </td>
+					</tr>
+					
+					<tr>
+						<th> Tipo: </th> <td> ${usuario.tipo.nome} </td>
+					</tr>
+					
+					<c:forEach var="campo" items="${chave}" varStatus="status">
+						<tr>
+							<th>${campo}:</th> <td> ${value[status.index]} </td>
+						</tr>
+					</c:forEach>
+					</tbody>
+			</table>
+</tr>
+<tr>
 	<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/salva_perfil"/>" id="target">
 			<table id="hor-minimalist-a">
 				    <thead>
@@ -58,11 +90,14 @@
 					</c:forEach>
 					
 					<tr>
-						<td> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </td>
+						<td> <button type="submit" class="btn btn-lg btn-primary">Salvar</button> </td>
 						<td> <div id="result"></div> </td>
 					</tr>
 			</table>
 	</form>
+</tr>
+</table>
+
 </div>
 
     <script>

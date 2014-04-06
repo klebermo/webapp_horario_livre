@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,6 +83,20 @@ public class HorarioLivreHome {
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<HorarioLivre> findByExample(HorarioLivre instance) {
+		log.debug("finding HorarioLivre instance by example");
+		try {
+			List<HorarioLivre> results = sessionFactory.getCurrentSession().createCriteria(HorarioLivre.class).add(Example.create(instance)).list();
+			log.debug("find by example successful, result size: " + results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			return null;
 		}
 	}
 	

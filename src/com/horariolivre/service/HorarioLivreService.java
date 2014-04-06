@@ -30,13 +30,43 @@ public class HorarioLivreService {
 		return horariolivre.remove(horario);
 	}
 	
-	public boolean altera(HorarioLivre horario) {
-		if( horariolivre.merge(horario) != null )
+	public boolean existe(Date data, Time hora, String username) {
+		if(horariolivre.findByExample(new HorarioLivre(data, hora, this.getUsuarioByUsername(username))) != null)
 			return true;
 		return false;
 	}
-	
 	public List<HorarioLivre> lista(int id_usuario) {
 		return horariolivre.findByUsuario(usuario.findById(id_usuario));
 	}
+	
+	public Usuario getUsuarioById(int id_usuario) {
+		return usuario.findById(id_usuario);
+	}
+	
+	public Usuario getUsuarioByUsername(String username) {
+		return usuario.findByUsername(username);
+	}
+	
+	public boolean temAutorizacaoCadastro(int id_usuario) {
+		Usuario novo = usuario.findById(id_usuario);
+		
+		for(int i=0; i<novo.getAutorizacao().size(); i++) {
+			if(novo.getAutorizacao().get(i).getNome().equals("cad_horario"))
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean temAutorizacaoListagem(int id_usuario) {
+		Usuario novo = usuario.findById(id_usuario);
+		
+		for(int i=0; i<novo.getAutorizacao().size(); i++) {
+			if(novo.getAutorizacao().get(i).getNome().equals("lista_horario"))
+				return true;
+		}
+		
+		return false;
+	}
+	
 }
