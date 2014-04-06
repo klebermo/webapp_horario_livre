@@ -39,14 +39,12 @@
 		
 		<tr>
 			<td> <h3>Periodo da Data</h3> </td>
-			<td>inicio: <input type="text" name="data_inicial" id="hora_inicial"/>
-				final: <input type="text" name="data_final" id="hora_final"/> </td>
+			<td>inicio: <input type="text" name="data_inicial" id="data_inicial"/> final: <input type="text" name="data_final" id="data_final"/> </td>
 		</tr>
 		
 		<tr>
 			<td> <h3>Periodo do Hor&aacute;rio</h3> </td>
-			<td>inicio: <input type="text" name="hora_inicial"/>
-				final: <input type="text" name="hora_final"/> </td>
+			<td>inicio: <input type="text" name="hora_inicial" class="hora_inicial"/> final: <input type="text" name="hora_final" class="hora_final"/> </td>
 		</tr>
 		
 		<tr>
@@ -64,27 +62,30 @@
 
 	<script type="text/javascript">
 		$(function(){
-			$('#hora_inicial').datepicker({
+			$('#data_inicial').datepicker({
 				inline: true,
-				//nextText: '&rarr;',
-				//prevText: '&larr;',
 				showOtherMonths: true,
 				dateFormat: 'dd/mm/yy',
 				dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-				//showOn: "button",
-				//buttonImage: "img/calendar-blue.png",
-				//buttonImageOnly: true,
+
 			});
-			$('#hora_final').datepicker({
+			$('#data_final').datepicker({
 				inline: true,
-				//nextText: '&rarr;',
-				//prevText: '&larr;',
 				showOtherMonths: true,
 				dateFormat: 'dd/mm/yy',
 				dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-				//showOn: "button",
-				//buttonImage: "img/calendar-blue.png",
-				//buttonImageOnly: true,
+			});
+			$('input.hora_inicial').timepicker({
+				timeFormat: "HH:mm",
+				interval: 10,
+				dropdown: true,
+				scrollbar: false
+			});
+			$('input.hora_final').timepicker({
+				timeFormat: "HH:mm",
+				interval: 10,
+				dropdown: true,
+				scrollbar: false
 			});
 		});
 	</script>

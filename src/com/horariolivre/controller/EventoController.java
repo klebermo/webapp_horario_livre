@@ -118,7 +118,7 @@ public class EventoController {
 	}
 	
 	private Date parseDate(String data) {
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");  
+		SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");  
 		Date d_inicio = new Date(0);
 		try {
 			d_inicio = new Date(format1.parse(data).getTime());
