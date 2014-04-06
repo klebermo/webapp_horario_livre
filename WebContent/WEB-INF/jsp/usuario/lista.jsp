@@ -10,9 +10,9 @@
 
 <script>
 $(document).ready(function(){
-	$("#edit_campos").hide();
-	$("#edit_tipos").hide();
-})
+	$(".campos").hide();
+	$(".tipos").hide();
+});
 </script>
 <c:forEach var="item" items="${usuarios}">
 <script>
@@ -29,7 +29,7 @@ $(document).ready(function(){
 </p>
 
 <p>
-	<table class="bordered campos" id="edit_campos">
+	<table id="hor-minimalist-a" class="campos">
 	  <thead>
 	  <tr>    
 	      <th>Campo</th>
@@ -100,7 +100,7 @@ $("#excluir_campo_${item_key}").on("click", function () {
 </c:forEach>
 
 <p>
-	<table class="bordered tipos" id="edit_tipos">
+	<table id="hor-minimalist-a" class="tipos">
 	  <thead>
 	  <tr>    
 	      <th>Tipo</th>
@@ -309,11 +309,11 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 
 <script>
 function edit_campos() {
-	$("#edit_campos").toggle();
+	$(".campos").toggle();
 }
 
 function edit_tipos() {
-	$("#edit_tipos").toggle();
+	$(".tipos").toggle();
 }
 
 function editar(data) {

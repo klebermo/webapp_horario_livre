@@ -96,8 +96,8 @@
     <script src="<c:out value="${pageContext.request.contextPath}/jquery/js/jquery-ui-1.10.4.custom.min.js"/>"></script>
     <script src="<c:out value="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"/>"></script>
     <script src="<c:out value="${pageContext.request.contextPath}/bootstrap/js/bootstrap-formhelpers.min.js"/>"></script>
-    <script src="<c:out value="${pageContext.request.contextPath}/extra/js/jquery-ui-timepicker-addon.min.js"/>"></script>
-    <script src="<c:out value="${pageContext.request.contextPath}/extra/js/jquery-ui-sliderAccess.js"/>"></script>
+    <script src="<c:out value="${pageContext.request.contextPath}/extras/js/jquery-ui-timepicker-addon.js"/>"></script>
+    <script src="<c:out value="${pageContext.request.contextPath}/extras/js/jquery-ui-sliderAccess.js"/>"></script>
     
     <script>
     $('document').ready(function(){

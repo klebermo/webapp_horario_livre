@@ -14,7 +14,7 @@
       
 <div class="container">
 	<form method="post" action="<c:out value="${pageContext.request.contextPath}/acesso/salvar_perfil"/>" id="target">
-			<table class="bordered">
+			<table class="hor-minimalist-a">
 				    <thead>
 				    <tr>    
 				        <th>Atributo</th>
@@ -59,7 +59,7 @@
 					
 					<tr>
 						<td> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </td>
-						<td> <div class="alert alert-info"> <strong>Resultado</strong> <div id="result"></div> </div> </td>
+						<td> <div id="result"></div> </td>
 					</tr>
 			</table>
 	</form>
@@ -80,8 +80,6 @@
     	 
     	  // Put the results in a div
     	  posting.done(function( data ) {
-    		  alert("done submit salva_perfil: "+data);
-    		  
     		  if(data == 1)
     			  $( "#result" ).empty().append( "Perfil salvo com sucesso" );
     		  else
@@ -90,9 +88,6 @@
     		  $("#target").each (function(){
     			  this.reset();
     		  });
-    	  });
-    	  posting.fail(function( data ) {
-    		  alert("fail submit salva_perfil: "+data);
     	  });
     	});
     </script>

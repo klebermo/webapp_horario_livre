@@ -14,43 +14,65 @@
 
 <div class="container">
 	<form method="post" action="<c:out value="${pageContext.request.contextPath}/evento/cadastra_evento"/>" id="target">
-	<dic class="Table">
-	    <div class="Title">
-	    <div class="Row">    
-	        <div class="Cell">Atributo</div>
-	        <div class="Cell">Valor</div>
-	    </div>
-	    </div>
-	    <div class="Row">
-	    	<div class="Cell"> Nome: </div>
-			<div class="Cell"><input type="text" name="nome" size=20 maxlength=40> </div>
-		</div>
+	<table id="hor-minimalist-a">
+	    <thead>
+	    <tr>    
+	        <th>Atributo</th>
+	        <th>Valor</th>
+	    </tr>
+	    </thead>
+	    <tfoot>
+	    <tr>
+	    	<td></td>
+	    	<td></td>
+	    </tr>
+	    </tfoot>
+	    <tbody>
+	    <tr>
+	    	<td> Nome: </td>
+			<td><input type="text" name="nome" size=20 maxlength=40> </td>
+		</tr>
 		
-		<div class="Row">
-			<div class="Cell"> Descri&ccedil;&atilde;o: </div>
-			<div class="Cell"><input type="text" name="descricao" size=30 maxlength=100> </div>
-		</div>
+		<tr>
+			<td> Descri&ccedil;&atilde;o: </td>
+			<td><input type="text" name="descricao" size=30 maxlength=100> </tdv>
+		</td>
 		
-		<div class="Row">
-			<div class="Cell"> <h3>Periodo da Data</h3> </div>
-			<div class="Cell">inicio: <input type="text" name="data_inicial" id="data_inicial"/> final: <input type="text" name="data_final" id="data_final"/> </div>
-		</div>
+		<tr>
+			<td> <h3>Periodo da Data</h3> </td>
+			<td>
+				<table>
+					<tr>
+						<td>inicio: <input type="text" name="data_inicial" id="data_inicial"/> </td>
+						<td>final: <input type="text" name="data_final" id="data_final"/> </td>
+					</tr>
+				</table>
+			</td>
+		</tr>
 		
-		<div class="Row">
-			<div class="Cell"> <h3>Periodo do Hor&aacute;rio</h3> </div>
-			<div class="Cell">inicio: <input type="text" name="hora_inicial" id="hora_inicial"/> final: <input type="text" name="hora_final" id="hora_final"/> </div>
-		</div>
+		<tr>
+			<td> <h3>Periodo do Hor&aacute;rio</h3> </td>
+			<td>
+				<table>
+					<tr>
+						<td>inicio: <input type="text" name="hora_inicial" id="hora_inicial"/> </td>
+						<td> final: <input type="text" name="hora_final" id="hora_final"/> </td>
+					</tr>
+				</table>
+			</td>
+		</tr>
 		
-		<div class="Row">
-			<div class="Cell"> Dura&ccedil;&atilde;o: </div>
-			<div class="Cell"><input type="text" name="duracao" size=20 maxlength=2> Minutos </div>
-		</div>
+		<tr>
+			<td> Dura&ccedil;&atilde;o: </td>
+			<td><input type="text" name="duracao" size=20 maxlength=2> Minutos </td>
+		</tr>
 		
-		<div class="Row">
-			<div class="Cell"> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </div>
-			<div class="Cell"> <div id="result"> </div> </div>
-		</div>
-	</div>
+		<tr>
+			<td> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </td>
+			<td> <div id="result"> </div> </td>
+		</tr>
+		</tbody>
+	</table>
 	</form>
 </div>
 
@@ -89,9 +111,7 @@
     	 
     	  // Put the results in a div
     	  posting.done(function( data ) {
-    		  alert("done submit cadastro_evento: "+data);
-    		  
-    		  if(data == 1)
+    		  if(data == "yes")
     			  $( "#result" ).empty().append( "Evento cadastrado com sucesso" );
     		  else
     			  $( "#result" ).empty().append( "Evento n&atilde;o cadastrado" );
@@ -99,9 +119,6 @@
     		  $("#target").each (function(){
     			  this.reset();
     		  });
-    	  });
-    	  posting.fail(function( data ) {
-    		  alert("fail submit cadastra_evento: "+data);
     	  });
     	});
     </script>

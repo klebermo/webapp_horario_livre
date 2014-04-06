@@ -9,7 +9,7 @@
 <body>
 
 	<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/cadastra_usuario"/>" id="target">
-			<table class="bordered">
+			<table id="hor-minimalist-a">
 				    <thead>
 				    <tr>    
 				        <th>Atributo</th>
@@ -78,8 +78,6 @@
     	 
     	  // Put the results in a div
     	  posting.done(function( data ) {
-    		  alert("done submit cadastro_usuario: "+data);
-    		  
     		  if(data == "yes")
     			  $( "#result" ).empty().append( "Usuario cadastrado com sucesso" );
     		  else
@@ -88,9 +86,6 @@
     		  $('#target').each (function(){
     			  this.reset();
     		  });
-    	  });
-    	  posting.fail(function( data ) {
-    		  alert("fail submit cadastra_evento: "+data);
     	  });
     	});
     </script>
