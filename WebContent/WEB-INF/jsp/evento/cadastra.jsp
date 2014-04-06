@@ -44,7 +44,7 @@
 		
 		<tr>
 			<td> <h3>Periodo do Hor&aacute;rio</h3> </td>
-			<td>inicio: <input type="text" name="hora_inicial" class="hora_inicial"/> final: <input type="text" name="hora_final" class="hora_final"/> </td>
+			<td>inicio: <input type="text" name="hora_inicial"/> final: <input type="text" name="hora_final"/> </td>
 		</tr>
 		
 		<tr>
@@ -74,18 +74,6 @@
 				showOtherMonths: true,
 				dateFormat: 'dd/mm/yy',
 				dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-			});
-			$('input.hora_inicial').timepicker({
-				timeFormat: "HH:mm",
-				interval: 10,
-				dropdown: true,
-				scrollbar: false
-			});
-			$('input.hora_final').timepicker({
-				timeFormat: "HH:mm",
-				interval: 10,
-				dropdown: true,
-				scrollbar: false
 			});
 		});
 	</script>
