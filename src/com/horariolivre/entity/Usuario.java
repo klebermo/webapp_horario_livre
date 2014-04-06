@@ -115,7 +115,7 @@ public class Usuario implements java.io.Serializable {
 		this.ultimoNome = ultimoNome;
 	}
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="fk_tipo")
 	public Tipo getTipo() {
 		return tipo;
@@ -136,7 +136,7 @@ public class Usuario implements java.io.Serializable {
 		this.atributo = atributo;
 	}
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="fk_config")
 	public ConfigHorarioLivre getConfig() {
 		return config;

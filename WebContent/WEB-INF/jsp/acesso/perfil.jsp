@@ -14,7 +14,7 @@
       
 <div class="container">
 	<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/salva_perfil"/>" id="target">
-			<table class="hor-minimalist-a">
+			<table id="hor-minimalist-a">
 				    <thead>
 				    <tr>    
 				        <th>Atributo</th>
@@ -46,7 +46,7 @@
 					<tr>
 						<td> Tipo: </td> <td> <select name="tipo">
 							<c:forEach var="tipos" items="${tipos}">
-								<option value=<c:out value="${tipos.id}"/> > <c:out value="${tipos.nome}"/> </option>
+								<option value=<c:out value="${tipos.nome}"/> > <c:out value="${tipos.nome}"/> </option>
 						    </c:forEach>
 						</select> </td>
 					</tr>

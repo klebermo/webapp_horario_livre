@@ -44,7 +44,7 @@ public class Atributo implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	@OneToOne(cascade=CascadeType.MERGE)
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="fk_key")
 	public Key getKey() {
 		return key;
@@ -54,7 +54,7 @@ public class Atributo implements java.io.Serializable {
 		this.key = key;
 	}
 	
-	@OneToOne(cascade=CascadeType.PERSIST)
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="fk_value")
 	public Value getValue() {
 		return value;
