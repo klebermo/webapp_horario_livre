@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.horariolivre.entity.Key;
 import com.horariolivre.service.AtributoService;
 
 @Controller
@@ -23,13 +24,14 @@ public class KeyValueController {
 	@ResponseBody
 	public String cadastra_campo(@ModelAttribute("username") String username, @RequestParam("nome") String campo) {
 		if(key.temAutorizacao(key.getUsuarioByUsername(username).getId())) {
-			if(key.cadastra(campo))
-				return "yes";
+			Key retorno = key.cadastra(campo);
+			if(retorno != null)
+				return campo;
 			else
-				return "not";
+				return "";
 		}
 		else {
-			return "no_permit";
+			return "";
 		}
 	}
 	

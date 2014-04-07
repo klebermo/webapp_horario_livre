@@ -19,12 +19,16 @@ public class TipoService {
 	@Autowired
 	private TipoHome tipo;
 	
-	public boolean cadastra(String tipoUsuario) {
-		return tipo.persist(new Tipo(tipoUsuario));
+	public Tipo cadastra(String tipoUsuario) {
+		Tipo tipoUser = new Tipo(tipoUsuario);
+		if(tipo.persist(tipoUser))
+			return tipoUser;
+		else
+			return null;
 	}
 	
 	public boolean remover(String tipoUsuario) {
-		return tipo.remove(new Tipo(tipoUsuario));
+		return tipo.remove(this.tipo.findById(Integer.valueOf(tipoUsuario).intValue()));
 	}
 	
 	public List<Tipo> listaTipos() {

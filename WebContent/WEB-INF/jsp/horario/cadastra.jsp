@@ -30,9 +30,11 @@
 	<c:forEach var="item" items="${lista_data}">
     <td>
           	<c:set var="isChecked" value="${false}"/>
-          	<c:forEach var="user" items="${lista_horarios_usuario}">
-                <c:if test="${item2 == user.time && item == user.date}">
+          	<c:forEach var="user" items="${lista_horarios}">
+                <c:if test="${item2 == user.hora}">
+                	<c:if test="${item == user.data}">
                 		<c:set var="isChecked" value="${true}"/>
+               		</c:if>
                 </c:if>
     		</c:forEach>
     		

@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 // Generated 24/03/2014 06:49:18 by Hibernate Tools 3.4.0.CR1
 
@@ -41,19 +43,14 @@ public class Usuario implements java.io.Serializable {
 	private List<Autorizacao> autorizacao;
 
 	public Usuario() {
-		System.out.println("Usuario.constructor1");
 	}
 
 	public Usuario(String login, String senha) {
-		System.out.println("Usuario.constructor1");
-		
 		this.setLogin(login);
 		this.setSenha(senha);
 	}
 
 	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, Tipo tipo, String [] key, String [] value) {
-		System.out.println("Usuario.constructor3");
-		
 		if(key.length == value.length) {
 			this.setLogin(login);
 			this.setSenha(senha);
@@ -117,6 +114,7 @@ public class Usuario implements java.io.Serializable {
 
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="fk_tipo")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	public Tipo getTipo() {
 		return tipo;
 	}

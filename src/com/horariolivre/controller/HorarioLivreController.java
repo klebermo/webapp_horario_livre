@@ -41,14 +41,16 @@ public class HorarioLivreController {
 
 	@RequestMapping(value="cadastra")
 	public ModelAndView cadastra(@ModelAttribute("username") String username) {
-		int id_usuario = horariolivre.getUsuarioByUsername(username).getId();
+		Usuario user = horariolivre.getUsuarioByUsername(username);
 		
-		if(horariolivre.temAutorizacaoCadastro(id_usuario)) {
+		if(horariolivre.temAutorizacaoCadastro(user.getId())) {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("horario/cadastra");
-			mav.addObject("lista_data", horariolivre.getListaData());
-			mav.addObject("lista_hora", horariolivre.getListaHora(username));
-			mav.addObject("lista_horarios_usuario", horariolivre.getListaHorarios(username));
+			
+			mav.addObject("lista_data", horariolivre.listaData());
+			mav.addObject("lista_hora", horariolivre.listaHora(username));
+			mav.addObject("lista_horarios", horariolivre.getlistaHorarioUsuario(user));
+			
 			return mav;
 		}
 		else {

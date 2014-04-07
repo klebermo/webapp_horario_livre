@@ -44,6 +44,7 @@ public class TipoHome {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public boolean remove(Tipo persistentInstance) {
 		log.debug("removing Tipo instance");

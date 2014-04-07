@@ -85,7 +85,6 @@ public class UsuarioHome {
 	
 	@Transactional
 	public Usuario findByUsername(String username) {
-		System.out.println("UsuarioHome.findUserByUsername");
 		log.debug("getting Usuario instance with login: " + username);
 		try {
 			Query q = sessionFactory.getCurrentSession().createQuery("from Usuario where login = :name");

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.horariolivre.entity.Tipo;
 import com.horariolivre.service.TipoService;
 
 @Controller
@@ -23,19 +24,20 @@ public class TipoController {
 	@ResponseBody
 	public String cadastra_tipo(@ModelAttribute("username") String username, @RequestParam("nome") String tipoUsuario) {
 		if(tipo.temAutorizacao(tipo.getUsuarioByUsername(username).getId())) {
-			if (tipo.cadastra(tipoUsuario))
-				return "yes";
+			Tipo retorno = tipo.cadastra(tipoUsuario);
+			if(retorno != null)
+				return retorno.getNome();
 			else
-				return "not";
+				return "";
 		}
 		else {
-			return "no_permit";
+			return "";
 		}
 	}
 	
 	@RequestMapping(value="remove_tipo", method=RequestMethod.GET)
 	@ResponseBody
-	public String remove_tipo(@ModelAttribute("username") String username, @RequestParam("nome") String tipoUsuario) {
+	public String remove_tipo(@ModelAttribute("username") String username, @RequestParam("id") String tipoUsuario) {
 		if(tipo.temAutorizacao(tipo.getUsuarioByUsername(username).getId())) {
 			if (tipo.remover(tipoUsuario))
 				return "yes";
@@ -43,7 +45,7 @@ public class TipoController {
 				return "not";
 		}
 		else {
-			return "not_permit";
+			return "no_permit";
 		}
 	}
 	

@@ -27,7 +27,6 @@ public class UsuarioService {
 	private ConfigHorarioLivreHome config;
 		
 	public boolean cadastra(String login, String senha, String primeiroNome, String ultimoNome, Tipo tipoUsuario, String[] key, String[] value) {
-		System.out.println("UsuarioService.cadastra");
 		 return this.usuario.persist(new Usuario(login, senha, primeiroNome, ultimoNome, tipoUsuario, key, value));
 	}
 	

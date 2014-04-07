@@ -59,11 +59,11 @@ $("#incluir_campo").on("click", function () {
 		url: "<c:out value="${pageContext.request.contextPath}/key/cadastra_campo"/>",
 		data: {nome: $("input[name=nome_campo]").val() }
 	}).done(function(data){
-		if(data=="yes") {
-			var newRow = $('<tr id="linha_${item_key}">');
+		if(data.lenght > 0) {
+			var newRow = $('<tr id="linha_'+data+'>');
 			
-			cols = '<td> <input type="text" name="${item_key.nome}" value="${item_key.nome}"> </td>';
-	        cols += '<td> <button type="button" id="excluir_campo_${item_campo}" class="btn btn-link">Excluir</button> </td>';
+			cols = '<td> <input type="text" name="'+data+'" value="'+data+'"> </td>';
+	        cols += '<td> <button type="button" id="excluir_campo_'+data+'" class="btn btn-link">Excluir</button> </td>';
 	        
 	        newRow.append(cols);
 	        $("table.campos").append(newRow);
@@ -84,11 +84,14 @@ $("#excluir_campo_${item_key}").on("click", function () {
 		url: "<c:out value="${pageContext.request.contextPath}/key/remove_campo"/>",
 		data: {nome: "${item_key}"}
 	}).done(function(data){
-		if(data=="yes") {
-			$("linha_${item_campo}").remove();
+		if(data == "yes") {
+			$("linha_${item_key}").remove();
+		}
+		else if(data == "not"){
+			alert("erro ao excluir campo");
 		}
 		else {
-			alert("erro ao excluir campo");
+			alert("usu&aacute;rio sem permiss&aatilde;o de acesso");
 		}
 	});
 });
@@ -111,7 +114,7 @@ $("#excluir_campo_${item_key}").on("click", function () {
 	  </tfoot>
 	  
 	  <c:forEach var="item_tipo" items="${tipos}">
-	  <tr id="linha_${item_tipo.id}">
+	  <tr id="linha_${item_tipo.nome}">
 		<td> <input type="text" name="${item_tipo.nome}" value="${item_tipo.nome}"> </td>
 		<td> <button type="button" id="excluir_tipo_${item_tipo.id}" class="btn btn-link">Excluir</button> </td>
 	  </tr>
@@ -126,15 +129,15 @@ $("#incluir_tipo").on("click", function () {
 		url: "<c:out value="${pageContext.request.contextPath}/tipo/cadastra_tipo"/>",
 		data: {nome: $("input[name=nome_tipo]").val() }
 	}).done(function(data){
-		if(data=="yes") {
-			var newRow = $("<tr>");
+		if(data.lenght > 0) {
+			var newRow = $('<tr id="linha_'+data+'>');
 			
-			cols = '<td> <input type="text" name="${item_tipo.nome}" value="${item_tipo.nome}"> </td>';
-	        cols += '<td> <button type="button" id="excluir_tipo" class="btn btn-link">Excluir</button> </td>';
+			cols = '<td> <input type="text" name="'+data+'" value="'+data+'"> </td>';
+	        cols += '<td> <button type="button" id="excluir_tipo_'+data+'" class="btn btn-link">Excluir</button> </td>';
 	        
 	        newRow.append(cols);
-	        $("table.tipos").append(newRow);
-	        $("input[name=nome_tipo]").val("");
+	        $("table.campos").append(newRow);
+	        $("input[name=nome_campo]").val("");
 		}
 		else {
 			alert("erro ao incluir tipo");
@@ -149,13 +152,16 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 	$.ajax({
 		type: "GET",
 		url: "<c:out value="${pageContext.request.contextPath}/tipo/remove_tipo"/>",
-		data: {nome: "${item_tipo.nome}"}
+		data: {id: "${item_tipo.id}"}
 	}).done(function(data){
-		if(data=="yes") {
+		if(data == "yes") {
 			$("linha_${item_tipo.id}").remove();
 		}
+		else if(data == "not"){
+			alert("n&aatilde;o foi possivel remover o tipo ${item_tipo.nome}");
+		}
 		else {
-			alert("erro ao incluir tipo");
+			alert("usu&aacute;rio sem permiss&aatilde;o de acesso");
 		}
 	});
 });
