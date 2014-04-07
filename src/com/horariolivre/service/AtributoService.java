@@ -86,4 +86,43 @@ public class AtributoService {
 		
 		return false;
 	}
+	
+	public class json_node {
+		private Key key;
+		public Key getKey() {
+			return key;
+		}
+		public void setKey(Key key) {
+			this.key = key;
+		}
+		public String get() {
+			return "\""+key.getId()+"\":\""+key.getNome()+"\"";
+		}
+	}
+	
+	public class json_list {
+		private List<Atributo> lista;
+
+		public List<Atributo> getLista() {
+			return lista;
+		}
+
+		public void setLista(List<Atributo> lista) {
+			this.lista = lista;
+		}
+		
+		public String get() {
+			int max = lista.size();
+			String json = "{";
+			for(int i=0; i<max-1; i++) {
+				json_node temp = new json_node();
+				temp.setKey(lista.get(i).getKey());
+				json = json + temp.get() + ",";
+			}
+			json_node temp = new json_node();
+			temp.setKey(lista.get(max-1).getKey());
+			json = json + temp.get() + "}";
+			return json;
+		}
+	}
 }

@@ -49,4 +49,46 @@ public class TipoService {
 		
 		return false;
 	}
+	
+	public class json_node {
+		private Tipo tipo;
+
+		public Tipo getTipo() {
+			return tipo;
+		}
+
+		public void setTipo(Tipo tipo) {
+			this.tipo = tipo;
+		}
+		
+		public String get() {
+			return "\""+tipo.getId()+"\":\""+tipo.getNome()+"\"";
+		}
+	}
+	
+	public class json_list {
+		private List<Tipo> lista;
+
+		public List<Tipo> getLista() {
+			return lista;
+		}
+
+		public void setLista(List<Tipo> lista) {
+			this.lista = lista;
+		}
+		
+		public String get() {
+			int max = lista.size();
+			String json = "{";
+			for(int i=0; i<max-1; i++) {
+				json_node temp = new json_node();
+				temp.setTipo(lista.get(i));
+				json = json + temp.get() + ",";
+			}
+			json_node temp = new json_node();
+			temp.setTipo(lista.get(max-1));
+			json = json + temp.get() + "}";
+			return json;
+		}
+	}
 }
