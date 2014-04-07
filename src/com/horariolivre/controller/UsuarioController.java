@@ -188,6 +188,7 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value="salva_perfil", method=RequestMethod.POST)
+	@ResponseBody
 	public String salva_perfil(@ModelAttribute("username") String username, @RequestParam("senha1") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
 		String saida = new String();
 		

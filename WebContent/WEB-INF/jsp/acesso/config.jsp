@@ -62,7 +62,7 @@
     	 
     	  // Put the results in a div
     	  posting.done(function( data ) {
-    		  if(data == 1)
+    		  if(data == "yes")
     			  $( "#result" ).empty().append( "Configura&ccedil;&otilde;es salvas com sucesso" );
     		  else
     			  $( "#result" ).empty().append( "Configura&ccedil;&otilde;es n&atilde;o cadastradas" );

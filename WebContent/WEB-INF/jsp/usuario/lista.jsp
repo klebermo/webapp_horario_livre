@@ -39,14 +39,18 @@ $(document).ready(function(){
 	  <tfoot>
 	  <tr>
 	  	<td> <input type="text" name="nome_campo"> </td>
-	  	<td> <button type="button" id="incluir_campo" class="btn btn-link">Incluir</button> <div id="result_incluir_campo"></div> </td>
+	  	<td> <button type="button" id="incluir_campo" class="btn btn-link">Incluir</button> </td>
+	  </tr>
+	  <tr>
+	  	<td> <div id="result_incluir_campo"></div> </td>
+	  	<td> <div id="result_excluir_campo"></div> </td>
 	  </tr>
 	  </tfoot>
 	  
 	  <c:forEach var="item_key" items="${campos}">
-	  <tr id="linha_${item_key}">
-		<td> <input type="text" name="${item_key}" value="${item_key}"> </td>
-		<td> <button type="button" id="excluir_campo_${item_key}" class="btn btn-link">Excluir</button> <div id="result_excluir_campo"></div> </td>
+	  <tr id="linha_campo_${item_key}">
+		<td> <input type="text" value="${item_key}"> </td>
+		<td> <button type="button" id="excluir_campo_${item_key}" class="btn btn-link">Excluir</button> </td>
 	  </tr>
 	  </c:forEach>
 	</table>
@@ -59,21 +63,20 @@ $("#incluir_campo").on("click", function () {
 		url: "<c:out value="${pageContext.request.contextPath}/key/cadastra_campo"/>",
 		data: {nome: $("input[name=nome_campo]").val() }
 	}).done(function(data){
-		if(data == "yes") {
-			var newRow = $('<tr id="linha_'+data+'>');
+		var obj = jQuery.parseJSON( data );
+		
+		if(obj.id > 0) {
+			var newRow = $('<tr id="linha_campo_'+obj.nome+'">');
 			
-			cols = '<td> <input type="text" name="'+data+'" value="'+data+'"> </td>';
-	        cols += '<td> <button type="button" id="excluir_campo_'+data+'" class="btn btn-link">Excluir</button> </td>';
+			cols = '<td> <input type="text" name="'+obj.nome+'" value="'+obj.nome+'"> </td>';
+	        cols += '<td> <button type="button" id="excluir_campo_'+obj.nome+'" class="btn btn-link">Excluir</button> </td>';
 	        
 	        newRow.append(cols);
 	        $("table.campos").append(newRow);
 	        $("input[name=nome_campo]").val("");
 		}
-		else if(data == "not"){
-			$("#result_incluir_campo").empty().append("erro");
-		}
 		else {
-			$("#result_incluir_campo").empty().append("sem acesso");
+			$("#result_incluir_campo").empty().append("erro");
 		}
 	});
 });
@@ -88,7 +91,7 @@ $("#excluir_campo_${item_key}").on("click", function () {
 		data: {nome: "${item_key}"}
 	}).done(function(data){
 		if(data == "yes") {
-			$("linha_${item_key}").remove();
+			$("#linha_campo_${item_key}").remove();
 		}
 		else if(data == "not"){
 			$("#result_excluir_campo").empty().append("erro");
@@ -112,14 +115,18 @@ $("#excluir_campo_${item_key}").on("click", function () {
 	  <tfoot>
 	  <tr>
 	  	<td> <input type="text" name="nome_tipo"> </td>
-	  	<td> <button type="button" id="incluir_tipo" class="btn btn-link">Incluir</button> <div id="result_incluir_tipo"></div> </td>
+	  	<td> <button type="button" id="incluir_tipo" class="btn btn-link">Incluir</button> </td>
+	  </tr>
+	  <tr>
+	  	<td> <div id="result_incluir_tipo"></div> </td>
+	  	<td> <div id="result_excluir_tipo"></div> </td>
 	  </tr>
 	  </tfoot>
 	  
 	  <c:forEach var="item_tipo" items="${tipos}">
-	  <tr id="linha_${item_tipo.nome}">
+	  <tr id="linha_tipo_${item_tipo.nome}">
 		<td> <input type="text" name="${item_tipo.nome}" value="${item_tipo.nome}"> </td>
-		<td> <button type="button" id="excluir_tipo_${item_tipo.id}" class="btn btn-link">Excluir</button> <div id="result_excluir_tipo"></div> </td>
+		<td> <button type="button" id="excluir_tipo_${item_tipo.id}" class="btn btn-link">Excluir</button> </td>
 	  </tr>
 	  </c:forEach>
 	</table>
@@ -130,23 +137,22 @@ $("#incluir_tipo").on("click", function () {
 	$.ajax({
 		type: "GET",
 		url: "<c:out value="${pageContext.request.contextPath}/tipo/cadastra_tipo"/>",
-		data: {nome: $("input[name=nome_tipo]").val() }
+		data: {id: $("input[name=nome_tipo]").val() }
 	}).done(function(data){
-		if(data == "yes") {
-			var newRow = $('<tr id="linha_'+data+'>');
+		var obj = jQuery.parseJSON( data );
+		
+		if(obj.id > 0) {
+			var newRow = $('<tr id="linha_tipo_'+obj.nome+'">');
 			
-			cols = '<td> <input type="text" name="'+data+'" value="'+data+'"> </td>';
-	        cols += '<td> <button type="button" id="excluir_tipo_'+data+'" class="btn btn-link">Excluir</button> </td>';
+			cols = '<td> <input type="text" name="'+obj.nome+'" value="'+obj.nome+'"> </td>';
+	        cols += '<td> <button type="button" id="excluir_tipo_'+obj.id+'" class="btn btn-link">Excluir</button> </td>';
 	        
 	        newRow.append(cols);
-	        $("table.campos").append(newRow);
-	        $("input[name=nome_campo]").val("");
-		}
-		else if(data == "not") {
-			$("#result_incluir_tipo").empty().append("erro");
+	        $("table.tipos").append(newRow);
+	        $("input[name=nome_tipo]").val("");
 		}
 		else {
-			$("#result_incluir_tipo").empty().append("sem acesso");
+			$("#result_incluir_tipo").empty().append("erro");
 		}
 	});
 });
@@ -161,7 +167,7 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 		data: {id: "${item_tipo.id}"}
 	}).done(function(data){
 		if(data == "yes") {
-			$("linha_${item_tipo.id}").remove();
+			$("#linha_tipo_${item_tipo.nome}").remove();
 		}
 		else if(data == "not"){
 			$("#result_excluir_tipo").empty().append("erro");

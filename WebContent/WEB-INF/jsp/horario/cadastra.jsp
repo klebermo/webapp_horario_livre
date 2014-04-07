@@ -31,15 +31,17 @@
     <td>
           	<c:set var="isChecked" value="${false}"/>
           	<c:forEach var="user" items="${lista_horarios}">
-                <c:if test="${item2 == user.hora}">
-                	<c:if test="${item == user.data}">
-                		<c:set var="isChecked" value="${true}"/>
-               		</c:if>
-                </c:if>
+          		<c:choose>
+				    <c:when test="${item2 eq user.hora && item eq user.data}">
+				       <c:set var="isChecked" value="${true}"/>
+				    </c:when>
+				    <c:otherwise>
+				        <c:set var="isChecked" value="${false}"/>
+				    </c:otherwise>
+				</c:choose>
     		</c:forEach>
     		
 	    	<input type="checkbox" <c:if test="${isChecked==true}">checked="checked"</c:if> id="cb_${counter}">
-	    	<c:set var='counter' value='${counter+1}'/>
 	    	
 		    <script>
 				$("#cb_${counter}").click(function(){
@@ -51,7 +53,8 @@
 							$("#result").empty().append( data+" ${counter}" );
 						});
 				});
-		    </script>	    
+		    </script>
+		    <c:set var='counter' value='${counter+1}'/>    
     </td>
 	</c:forEach>
 </tr>

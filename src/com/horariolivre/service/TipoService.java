@@ -1,5 +1,6 @@
 package com.horariolivre.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,15 @@ public class TipoService {
 	private TipoHome tipo;
 	
 	public boolean cadastra(String tipoUsuario) {
-		return tipo.persist(new Tipo(Integer.valueOf(tipoUsuario).intValue()));
+		return tipo.persist(new Tipo(tipoUsuario));
 	}
 	
 	public boolean remover(String tipoUsuario) {
 		return tipo.remove(this.tipo.findById(Integer.valueOf(tipoUsuario).intValue()));
+	}
+	
+	public Tipo getTipo(String tipoUsuario) {
+		return tipo.findByNome(tipoUsuario);
 	}
 	
 	public List<Tipo> listaTipos() {
@@ -50,6 +55,11 @@ public class TipoService {
 		return false;
 	}
 	
+	public json_list getJsonList() {
+		json_list lista = new json_list();
+		return lista;
+	}
+	
 	public class json_node {
 		private Tipo tipo;
 
@@ -62,19 +72,40 @@ public class TipoService {
 		}
 		
 		public String get() {
-			return "\""+tipo.getId()+"\":\""+tipo.getNome()+"\"";
+			String node = new String();
+			
+			if(this.tipo == null)
+				node = "\"" + "id" + "\"" + ":" + "-1";
+			else
+				node = "\"" + "id" + "\"" + ":" + this.tipo.getId() + "," + "\"" + "nome" + "\"" + ":" + "\"" + this.tipo.getNome() + "\"";
+			
+			return node;
+		}
+		
+		public void set(Tipo item) {
+			this.setTipo(item);
+		}
+		
+		public json_node() {
+			this.tipo = new Tipo();
 		}
 	}
 	
 	public class json_list {
-		private List<Tipo> lista;
+		private List<json_node> lista;
 
-		public List<Tipo> getLista() {
+		public List<json_node> getLista() {
 			return lista;
 		}
 
 		public void setLista(List<Tipo> lista) {
-			this.lista = lista;
+			int max = lista.size();
+			
+			for(int i=0; i<max; i++) {
+				json_node e = new json_node();
+				e.set(lista.get(i));
+				this.lista.add(e);
+			}
 		}
 		
 		public String get() {
@@ -82,13 +113,23 @@ public class TipoService {
 			String json = "{";
 			for(int i=0; i<max-1; i++) {
 				json_node temp = new json_node();
-				temp.setTipo(lista.get(i));
+				temp.setTipo(lista.get(i).getTipo());
 				json = json + temp.get() + ",";
 			}
 			json_node temp = new json_node();
-			temp.setTipo(lista.get(max-1));
+			temp.setTipo(lista.get(max-1).getTipo());
 			json = json + temp.get() + "}";
 			return json;
+		}
+		
+		public void set(Tipo item) {
+			json_node aux = new json_node();
+			aux.set(item);
+			this.lista.add(aux);
+		}
+		
+		public json_list() {
+			this.lista = new ArrayList<json_node>();
 		}
 	}
 }

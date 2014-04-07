@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.horariolivre.service.AtributoService;
+import com.horariolivre.service.AtributoService.json_list;
 
 @Controller
 @SessionAttributes({"username"})
@@ -22,14 +23,21 @@ public class KeyValueController {
 	@RequestMapping(value="cadastra_campo", method=RequestMethod.GET)
 	@ResponseBody
 	public String cadastra_campo(@ModelAttribute("username") String username, @RequestParam("nome") String campo) {
+		json_list lista = key.getJsonList();
+		
 		if(key.temAutorizacao(key.getUsuarioByUsername(username).getId())) {
-			if(key.cadastra(campo))
-				return "yes";
-			else
-				return "not";
+			if(key.cadastra(campo)) {
+				lista.set(key.getCampo(campo));
+				return lista.get();
+			}
+			else {
+				lista.set(null);
+				return lista.get();
+			}
 		}
 		else {
-			return "no_permit";
+			lista.set(null);
+			return lista.get();
 		}
 	}
 	

@@ -4,6 +4,7 @@ package com.horariolivre.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
@@ -80,6 +81,21 @@ public class KeyHome {
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
 			throw re;
+		}
+	}
+	
+	@Transactional
+	public Key findByNome(String nome) {
+		log.debug("getting Key instance with nome: " + nome);
+		try {
+			Query q = sessionFactory.getCurrentSession().createQuery("from Key where nome = :nome");
+			q.setParameter("nome", nome);
+			Key instance = (Key) q.uniqueResult();
+			log.debug("get successful");
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			return null;
 		}
 	}
 	

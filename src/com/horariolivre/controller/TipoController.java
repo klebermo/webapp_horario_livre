@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.horariolivre.service.TipoService;
+import com.horariolivre.service.TipoService.json_list;
 
 @Controller
 @SessionAttributes({"username"})
@@ -22,14 +23,21 @@ public class TipoController {
 	@RequestMapping(value="cadastra_tipo", method=RequestMethod.GET)
 	@ResponseBody
 	public String cadastra_tipo(@ModelAttribute("username") String username, @RequestParam("id") String tipoUsuario) {
+		json_list lista = tipo.getJsonList();
+		
 		if(tipo.temAutorizacao(tipo.getUsuarioByUsername(username).getId())) {
-			if(tipo.cadastra(tipoUsuario))
-				return "yes";
-			else
-				return "not";
+			if(tipo.cadastra(tipoUsuario)) {
+				lista.set(tipo.getTipo(tipoUsuario));
+				return lista.get();
+			}
+			else {
+				lista.set(null);
+				return lista.get();
+			}
 		}
 		else {
-			return "no_permit";
+			lista.set(null);
+			return lista.get();
 		}
 	}
 	

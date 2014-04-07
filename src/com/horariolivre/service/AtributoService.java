@@ -35,11 +35,19 @@ public class AtributoService {
 	}
 	
 	public boolean remover(String campo) {
-		return key.remove(new Key(campo));
+		return key.remove(key.findByNome(campo));
 	}
 	
 	public List<Key> listaCampos() {
 		return key.findALL();
+	}
+	
+	public Key getCampo(int id) {
+		return key.findById(id);
+	}
+	
+	public Key getCampo(String nome) {
+		return key.findByNome(nome);
 	}
 	
 	public String[] listaKey() {
@@ -87,28 +95,57 @@ public class AtributoService {
 		return false;
 	}
 	
+	public json_list getJsonList() {
+		json_list lista = new json_list();
+		return lista;
+	}
+	
 	public class json_node {
 		private Key key;
-		public Key getKey() {
+
+		public Key getTipo() {
 			return key;
 		}
+
 		public void setKey(Key key) {
 			this.key = key;
 		}
+		
 		public String get() {
-			return "\""+key.getId()+"\":\""+key.getNome()+"\"";
+			String node = new String();
+			
+			if(this.key == null)
+				node = "\"" + "id" + "\"" + ":" + "-1";
+			else
+				node = "\"" + "id" + "\"" + ":" + this.key.getId() + "," + "\"" + "nome" + "\"" + ":" + "\"" + this.key.getNome() + "\"";
+			
+			return node;
+		}
+		
+		public void set(Key item) {
+			this.setKey(item);
+		}
+		
+		public json_node() {
+			this.key = new Key();
 		}
 	}
 	
 	public class json_list {
-		private List<Atributo> lista;
+		private List<json_node> lista;
 
-		public List<Atributo> getLista() {
+		public List<json_node> getLista() {
 			return lista;
 		}
 
-		public void setLista(List<Atributo> lista) {
-			this.lista = lista;
+		public void setLista(List<Key> lista) {
+			int max = lista.size();
+			
+			for(int i=0; i<max; i++) {
+				json_node e = new json_node();
+				e.set(lista.get(i));
+				this.lista.add(e);
+			}
 		}
 		
 		public String get() {
@@ -116,13 +153,23 @@ public class AtributoService {
 			String json = "{";
 			for(int i=0; i<max-1; i++) {
 				json_node temp = new json_node();
-				temp.setKey(lista.get(i).getKey());
+				temp.setKey(lista.get(i).getTipo());
 				json = json + temp.get() + ",";
 			}
 			json_node temp = new json_node();
-			temp.setKey(lista.get(max-1).getKey());
+			temp.setKey(lista.get(max-1).getTipo());
 			json = json + temp.get() + "}";
 			return json;
+		}
+		
+		public void set(Key item) {
+			json_node aux = new json_node();
+			aux.set(item);
+			this.lista.add(aux);
+		}
+		
+		public json_list() {
+			this.lista = new ArrayList<json_node>();
 		}
 	}
 }
