@@ -5,7 +5,6 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import com.horariolivre.entity.HorarioLivre;
 import com.horariolivre.entity.Usuario;
 import com.horariolivre.service.EventoService;
 import com.horariolivre.service.HorarioLivreService;
+import com.horariolivre.service.HorarioLivreService.HorarioLivreInterno;
 import com.horariolivre.service.UsuarioService;
 
 @Controller
@@ -46,9 +46,9 @@ public class HorarioLivreController {
 		if(horariolivre.temAutorizacaoCadastro(id_usuario)) {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("horario/cadastra");
-			mav.addObject("lista_data", this.getListaData_String(username));
-			mav.addObject("lista_hora", this.getListaHora_String(username));
-			mav.addObject("lista_horarios", horariolivre.lista(id_usuario));
+			mav.addObject("lista_data", horariolivre.getListaData());
+			mav.addObject("lista_hora", horariolivre.getListaHora(username));
+			mav.addObject("lista_horarios_usuario", horariolivre.getListaHorarios(username));
 			return mav;
 		}
 		else {
@@ -67,15 +67,15 @@ public class HorarioLivreController {
 		
 		if(horariolivre.existe(data2, hora2, username)) {
 			if (horariolivre.remove(new HorarioLivre(data2, hora2, horariolivre.getUsuarioByUsername(username))))
-				return "yes";
+				return "removed";
 			else
-				return "not";
+				return "not removed";
 		}
 		else {
 			if(horariolivre.cadastra(data2, hora2, id_usuario))
-				return "yes";
+				return "added";
 			else
-				return "not";
+				return "not added";
 		}
 	}
 	
@@ -106,7 +106,7 @@ public class HorarioLivreController {
 		
 		String saida = "Os horarios disponiveis para o evento são:<br/>";
 		
-		List<HorarioLivreInterno> lista_horario_evento = this.listaHorarioEvento(evento_em_uso);
+		List<HorarioLivreInterno> lista_horario_evento = horariolivre.listaHorarioEvento(evento_em_uso);
 		
 		List<Usuario> lista_usuarios = new ArrayList<Usuario>();
 		for(int i=0; i<usuarios.length; i++)
@@ -149,37 +149,8 @@ public class HorarioLivreController {
 		return saida;
 	}
 	
-	private List<String> getListaData_String(@ModelAttribute("username") String username) {
-		List<String> lista = new ArrayList<String>();
-		
-		Calendar inicio = Calendar.getInstance();
-		Calendar fim = Calendar.getInstance();
-		fim.add(Calendar.DATE, 10);
-		
-		for(Calendar i=inicio; i.before(fim); i.add(Calendar.DATE, 1)) {
-			lista.add(new Date(i.getTimeInMillis()).toString());
-		}
-		
-		return lista;
-	}
-	
-	private List<String> getListaHora_String(@ModelAttribute("username") String username) {
-		List<String> lista = new ArrayList<String>();
-		
-		Time inicio = horariolivre.getUsuarioByUsername(username).getConfig().getHoraInicial();
-		Time fim = horariolivre.getUsuarioByUsername(username).getConfig().getHoraFinal();
-		
-		long delta = 60000;
-		
-		for(long i=inicio.getTime(); i<fim.getTime(); i=i+delta) {
-			lista.add(new Time(i).toString());
-		}
-		
-		return lista;
-	}
-	
 	private Date parseDate(String data) {
-		SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");  
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");  
 		Date d_inicio = new Date(0);
 		try {
 			d_inicio = new Date(format1.parse(data).getTime());
@@ -193,7 +164,7 @@ public class HorarioLivreController {
 	}
 	
 	private Time parseTime(String hora) {
-		SimpleDateFormat format3 = new SimpleDateFormat("HH:mm");  
+		SimpleDateFormat format3 = new SimpleDateFormat("HH:mm:ss");  
 		Time h_inicio = new Time(0);
 		try {
 			h_inicio = new Time(format3.parse(hora).getTime());
@@ -203,54 +174,6 @@ public class HorarioLivreController {
 			System.out.println("erro no parse de hora_inicial");
 			e.printStackTrace();
 			return null;
-		}
-	}
-	
-	private List<HorarioLivreInterno> listaHorarioEvento(Evento evento_interno) {
-		List<HorarioLivreInterno> lista = new ArrayList<HorarioLivreInterno>();
-		
-		Calendar inicio = Calendar.getInstance();
-		inicio.setTime(evento_interno.getDataInicial());
-		
-		Calendar fim = Calendar.getInstance();
-		fim.setTime(evento_interno.getDataFinal());
-		
-		for(Calendar i=inicio; i.before(fim); i.add(Calendar.DATE, 1)) {
-			Calendar hora_inicial = Calendar.getInstance();
-			hora_inicial.setTimeInMillis(evento_interno.getHoraInicial().getTime());
-			
-			Calendar hora_final = Calendar.getInstance();
-			hora_final.setTimeInMillis(evento_interno.getHoraFinal().getTime());
-			
-			for(Calendar j=hora_inicial; j.before(hora_final); j.add(Calendar.MINUTE, 1)) {
-				lista.add(new HorarioLivreInterno(new Date(i.getTimeInMillis()), new Time(j.getTimeInMillis())));
-			}
-		}
-		
-		return lista;
-	}
-	
-	private class HorarioLivreInterno {
-		private Date data;
-		private Time hora;
-		public HorarioLivreInterno(Date date, Time time) {
-			this.setData(date);
-			this.setHora(time);
-		}
-		public Date getData() {
-			return data;
-		}
-		public void setData(Date data) {
-			this.data = data;
-		}
-		public Time getHora() {
-			return hora;
-		}
-		public void setHora(Time hora) {
-			this.hora = hora;
-		}
-		public boolean equals(HorarioLivre horario) {
-			 return this.getData().equals(horario.getData()) && this.getHora().equals(horario.getHora());
 		}
 	}
 	

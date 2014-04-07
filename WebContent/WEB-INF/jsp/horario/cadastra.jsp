@@ -8,6 +8,8 @@
 </head>
 <body>
 
+<div id="result"></div>
+
 <table id="hor-zebra" border = 2>
 
 <tr>
@@ -16,6 +18,8 @@
 	    <th> <c:out value="${item}"/> </th>
 	</c:forEach>
 </tr>
+
+<c:set var='counter' value='1'/>
 
 <c:forEach var="item2" items="${lista_hora}">
 <tr>
@@ -26,22 +30,23 @@
 	<c:forEach var="item" items="${lista_data}">
     <td>
           	<c:set var="isChecked" value="${false}"/>
-          	<c:forEach var="user" items="${lista_horarios}">
-                <c:if test="${item2 == user.hora && item == user.data}">
+          	<c:forEach var="user" items="${lista_horarios_usuario}">
+                <c:if test="${item2 == user.time && item == user.date}">
                 		<c:set var="isChecked" value="${true}"/>
                 </c:if>
     		</c:forEach>
     		
-	    	<input type="checkbox" <c:if test="${isChecked==true}">checked="checked"</c:if> id="cb_001_${item}_${item2}">
+	    	<input type="checkbox" <c:if test="${isChecked==true}">checked="checked"</c:if> id="cb_${counter}">
+	    	<c:set var='counter' value='${counter+1}'/>
 	    	
 		    <script>
-				$("#cb_001_${item}_${item2}").click(function(){
+				$("#cb_${counter}").click(function(){
 					$.ajax({
 						  url: "<c:out value="${pageContext.request.contextPath}/horario/toggle_horario"/>",
 						  data: { data: "${item}", hora: "${item2}" },
 						  cache: false
 						}).done(function(data) {
-							$("#result_1").empty().append( data );
+							$("#result").empty().append( data+" ${counter}" );
 						});
 				});
 		    </script>	    

@@ -15,8 +15,8 @@
 
 <table>
 <tr>
-	<td>inicio: <input type="text" name="hora_inicial" id="hora_inicial"/> </td>
-	<td> final: <input type="text" name="hora_final" id="hora_final"/> </td>
+	<td>inicio: <input type="text" name="hora_inicial" value="${config.horaInicial}" id="hora_inicial"/> </td>
+	<td> final: <input type="text" name="hora_final" value="${config.horaFinal}" id="hora_final"/> </td>
 </tr>
 </table>
 
