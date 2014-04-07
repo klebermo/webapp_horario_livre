@@ -39,14 +39,14 @@ $(document).ready(function(){
 	  <tfoot>
 	  <tr>
 	  	<td> <input type="text" name="nome_campo"> </td>
-	  	<td> <button type="button" id="incluir_campo" class="btn btn-link">Incluir</button> </td>
+	  	<td> <button type="button" id="incluir_campo" class="btn btn-link">Incluir</button> <div id="result_incluir_campo"></div> </td>
 	  </tr>
 	  </tfoot>
 	  
 	  <c:forEach var="item_key" items="${campos}">
 	  <tr id="linha_${item_key}">
 		<td> <input type="text" name="${item_key}" value="${item_key}"> </td>
-		<td> <button type="button" id="excluir_campo_${item_key}" class="btn btn-link">Excluir</button> </td>
+		<td> <button type="button" id="excluir_campo_${item_key}" class="btn btn-link">Excluir</button> <div id="result_excluir_campo"></div> </td>
 	  </tr>
 	  </c:forEach>
 	</table>
@@ -59,7 +59,7 @@ $("#incluir_campo").on("click", function () {
 		url: "<c:out value="${pageContext.request.contextPath}/key/cadastra_campo"/>",
 		data: {nome: $("input[name=nome_campo]").val() }
 	}).done(function(data){
-		if(data.lenght > 0) {
+		if(data == "yes") {
 			var newRow = $('<tr id="linha_'+data+'>');
 			
 			cols = '<td> <input type="text" name="'+data+'" value="'+data+'"> </td>';
@@ -69,8 +69,11 @@ $("#incluir_campo").on("click", function () {
 	        $("table.campos").append(newRow);
 	        $("input[name=nome_campo]").val("");
 		}
+		else if(data == "not"){
+			$("#result_incluir_campo").empty().append("erro");
+		}
 		else {
-			alert("erro ao incluir campo");
+			$("#result_incluir_campo").empty().append("sem acesso");
 		}
 	});
 });
@@ -88,10 +91,10 @@ $("#excluir_campo_${item_key}").on("click", function () {
 			$("linha_${item_key}").remove();
 		}
 		else if(data == "not"){
-			alert("erro ao excluir campo");
+			$("#result_excluir_campo").empty().append("erro");
 		}
 		else {
-			alert("usu&aacute;rio sem permiss&aatilde;o de acesso");
+			$("#result_excluir_campo").empty().append("sem acesso");
 		}
 	});
 });
@@ -109,14 +112,14 @@ $("#excluir_campo_${item_key}").on("click", function () {
 	  <tfoot>
 	  <tr>
 	  	<td> <input type="text" name="nome_tipo"> </td>
-	  	<td> <button type="button" id="incluir_tipo" class="btn btn-link">Incluir</button> </td>
+	  	<td> <button type="button" id="incluir_tipo" class="btn btn-link">Incluir</button> <div id="result_incluir_tipo"></div> </td>
 	  </tr>
 	  </tfoot>
 	  
 	  <c:forEach var="item_tipo" items="${tipos}">
 	  <tr id="linha_${item_tipo.nome}">
 		<td> <input type="text" name="${item_tipo.nome}" value="${item_tipo.nome}"> </td>
-		<td> <button type="button" id="excluir_tipo_${item_tipo.id}" class="btn btn-link">Excluir</button> </td>
+		<td> <button type="button" id="excluir_tipo_${item_tipo.id}" class="btn btn-link">Excluir</button> <div id="result_excluir_tipo"></div> </td>
 	  </tr>
 	  </c:forEach>
 	</table>
@@ -129,7 +132,7 @@ $("#incluir_tipo").on("click", function () {
 		url: "<c:out value="${pageContext.request.contextPath}/tipo/cadastra_tipo"/>",
 		data: {nome: $("input[name=nome_tipo]").val() }
 	}).done(function(data){
-		if(data.lenght > 0) {
+		if(data == "yes") {
 			var newRow = $('<tr id="linha_'+data+'>');
 			
 			cols = '<td> <input type="text" name="'+data+'" value="'+data+'"> </td>';
@@ -139,8 +142,11 @@ $("#incluir_tipo").on("click", function () {
 	        $("table.campos").append(newRow);
 	        $("input[name=nome_campo]").val("");
 		}
+		else if(data == "not") {
+			$("#result_incluir_tipo").empty().append("erro");
+		}
 		else {
-			alert("erro ao incluir tipo");
+			$("#result_incluir_tipo").empty().append("sem acesso");
 		}
 	});
 });
@@ -158,10 +164,10 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 			$("linha_${item_tipo.id}").remove();
 		}
 		else if(data == "not"){
-			alert("n&aatilde;o foi possivel remover o tipo ${item_tipo.nome}");
+			$("#result_excluir_tipo").empty().append("erro");
 		}
 		else {
-			alert("usu&aacute;rio sem permiss&aatilde;o de acesso");
+			$("#result_excluir_tipo").empty().append("erro");
 		}
 	});
 });

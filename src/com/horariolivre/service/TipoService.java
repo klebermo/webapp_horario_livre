@@ -19,12 +19,8 @@ public class TipoService {
 	@Autowired
 	private TipoHome tipo;
 	
-	public Tipo cadastra(String tipoUsuario) {
-		Tipo tipoUser = new Tipo(tipoUsuario);
-		if(tipo.persist(tipoUser))
-			return tipoUser;
-		else
-			return null;
+	public boolean cadastra(String tipoUsuario) {
+		return tipo.persist(new Tipo(Integer.valueOf(tipoUsuario).intValue()));
 	}
 	
 	public boolean remover(String tipoUsuario) {

@@ -30,12 +30,8 @@ public class AtributoService {
 	@Autowired
 	private ValueHome value;
 	
-	public Key cadastra(String campo) {
-		Key chave = new Key(campo);
-		if( key.persist(chave) )
-			return chave;
-		else
-			return null;
+	public boolean cadastra(String campo) {
+		return key.persist(new Key(campo));
 	}
 	
 	public boolean remover(String campo) {
