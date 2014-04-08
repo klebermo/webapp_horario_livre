@@ -130,7 +130,7 @@ $('.excluir_campo').each(function(index, elem){
 	  <c:forEach var="item_tipo" items="${tipos}">
 	  <tr id="linha_tipo_${item_tipo.nome}">
 		<td> <input type="text" name="${item_tipo.nome}" value="${item_tipo.nome}"> </td>
-		<td> <button type="button" class="btn btn-link excluir_tipo">Excluir</button> </td>
+		<td> <button type="button" class="btn btn-link excluir_tipo" data-key="${item_tipo.nome}">Excluir</button> </td>
 	  </tr>
 	  </c:forEach>
 	</table>
@@ -150,7 +150,7 @@ $("#incluir_tipo").on("click", function () {
 			var newRow = $('<tr id="linha_tipo_'+obj.nome+'">');
 			
 			cols = '<td> <input type="text" name="'+obj.Tipo[0].nome+'" value="'+obj.Tipo[0].nome+'"> </td>';
-	        cols += '<td> <button type="button" class="btn btn-link excluir_tipo">Excluir</button> </td>';
+	        cols += '<td> <button type="button" class="btn btn-link excluir_tipo" data-key="'+obj.Tipo[0].nome+'">Excluir</button> </td>';
 	        
 	        newRow.append(cols);
 	        $("table.tipos").append(newRow);
@@ -163,28 +163,30 @@ $("#incluir_tipo").on("click", function () {
 });
 </script>
 
-<c:forEach var="item_tipo" items="${tipos}">
 <script>
-$("#excluir_tipo_${item_tipo.id}").on("click", function () {
-	$.ajax({
-		type: "GET",
-		url: "<c:out value="${pageContext.request.contextPath}/tipo/remove_tipo"/>",
-		cache: false,
-		data: {id: "${item_tipo.id}"}
-	}).done(function(data){
-		if(data == "yes") {
-			$("#linha_tipo_${item_tipo.nome}").remove();
-		}
-		else if(data == "not"){
-			$("#result_excluir_tipo").empty().append("erro");
-		}
-		else {
-			$("#result_excluir_tipo").empty().append("erro");
-		}
-	});
+$('.excluir_tipo').each(function(index, elem) {
+    $(elem).click(function(){
+        //do you stuff here!
+        var index = $(elem).data('key'); //this will read data-key attribute
+    	$.ajax({
+    		type: "GET",
+    		url: "<c:out value="${pageContext.request.contextPath}/tipo/remove_tipo"/>",
+    		cache: false,
+    		data: {id: index}
+    	}).done(function(data){
+    		if(data == "yes") {
+    			$("#linha_tipo_"+index).remove();
+    		}
+    		else if(data == "not"){
+    			$("#result_excluir_tipo").empty().append("erro");
+    		}
+    		else {
+    			$("#result_excluir_tipo").empty().append("erro");
+    		}
+    	});
+    });
 });
 </script>
-</c:forEach>
 
 		<div class="row">
         	<div class="col-md-3">
