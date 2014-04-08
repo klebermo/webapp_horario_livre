@@ -122,8 +122,8 @@
 		                //$('#title').text($temp.find('title').text());
 		                $( "#dialog" ).dialog({ title: $temp.find('title').text() });
 		                $('#text').html($temp.remove('head').html());
-		                $( "#dialog" ).dialog({ height: 720 });
-		                $( "#dialog" ).dialog({ width: 1080 });
+		                $( "#dialog" ).dialog({ height: 640 });
+		                $( "#dialog" ).dialog({ width: 720 });
 		                $( "#dialog" ).dialog( "open" );
 		    		});
     			}

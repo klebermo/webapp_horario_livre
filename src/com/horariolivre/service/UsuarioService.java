@@ -73,7 +73,9 @@ public class UsuarioService {
 			lista_atributos.add(new Atributo(chave, conteudo));
 		}
 		
-		user.setSenha(senha);
+		if(!senha.isEmpty())
+			user.setSenha(senha);
+		
 		user.setTipo(tipo_usuario);
 		user.setPrimeiroNome(primeiroNome);
 		user.setUltimoNome(ultimoNome);

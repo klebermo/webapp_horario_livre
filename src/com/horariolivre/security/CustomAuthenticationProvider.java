@@ -9,8 +9,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.horariolivre.dao.UsuarioHome;
-import com.horariolivre.entity.Usuario;
 import com.horariolivre.service.AuthenticationService;
 
 @Component
@@ -19,9 +17,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
 	@Autowired
 	private AuthenticationService authenticationService;
-	
-	@Autowired
-	private UsuarioHome usuario;
 	
 	public CustomAuthenticationProvider() {
 		super();
@@ -32,15 +27,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		System.out.println("CustomAuthenticationProvider.authenticate");
         
         UserDetails user = authenticationService.loadUserByUsername(authentication.getName());
-        Usuario user2 = usuario.findByUsername(user.getUsername());
                 
-        if (user2 != null) {
-        	if(user.getPassword().equals(user2.getSenha())) {
-        	    Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
+        if (user != null) {
+        	if(user.getPassword().equals(authentication.getCredentials().toString())) {
+	    	    Authentication auth = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
 	            return auth;
         	}
-        	else
+        	else {
         		return null;
+        	}
         }
         else {
         	return null;

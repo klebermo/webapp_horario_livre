@@ -31,14 +31,9 @@
     <td>
           	<c:set var="isChecked" value="${false}"/>
           	<c:forEach var="user" items="${lista_horarios}">
-          		<c:choose>
-				    <c:when test="${item2 eq user.hora && item eq user.data}">
+				    <c:if test="${item2 eq user.hora && item eq user.data}">
 				       <c:set var="isChecked" value="${true}"/>
-				    </c:when>
-				    <c:otherwise>
-				        <c:set var="isChecked" value="${false}"/>
-				    </c:otherwise>
-				</c:choose>
+				    </c:if>
     		</c:forEach>
     		
 	    	<input type="checkbox" <c:if test="${isChecked==true}">checked="checked"</c:if> id="cb_${counter}">

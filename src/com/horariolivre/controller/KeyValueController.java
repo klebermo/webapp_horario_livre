@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.horariolivre.entity.Key;
 import com.horariolivre.service.AtributoService;
 import com.horariolivre.service.AtributoService.json_list;
 

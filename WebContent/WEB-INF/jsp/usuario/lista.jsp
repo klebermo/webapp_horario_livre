@@ -47,10 +47,10 @@ $(document).ready(function(){
 	  </tr>
 	  </tfoot>
 	  
-	  <c:forEach var="item_key" items="${campos}">
+	  <c:forEach var="item_key" items="${campos}" varStatus="status">
 	  <tr id="linha_campo_${item_key}">
 		<td> <input type="text" value="${item_key}"> </td>
-		<td> <button type="button" id="excluir_campo_${item_key}" class="btn btn-link">Excluir</button> </td>
+		<td> <button type="button" class="btn btn-link excluir_campo" data-key="${item_key}">Excluir</button> </td>
 	  </tr>
 	  </c:forEach>
 	</table>
@@ -67,11 +67,10 @@ $("#incluir_campo").on("click", function () {
 		var obj = jQuery.parseJSON( data );
 		
 		if(obj.Key[0].id > 0) {
-			var newRow = $('<tr id="linha_campo_'+obj.nome+'">');
+			var newRow = $('<tr id="linha_campo_'+obj.Key[0].key+'">');
 			
-			cols = '<td> <input type="text" name="'+obj.Key[0].nome+'" value="'+obj.Key[0].nome+'"> </td>';
-	        cols += '<td> <button type="button" id="excluir_campo_'+obj.Key[0].nome+'" class="btn btn-link">Excluir</button> </td>';
-	        
+			cols = '<td> <input type="text" name="'+obj.Key[0].key+'" value="'+obj.Key[0].key+'"> </td>';
+	        cols += '<td> <button type="button" class="btn btn-link excluir_campo" data-key="'+obj.Key[0].key+'">Excluir</button> </td>';
 	        newRow.append(cols);
 	        $("table.campos").append(newRow);
 	        $("input[name=nome_campo]").val("");
@@ -83,28 +82,31 @@ $("#incluir_campo").on("click", function () {
 });
 </script>
 
-<c:forEach var="item_key" items="${campos}">
 <script>
-$("#excluir_campo_${item_key}").on("click", function () {
-	$.ajax({
-		type: "GET",
-		url: "<c:out value="${pageContext.request.contextPath}/key/remove_campo"/>",
-		cache: false,
-		data: {nome: "${item_key}"}
-	}).done(function(data){
-		if(data == "yes") {
-			$("#linha_campo_${item_key}").remove();
-		}
-		else if(data == "not"){
-			$("#result_excluir_campo").empty().append("erro");
-		}
-		else {
-			$("#result_excluir_campo").empty().append("sem acesso");
-		}
-	});
+$('.excluir_campo').each(function(index, elem){
+    $(elem).click(function(){
+        //do you stuff here!
+        var index = $(elem).data('key'); //this will read data-key attribute
+    	$.ajax({
+    		type: "GET",
+    		url: "<c:out value="${pageContext.request.contextPath}/key/remove_campo"/>",
+    		cache: false,
+    		data: {nome: index}
+    	}).done(function(data){
+    		if(data == "yes") {
+    			$("#linha_campo_"+index).remove();
+    		}
+    		else if(data == "not"){
+    			$("#result_excluir_campo").empty().append("erro");
+    		}
+    		else {
+    			$("#result_excluir_campo").empty().append("sem acesso");
+    		}
+    	});
+    });
+
 });
 </script>
-</c:forEach>
 
 <p>
 	<table id="hor-minimalist-a" class="tipos">
@@ -128,7 +130,7 @@ $("#excluir_campo_${item_key}").on("click", function () {
 	  <c:forEach var="item_tipo" items="${tipos}">
 	  <tr id="linha_tipo_${item_tipo.nome}">
 		<td> <input type="text" name="${item_tipo.nome}" value="${item_tipo.nome}"> </td>
-		<td> <button type="button" id="excluir_tipo_${item_tipo.id}" class="btn btn-link">Excluir</button> </td>
+		<td> <button type="button" class="btn btn-link excluir_tipo">Excluir</button> </td>
 	  </tr>
 	  </c:forEach>
 	</table>
@@ -148,7 +150,7 @@ $("#incluir_tipo").on("click", function () {
 			var newRow = $('<tr id="linha_tipo_'+obj.nome+'">');
 			
 			cols = '<td> <input type="text" name="'+obj.Tipo[0].nome+'" value="'+obj.Tipo[0].nome+'"> </td>';
-	        cols += '<td> <button type="button" id="excluir_tipo_'+obj.Tipo[0].id+'" class="btn btn-link">Excluir</button> </td>';
+	        cols += '<td> <button type="button" class="btn btn-link excluir_tipo">Excluir</button> </td>';
 	        
 	        newRow.append(cols);
 	        $("table.tipos").append(newRow);
