@@ -161,6 +161,32 @@ public class UsuarioService {
 		return lista;
 	}
 	
+	public class json_node_usuario {
+		private Usuario usuario;
+
+		public Usuario getUsuario() {
+			return usuario;
+		}
+
+		public void setUsuario(Usuario usuario) {
+			this.usuario = usuario;
+		}
+		
+		public String get() {
+			String node = new String();
+			
+			if(this.usuario == null)
+				node = "\"" + "id" + "\"" + ":" + "-1";
+			else {
+				node = "\"" + "id" + "\"" + ":" + this.usuario.getId() + ",";
+				node += "\"" + "pnome" + "\"" + ":" + "\"" + this.usuario.getPrimeiroNome() + "\"" + ",";
+				node += "\"" + "unome" + "\"" + ":" + "\"" + this.usuario.getUltimoNome() + "\"" + ",";
+			}
+			
+			return node;
+		}
+	}
+	
 	public class json_node_tipo {
 		private Tipo tipo;
 

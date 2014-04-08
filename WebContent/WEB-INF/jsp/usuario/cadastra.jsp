@@ -54,26 +54,25 @@
 			</form>
 
 <script>
-$("document").ready(function(){
-	var obj_tipo = jQuery.parseJSON( "${lista_tipos}" );
-	var obj_campo = jQuery.parseJSON( "${lista_campos}" );
+$(document).ready(function(){
+	var obj_tipo = jQuery.parseJSON( '${lista_tipos}' );
+	var obj_campo = jQuery.parseJSON( '${lista_campos}' );
 	
 	var newRow = $('<tr>');
 	col_1 = '<td> Tipo: </td>';
-	col_2 = '<td> <select name="tipo"> </select> </td> </tr>';
-	for(var nome in obj_tipo)
-		col_2.append('<option value="'+nome+'">'+nome+'</option>');
-	
+	col_2 = $('<td></td>');
+	var select = $('<select name="tipo">');
+	for(var item in obj_tipo.Tipo)
+	    select.append('<option value="'+obj_tipo.Tipo[item].nome+'">'+obj_tipo.Tipo[item].nome+'</option>');
+
+	select.appendTo(col_2);
 	newRow.append(col_1);
 	newRow.append(col_2);
-	
+
 	$("table.cadastro").append(newRow);
 	
-	col_3 = '';
-	for(var nome in obj_campo)
-		col_3 += '<tr> <td> '+nome+' : </td> <td> <input type="text" name="'+nome+'" value="'+nome+'" size=20 maxlenght=40> </td> <tr>';
-	
-	$("table.cadastro").append(col_3);
+	for(var item in obj_campo.Key)
+		$("table.cadastro").append('<tr> <td> '+obj_campo.Key[item].nome+' : </td> <td> <input type="text" name="'+obj_campo.Key[item].nome+'" size=20 maxlenght=40> </td> <tr>');
 });
 </script>
 

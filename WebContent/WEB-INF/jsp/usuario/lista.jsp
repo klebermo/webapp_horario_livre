@@ -236,19 +236,13 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 							    </tr>
 						    </tfoot>
 						    
-							<c:forEach var="item_auth" items="${autorizacao}">
-				            	<c:set var="isChecked" value="${false}"/>
-						        <c:forEach var="user_auth" items="${item.autorizacao}">
-					                <c:if test="${user_auth.nome == item_auth.nome}">
-					                	<c:set var="isChecked" value="${true}"/>
-					                </c:if>
-						        </c:forEach>
-								<tr>
-									<td> <input type="checkbox" name="${item_auth.nome}" <c:if test="${isChecked}">checked="checked"</c:if> /> </td>
-									<td>  ${item_auth.nome} </td>
-									<td> ${item_auth.descricao} </td>
-								</tr>
-							</c:forEach>
+						    <tbody>
+						    	<tr>
+						    		<td></td>
+						    		<td></td>
+						    		<td></td>
+						    	</tr>
+						    </tbody>
      				</table>
      			</div>
      			
@@ -261,7 +255,7 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 	        		Editar dados de <br/> <i> ${item.primeiroNome} ${item.ultimoNome} </i>
         		</div>
 	        	<div class="col-md-6">
-						<table class="hor-minimalist-a">
+						<table class="cadastro hor-minimalist-a">
 						    <thead>
 							    <tr>    
 							        <th>Atributo</th>
@@ -275,36 +269,28 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 							        <td></td>
 							    </tr>
 						    </tfoot>
-					    
-						    <tr>
-								<td> Digite uma Senha:</td> <td> <input type="password" name="senha1" size=20 maxlength=40> </td>
-							</tr>
-							
-							<tr>
-								<td> Repita a Senha: </td> <td> <input type="password" name="senha2" size=20 maxlength=40> </td>
-							</tr>
-							
-							<tr>
-								<td> Primeiro Nome: </td> <td> <input type="text" name="pnome" value="${item.primeiroNome}" size=20 maxlength=40> </td>
-							</tr>
-							
-							<tr>
-								<td> Ultimo Nome: </td> <td> <input type="text" name="unome" value="${item.ultimoNome}" size=20 maxlength=40> </td>
-							</tr>
-							
-							<tr>
-								<td> Tipo: </td> <td> <select name="tipo">
-									<c:forEach var="tipos" items="${tipos}">
-										<option value=<c:out value="${tipos.id}"/> > <c:out value="${tipos.nome}"/> </option>
-								    </c:forEach>
-								</select> </td>
-							</tr>
-							
-							<c:forEach var="campo" items="${campos}" varStatus="status">
-							<tr>
-								<td><c:out value="${campo}"/>:</td> <td> <input type="text" name="${campo}" value="${atributo[status.index]}" size=20 maxlength=40> </td>
-							</tr>
-							</c:forEach>
+						    
+						    <tbody>
+						    	<tr>
+						    		<td>Login</td>
+						    		<td> <input type="text" name="senha" value="${item.login}"> </td>
+						    	</tr>
+						    	
+						    	<tr>
+						    		<td>Senha</td>
+						    		<td> <input type="password" name="senha" value="${item.senha}"> </td>
+						    	</tr>
+						    	
+						    	<tr>
+						    		<td>Primeiro Nome</td>
+						    		<td> <input type="text" name="pnome" value="${item.primeiroNome}"> </td>
+						    	</tr>
+						    	
+						    	<tr>
+						    		<td>Ultimo Nome</td>
+						    		<td> <input type="text" name="unome" value="${item.ultimoNome}"> </td>
+						    	</tr>
+						    </tbody>
 						</table>
 	       		</div>
 	        	<div class="col-md-3">
@@ -323,18 +309,71 @@ function edit_tipos() {
 	$(".tipos").toggle();
 }
 
-function editar(data) {
-	var div = "#edit_usuario_"+data
+function editar(id_usuario) {
+	var div = "#edit_usuario_"+id_usuario;
 	$(div).toggle();
+	var newRow = $('<tr>');
+	
+	$.ajax({
+		type: "GET",
+		url: "<c:out value="${pageContext.request.contextPath}/tipo/lista_tipo"/>"
+	}).done(function(data){
+		var obj_tipo = jQuery.parseJSON( data );
+		
+		col_1 = '<td> Tipo: </td>';
+		col_2 = $('<td></td>');
+		var select = $('<select name="tipo">');
+		for(var item in obj_tipo.Tipo)
+		    select.append('<option value="'+obj_tipo.Tipo[item].nome+'">'+obj_tipo.Tipo[item].nome+'</option>');
+
+		select.appendTo(col_2);
+		newRow.append(col_1);
+		newRow.append(col_2);
+
+		$("table.cadastro").append(newRow);
+	});
+	
+	$.ajax({
+		type: "GET",
+		url: "<c:out value="${pageContext.request.contextPath}/atributo/lista_key_value"/>",
+		data: {id: id_usuario}
+	}).done(function(data){
+		var obj_campo = jQuery.parseJSON( '${lista_campos}' );
+
+		for(var item in obj_campo.Key)
+			$("table.cadastro").append('<tr> <td> '+obj_campo.Key[item].nome+' : </td> <td> <input type="text" name="'+obj_campo.Key[item].nome+'" size=20 maxlenght=40> </td> <tr>');
+	});
+}
+
+function autorizacao(id_usuario) {
+	var div = "#edit_autorizacao_"+id_usuario;
+	$(div).toggle();
+	
+	$.ajax({
+		type: "GET",
+		url: "<c:out value="${pageContext.request.contextPath}/usuario/lista_autorizacao"/>",
+		data: {id: id_usuario }
+	}).done(function(data){
+		var obj = jQuery.parseJSON( data );
+		
+		if(obj.id > 0) {
+			var newRow = $('<tr id="linha_tipo_'+obj.nome+'">');
+			
+			cols = '<td> <input type="text" name="'+obj.nome+'" value="'+obj.nome+'"> </td>';
+	        cols += '<td> <button type="button" id="excluir_tipo_'+obj.id+'" class="btn btn-link">Excluir</button> </td>';
+	        
+	        newRow.append(cols);
+	        $("table.tipos").append(newRow);
+	        $("input[name=nome_tipo]").val("");
+		}
+		else {
+			$("#result_incluir_tipo").empty().append("erro");
+		}
+	});
 }
 
 function remover(data) {
 	alert("remover usuario: "+data);
-}
-
-function autorizacao(data) {
-	var div = "#edit_autorizacao_"+data;
-	$(div).toggle();
 }
 </script>
 

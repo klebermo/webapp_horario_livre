@@ -55,5 +55,12 @@ public class TipoController {
 		}
 	}
 	
+	@RequestMapping(value="lista_tipo", method=RequestMethod.GET)
+	@ResponseBody
+	public String lista_tipo() {
+		json_list lista = tipo.getJsonList();
+		lista.setLista(tipo.listaTipos());
+		return lista.get();
+	}
 	
 }

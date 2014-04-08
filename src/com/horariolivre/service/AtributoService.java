@@ -42,6 +42,10 @@ public class AtributoService {
 		return key.findALL();
 	}
 	
+	public List<Value> listaValores(String username) {
+		return value.findByUser(this.getUsuarioByUsername(username));
+	}
+	
 	public Key getCampo(int id) {
 		return key.findById(id);
 	}
@@ -122,6 +126,15 @@ public class AtributoService {
 			return node;
 		}
 		
+		public String get(Value item) {
+			String node = new String();
+			if(this.key == null)
+				node = "\"" + "id" + "\"" + ":" + "-1";
+			else
+				node = "\"" + "key" + "\"" + ":" + this.key.getNome() + "," + "\"" + "value" + "\"" + ":" + "\"" + item.getConteudo() + "\"";
+			return node;
+		}
+		
 		public void set(int item) {
 			String temp = String.valueOf(item);
 			this.key = new Key(temp);
@@ -164,6 +177,20 @@ public class AtributoService {
 			json_node temp = new json_node();
 			temp.setKey(lista.get(max-1).getTipo());
 			json = json + temp.get() + "}";
+			return json;
+		}
+		
+		public String get(List<Value> item) {
+			int max = item.size();
+			String json = "{";
+			for(int i=0; i<max-1; i++) {
+				json_node temp = new json_node();
+				temp.setKey(lista.get(i).getTipo());
+				json = json + temp.get(item.get(i)) + ",";
+			}
+			json_node temp = new json_node();
+			temp.setKey(lista.get(max-1).getTipo());
+			json = json + temp.get(item.get(max-1)) + "}";
 			return json;
 		}
 		

@@ -55,5 +55,11 @@ public class KeyValueController {
 		}
 	}
 	
+	@RequestMapping(value="lista_key_value", method=RequestMethod.GET)
+	@ResponseBody
+	public String lista_key_value(@RequestParam("id") String id_usuario) {
+		json_list lista = key.getJsonList();
+		return lista.get(key.listaValores(key.getUsuarioById(Integer.valueOf(id_usuario).intValue()).getLogin()));
+	}
 	
 }

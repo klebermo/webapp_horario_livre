@@ -171,11 +171,6 @@ public class UsuarioController {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("usuario/lista");
 			mav.addObject("usuarios", usuario.lista());
-			mav.addObject("atributos", atributo.listaValue(user));
-			
-			mav.addObject("tipos", tipo.listaTipos());
-			mav.addObject("campos", atributo.listaKey());
-			mav.addObject("autorizacao", usuario.listaAutorizacoes());
 			return mav;
 		}
 		else {

@@ -6,13 +6,13 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.horariolivre.entity.Atributo;
 import com.horariolivre.entity.Usuario;
 import com.horariolivre.entity.Value;
 
@@ -68,6 +68,17 @@ public class ValueHome {
 			log.error("merge failed", re);
 			throw re;
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Value> findByUser(Usuario user) {
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(
+				"select * from value v, atributo_usuario a where a.fk_usuario = :id_usuario")
+				.addEntity(Value.class)
+				.setParameter("id_usuario", user.getId());
+		List<Value> allValues = query.list();
+		return allValues;
 	}
 	
 }
