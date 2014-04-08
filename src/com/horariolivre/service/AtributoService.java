@@ -122,6 +122,11 @@ public class AtributoService {
 			return node;
 		}
 		
+		public void set(int item) {
+			String temp = String.valueOf(item);
+			this.key = new Key(temp);
+		}
+		
 		public void set(Key item) {
 			this.setKey(item);
 		}
@@ -160,6 +165,12 @@ public class AtributoService {
 			temp.setKey(lista.get(max-1).getTipo());
 			json = json + temp.get() + "}";
 			return json;
+		}
+		
+		public void set(int item) {
+			json_node aux = new json_node();
+			aux.set(item);
+			this.lista.add(aux);
 		}
 		
 		public void set(Key item) {

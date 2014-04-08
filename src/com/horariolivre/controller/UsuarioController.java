@@ -23,6 +23,8 @@ import com.horariolivre.entity.Usuario;
 import com.horariolivre.service.AtributoService;
 import com.horariolivre.service.TipoService;
 import com.horariolivre.service.UsuarioService;
+import com.horariolivre.service.UsuarioService.json_list_key;
+import com.horariolivre.service.UsuarioService.json_list_tipo;
 
 @Controller
 @SessionAttributes({"username"})
@@ -46,8 +48,18 @@ public class UsuarioController {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("usuario/cadastra");
 			
-			mav.addObject("tipos", tipo.listaTipos());
-			mav.addObject("campos", atributo.listaKey());
+			json_list_tipo lista_tipos = usuario.getJsonListTipo();
+			int max_tipo = tipo.listaTipos().size();
+			for(int i=0; i<max_tipo; i++)
+				lista_tipos.set(tipo.listaTipos().get(i));
+			
+			json_list_key lista_campos = usuario.getJsonListKey();
+			int max_campo = atributo.listaCampos().size();
+			for(int i=0; i<max_campo; i++)
+				lista_campos.set(atributo.listaCampos().get(i));
+			
+			mav.addObject("lista_tipos", lista_tipos.get());
+			mav.addObject("lista_campos", lista_campos.get());
 			return mav;
 		}
 		else {
@@ -77,7 +89,7 @@ public class UsuarioController {
 				value[i] = webrequest.getParameter(key[i]);
 
 			
-			if (usuario.cadastra(login, senha1, pnome, unome, new Tipo(tipo), key, value)) {
+			if (usuario.cadastra(login, senha1, pnome, unome, tipo, key, value)) {
 				System.out.println("cadastrou");
 				saida = "yes";
 			}
@@ -190,30 +202,24 @@ public class UsuarioController {
 	@RequestMapping(value="salva_perfil", method=RequestMethod.POST)
 	@ResponseBody
 	public String salva_perfil(@ModelAttribute("username") String username, @RequestParam("senha1") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
+		System.out.println("altera_usuario");
 		String saida = new String();
 		
-		Usuario altera = usuario.getUsuarioByUsername(username);
-		
-		altera.setSenha(senha);
-		altera.setPrimeiroNome(pnome);
-		altera.setUltimoNome(unome);
-		altera.setTipo(new Tipo(tipo));
+		Usuario user = usuario.getUsuarioByUsername(username);
 		
 		String[] key = atributo.listaKey();
 		String[] value = new String[key.length];
-		List <Atributo> atributos = new ArrayList<Atributo>();
 		
-		for(int i=0; i<key.length; i++) {
+		for(int i=0; i<key.length; i++)
 			value[i] = webrequest.getParameter(key[i]);
-			atributos.add(new Atributo(key[i], value[i]));
-		}
+
 		
-		altera.setAtributo(atributos);
-		
-		if (usuario.altera(altera))
+		if (usuario.altera(user, senha, pnome, unome, tipo, key, value)) {
 			saida = "yes";
-		else
+		}
+		else {
 			saida = "not";
+		}
 		
 		return saida;
 	}

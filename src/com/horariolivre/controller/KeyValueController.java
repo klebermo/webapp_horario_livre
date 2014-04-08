@@ -31,12 +31,12 @@ public class KeyValueController {
 				return lista.get();
 			}
 			else {
-				lista.set(null);
+				lista.set(-1);
 				return lista.get();
 			}
 		}
 		else {
-			lista.set(null);
+			lista.set(-2);
 			return lista.get();
 		}
 	}
