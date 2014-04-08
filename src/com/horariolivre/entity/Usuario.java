@@ -11,14 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 // Generated 24/03/2014 06:49:18 by Hibernate Tools 3.4.0.CR1
 
@@ -110,7 +108,6 @@ public class Usuario implements java.io.Serializable {
 
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="fk_tipo")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	public Tipo getTipo() {
 		return tipo;
 	}
@@ -119,7 +116,7 @@ public class Usuario implements java.io.Serializable {
 		this.tipo = tipo;
 	}
 
-	@ManyToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="atributo_usuario", joinColumns={@JoinColumn(name="fk_usuario")}, inverseJoinColumns={@JoinColumn(name="fk_atributo")})
 	@LazyCollection(LazyCollectionOption.FALSE)
 	public List<Atributo> getAtributo() {
@@ -140,7 +137,7 @@ public class Usuario implements java.io.Serializable {
 		this.config = config;
 	}
 
-	@ManyToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="autorizacao_usuario", joinColumns={@JoinColumn(name="fk_usuario")}, inverseJoinColumns={@JoinColumn(name="fk_autorizacao")})
 	@LazyCollection(LazyCollectionOption.FALSE)
 	public List<Autorizacao> getAutorizacao() {

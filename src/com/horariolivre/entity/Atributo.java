@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "atributo")
@@ -49,6 +51,7 @@ public class Atributo implements java.io.Serializable {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="fk_key")
 	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	public Key getKey() {
 		return key;
 	}
@@ -59,6 +62,7 @@ public class Atributo implements java.io.Serializable {
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="fk_value")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	public Value getValue() {
 		return value;
 	}

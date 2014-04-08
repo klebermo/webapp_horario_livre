@@ -61,6 +61,7 @@ $("#incluir_campo").on("click", function () {
 	$.ajax({
 		type: "GET",
 		url: "<c:out value="${pageContext.request.contextPath}/key/cadastra_campo"/>",
+		cache: false,
 		data: {nome: $("input[name=nome_campo]").val() }
 	}).done(function(data){
 		var obj = jQuery.parseJSON( data );
@@ -88,6 +89,7 @@ $("#excluir_campo_${item_key}").on("click", function () {
 	$.ajax({
 		type: "GET",
 		url: "<c:out value="${pageContext.request.contextPath}/key/remove_campo"/>",
+		cache: false,
 		data: {nome: "${item_key}"}
 	}).done(function(data){
 		if(data == "yes") {
@@ -137,6 +139,7 @@ $("#incluir_tipo").on("click", function () {
 	$.ajax({
 		type: "GET",
 		url: "<c:out value="${pageContext.request.contextPath}/tipo/cadastra_tipo"/>",
+		cache: false,
 		data: {id: $("input[name=nome_tipo]").val() }
 	}).done(function(data){
 		var obj = jQuery.parseJSON( data );
@@ -164,6 +167,7 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 	$.ajax({
 		type: "GET",
 		url: "<c:out value="${pageContext.request.contextPath}/tipo/remove_tipo"/>",
+		cache: false,
 		data: {id: "${item_tipo.id}"}
 	}).done(function(data){
 		if(data == "yes") {
@@ -309,7 +313,8 @@ function editar(id_usuario) {
 	
 	$.ajax({
 		type: "GET",
-		url: "<c:out value="${pageContext.request.contextPath}/tipo/lista_tipo"/>"
+		url: "<c:out value="${pageContext.request.contextPath}/tipo/lista_tipo"/>",
+		cache: false
 	}).done(function(data){
 		var obj_tipo = jQuery.parseJSON( data );
 		
@@ -329,6 +334,7 @@ function editar(id_usuario) {
 	$.ajax({
 		type: "GET",
 		url: "<c:out value="${pageContext.request.contextPath}/key/lista_key_value"/>",
+		cache: false,
 		data: {id: id_usuario}
 	}).done(function(data){
 		var obj_campo = jQuery.parseJSON( data );
@@ -347,6 +353,7 @@ function autorizacao(id_usuario) {
 	$.ajax({
 		type: "GET",
 		url: "<c:out value="${pageContext.request.contextPath}/usuario/lista_autorizacao"/>",
+		cache: false
 	}).done(function(data){
 		var obj_auth = jQuery.parseJSON( data );
 		
