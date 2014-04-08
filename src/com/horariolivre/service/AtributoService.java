@@ -38,20 +38,35 @@ public class AtributoService {
 		return key.remove(key.findByNome(campo));
 	}
 	
+	public Key getCampo(String nome) {
+		return key.findByNome(nome);
+	}
+	
+	public Value getValor(String campo, int id_usuario) {
+		Usuario user = this.getUsuarioById(id_usuario);
+		List<Value> lista = this.listaValores(user.getLogin());
+		int max = lista.size();
+		for(int i=0; i<max; i++) {
+			if(lista.get(i).getConteudo().equals(campo))
+				return lista.get(i);
+		}
+		return null;
+	}
+	
 	public List<Key> listaCampos() {
 		return key.findALL();
 	}
 	
 	public List<Value> listaValores(String username) {
-		return value.findByUser(this.getUsuarioByUsername(username));
-	}
-	
-	public Key getCampo(int id) {
-		return key.findById(id);
-	}
-	
-	public Key getCampo(String nome) {
-		return key.findByNome(nome);
+		Usuario user = this.getUsuarioByUsername(username);
+		List<Atributo> lista = user.getAtributo();
+		List<Value> lista_valores = new ArrayList<Value>();
+		
+		int max = lista.size();
+		for(int i=0; i< max; i++) {
+			lista_valores.add(lista.get(i).getValue());
+		}
+		return lista_valores;
 	}
 	
 	public String[] listaKey() {
@@ -106,8 +121,10 @@ public class AtributoService {
 	
 	public class json_node {
 		private Key key;
+		
+		private Value value;
 
-		public Key getTipo() {
+		public Key getKey() {
 			return key;
 		}
 
@@ -115,23 +132,34 @@ public class AtributoService {
 			this.key = key;
 		}
 		
+		public Value getValue() {
+			return value;
+		}
+		
+		public void setValue(Value value) {
+			this.value = value;
+		}
+		
 		public String get() {
 			String node = new String();
 			
-			if(this.key == null)
-				node = "\"" + "id" + "\"" + ":" + "-1";
-			else
-				node = "\"" + "id" + "\"" + ":" + this.key.getId() + "," + "\"" + "nome" + "\"" + ":" + "\"" + this.key.getNome() + "\"";
+			if(this.key == null) {
+				if(this.value == null) {
+					node = "\"" + "id" + "\"" + ":" + "\"" + "-1" + "\"" + "," + "\"" + "value" + "\"" + ":" + "\"" + " " + "\"";
+				}
+				else {
+					node = "\"" + "id" + "\"" + ":" + "\"" + "-1" + "\"" + "," + "\"" + "value" + "\"" + ":" + "\"" + this.value.getConteudo() + "\"";
+				}
+			}
+			else {
+				if(this.value == null) {
+					node = "\"" + "key" + "\"" + ":" + "\"" + this.key.getNome() + "\"" + "," + "\"" + "value" + "\"" + ":" + "\"" + " " + "\"";
+				}
+				else {
+					node = "\"" + "key" + "\"" + ":" + "\"" + this.key.getNome() + "\"" + "," + "\"" + "value" + "\"" + ":" + "\"" + this.value.getConteudo() + "\"";
+				}
+			}
 			
-			return node;
-		}
-		
-		public String get(Value item) {
-			String node = new String();
-			if(this.key == null)
-				node = "\"" + "id" + "\"" + ":" + "-1";
-			else
-				node = "\"" + "key" + "\"" + ":" + this.key.getNome() + "," + "\"" + "value" + "\"" + ":" + "\"" + item.getConteudo() + "\"";
 			return node;
 		}
 		
@@ -140,8 +168,9 @@ public class AtributoService {
 			this.key = new Key(temp);
 		}
 		
-		public void set(Key item) {
+		public void set(Key item, Value item2) {
 			this.setKey(item);
+			this.setValue(item2);
 		}
 		
 		public json_node() {
@@ -161,48 +190,50 @@ public class AtributoService {
 			
 			for(int i=0; i<max; i++) {
 				json_node e = new json_node();
-				e.set(lista.get(i));
+				e.set(lista.get(i), null);
+				this.lista.add(e);
+			}
+		}
+		
+		public void setLista(List<Key> lista1, List<Value> lista2) {
+			int max = lista1.size();
+			int max_valores = lista2.size();
+			
+			for(int i=0; i<max; i++) {
+				json_node e = new json_node();
+				if(i >= max_valores)
+					e.set(lista1.get(i), new Value());
+				else
+					e.set(lista1.get(i), lista2.get(i));
 				this.lista.add(e);
 			}
 		}
 		
 		public String get() {
-			int max = lista.size();
-			String json = "{";
-			for(int i=0; i<max-1; i++) {
+			int i, max = lista.size();
+			System.out.println("max="+max);
+			String json = "{\"Key\":[";
+			for(i=0; i<max-1; i++) {
+				json = json + "{";
 				json_node temp = new json_node();
-				temp.setKey(lista.get(i).getTipo());
-				json = json + temp.get() + ",";
+				temp.set(lista.get(i).getKey(), lista.get(i).getValue());
+				json = json + temp.get() + "},";
 			}
 			json_node temp = new json_node();
-			temp.setKey(lista.get(max-1).getTipo());
-			json = json + temp.get() + "}";
+			temp.set(lista.get(i).getKey(), lista.get(i).getValue());
+			json = json + "{" + temp.get() + "}]}";
 			return json;
 		}
-		
-		public String get(List<Value> item) {
-			int max = item.size();
-			String json = "{";
-			for(int i=0; i<max-1; i++) {
-				json_node temp = new json_node();
-				temp.setKey(lista.get(i).getTipo());
-				json = json + temp.get(item.get(i)) + ",";
-			}
-			json_node temp = new json_node();
-			temp.setKey(lista.get(max-1).getTipo());
-			json = json + temp.get(item.get(max-1)) + "}";
-			return json;
-		}
-		
+				
 		public void set(int item) {
 			json_node aux = new json_node();
 			aux.set(item);
 			this.lista.add(aux);
 		}
 		
-		public void set(Key item) {
+		public void set(Key item, Value item2) {
 			json_node aux = new json_node();
-			aux.set(item);
+			aux.set(item, item2);
 			this.lista.add(aux);
 		}
 		

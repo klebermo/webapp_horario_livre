@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.horariolivre.entity.Key;
 import com.horariolivre.service.AtributoService;
 import com.horariolivre.service.AtributoService.json_list;
 
@@ -27,7 +28,7 @@ public class KeyValueController {
 		
 		if(key.temAutorizacao(key.getUsuarioByUsername(username).getId())) {
 			if(key.cadastra(campo)) {
-				lista.set(key.getCampo(campo));
+				lista.set(key.getCampo(campo), null);
 				return lista.get();
 			}
 			else {
@@ -59,7 +60,9 @@ public class KeyValueController {
 	@ResponseBody
 	public String lista_key_value(@RequestParam("id") String id_usuario) {
 		json_list lista = key.getJsonList();
-		return lista.get(key.listaValores(key.getUsuarioById(Integer.valueOf(id_usuario).intValue()).getLogin()));
+		String username = key.getUsuarioById(Integer.valueOf(id_usuario).intValue()).getLogin();
+		lista.setLista(key.listaCampos(), key.listaValores(username));
+		return lista.get();
 	}
 	
 }

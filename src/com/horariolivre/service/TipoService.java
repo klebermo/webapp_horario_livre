@@ -74,10 +74,10 @@ public class TipoService {
 		public String get() {
 			String node = new String();
 			
-			if(this.tipo == null)
+			if(tipo == null)
 				node = "\"" + "id" + "\"" + ":" + "-1";
 			else
-				node = "\"" + "id" + "\"" + ":" + this.tipo.getId() + "," + "\"" + "nome" + "\"" + ":" + "\"" + this.tipo.getNome() + "\"";
+				node = "\"" + "id" + "\"" + ":" + tipo.getId() + "," + "\"" + "nome" + "\"" + ":" + "\"" + tipo.getNome() + "\"";
 			
 			return node;
 		}
@@ -109,16 +109,17 @@ public class TipoService {
 		}
 		
 		public String get() {
-			int max = lista.size();
-			String json = "{";
-			for(int i=0; i<max-1; i++) {
+			int i, max = lista.size();
+			String json = "{\"Tipo\":[";
+			for(i=0; i<max-1; i++) {
+				json = json + "{";
 				json_node temp = new json_node();
 				temp.setTipo(lista.get(i).getTipo());
-				json = json + temp.get() + ",";
+				json = json + temp.get() + "},";
 			}
 			json_node temp = new json_node();
-			temp.setTipo(lista.get(max-1).getTipo());
-			json = json + temp.get() + "}";
+			temp.setTipo(lista.get(i).getTipo());
+			json = json + "{" + temp.get() + "}]}";
 			return json;
 		}
 		

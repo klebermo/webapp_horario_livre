@@ -72,7 +72,7 @@ $(document).ready(function(){
 	$("table.cadastro").append(newRow);
 	
 	for(var item in obj_campo.Key)
-		$("table.cadastro").append('<tr> <td> '+obj_campo.Key[item].nome+' : </td> <td> <input type="text" name="'+obj_campo.Key[item].nome+'" size=20 maxlenght=40> </td> <tr>');
+		$("table.cadastro").append('<tr> <td> '+obj_campo.Key[item].key+' : </td> <td> <input type="text" name="'+obj_campo.Key[item].key+'" size=20 maxlenght=40> </td> <tr>');
 });
 </script>
 

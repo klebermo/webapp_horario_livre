@@ -23,8 +23,7 @@ import com.horariolivre.entity.Usuario;
 import com.horariolivre.service.AtributoService;
 import com.horariolivre.service.TipoService;
 import com.horariolivre.service.UsuarioService;
-import com.horariolivre.service.UsuarioService.json_list_key;
-import com.horariolivre.service.UsuarioService.json_list_tipo;
+import com.horariolivre.service.UsuarioService.json_list_auth;
 
 @Controller
 @SessionAttributes({"username"})
@@ -48,15 +47,11 @@ public class UsuarioController {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("usuario/cadastra");
 			
-			json_list_tipo lista_tipos = usuario.getJsonListTipo();
-			int max_tipo = tipo.listaTipos().size();
-			for(int i=0; i<max_tipo; i++)
-				lista_tipos.set(tipo.listaTipos().get(i));
+			com.horariolivre.service.TipoService.json_list lista_tipos = tipo.getJsonList();
+			lista_tipos.setLista(tipo.listaTipos());
 			
-			json_list_key lista_campos = usuario.getJsonListKey();
-			int max_campo = atributo.listaCampos().size();
-			for(int i=0; i<max_campo; i++)
-				lista_campos.set(atributo.listaCampos().get(i));
+			com.horariolivre.service.AtributoService.json_list lista_campos = atributo.getJsonList();
+			lista_campos.setLista(atributo.listaCampos());
 			
 			mav.addObject("lista_tipos", lista_tipos.get());
 			mav.addObject("lista_campos", lista_campos.get());
@@ -171,6 +166,8 @@ public class UsuarioController {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("usuario/lista");
 			mav.addObject("usuarios", usuario.lista());
+			mav.addObject("tipos", tipo.listaTipos());
+			mav.addObject("campos", atributo.listaKey());
 			return mav;
 		}
 		else {
@@ -180,6 +177,22 @@ public class UsuarioController {
 		}
 	}
 	
+	@RequestMapping(value="lista_autorizacao", method=RequestMethod.GET)
+	@ResponseBody
+	public String lista_autorizacao() {
+		json_list_auth lista = usuario.getJsonListAuth();
+		lista.setLista(usuario.listaAutorizacoes());
+		return lista.get();
+	}
+	
+	@RequestMapping(value="lista_autorizacao_usuario", method=RequestMethod.GET)
+	@ResponseBody
+	public String lista_autorizacao(@RequestParam("id") String id_usuario) {
+		json_list_auth lista = usuario.getJsonListAuth();
+		lista.setLista(usuario.getUsuarioById(Integer.valueOf(id_usuario).intValue()).getAutorizacao());
+		return lista.get();
+	}
+	
 	@RequestMapping(value="perfil")
 	public ModelAndView perfil(@ModelAttribute("username") String username) {
 		Usuario user = usuario.getUsuarioByUsername(username);
@@ -187,9 +200,15 @@ public class UsuarioController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/acesso/perfil");
 		mav.addObject("usuario", user);
-		mav.addObject("tipos", tipo.listaTipos());
-		mav.addObject("chave", atributo.listaKey());
-		mav.addObject("valor", atributo.listaValue(user));
+		
+		com.horariolivre.service.TipoService.json_list lista_tipos = tipo.getJsonList();
+		lista_tipos.setLista(tipo.listaTipos());
+		
+		com.horariolivre.service.AtributoService.json_list lista_campos = atributo.getJsonList();
+		lista_campos.setLista(atributo.listaCampos(), atributo.listaValores(username));
+		
+		mav.addObject("lista_tipos", lista_tipos.get());
+		mav.addObject("lista_campos", lista_campos.get());
 		
 		return mav;
 	}

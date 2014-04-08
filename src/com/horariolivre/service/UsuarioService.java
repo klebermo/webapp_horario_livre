@@ -151,85 +151,54 @@ public class UsuarioService {
 		return false;
 	}
 	
-	public json_list_tipo getJsonListTipo() {
-		json_list_tipo lista = new json_list_tipo();
+	public json_list_auth getJsonListAuth() {
+		json_list_auth lista = new json_list_auth();
 		return lista;
 	}
 	
-	public json_list_key getJsonListKey() {
-		json_list_key lista = new json_list_key();
-		return lista;
-	}
-	
-	public class json_node_usuario {
-		private Usuario usuario;
-
-		public Usuario getUsuario() {
-			return usuario;
+	public class json_node_auth {
+		private Autorizacao auth;
+		
+		public Autorizacao getAuth() {
+			return auth;
 		}
-
-		public void setUsuario(Usuario usuario) {
-			this.usuario = usuario;
+		
+		public void setAuth(Autorizacao auth) {
+			this.auth = auth;
 		}
 		
 		public String get() {
 			String node = new String();
 			
-			if(this.usuario == null)
-				node = "\"" + "id" + "\"" + ":" + "-1";
-			else {
-				node = "\"" + "id" + "\"" + ":" + this.usuario.getId() + ",";
-				node += "\"" + "pnome" + "\"" + ":" + "\"" + this.usuario.getPrimeiroNome() + "\"" + ",";
-				node += "\"" + "unome" + "\"" + ":" + "\"" + this.usuario.getUltimoNome() + "\"" + ",";
-			}
-			
-			return node;
-		}
-	}
-	
-	public class json_node_tipo {
-		private Tipo tipo;
-
-		public Tipo getTipo() {
-			return tipo;
-		}
-
-		public void setTipo(Tipo tipo) {
-			this.tipo = tipo;
-		}
-		
-		public String get() {
-			String node = new String();
-			
-			if(this.tipo == null)
+			if(this.auth == null)
 				node = "\"" + "id" + "\"" + ":" + "-1";
 			else
-				node = "\"" + "id" + "\"" + ":" + this.tipo.getId() + "," + "\"" + "nome" + "\"" + ":" + "\"" + this.tipo.getNome() + "\"";
+				node = "\"" + "id" + "\"" + ":" + this.auth.getId() + "," + "\"" + "nome" + "\"" + ":" + "\"" + this.auth.getNome() + "\"";
 			
 			return node;
 		}
 		
-		public void set(Tipo item) {
-			this.setTipo(item);
+		public void set(Autorizacao item) {
+			this.setAuth(item);
 		}
 		
-		public json_node_tipo() {
-			this.tipo = new Tipo();
+		public json_node_auth() {
+			this.auth = new Autorizacao();
 		}
 	}
 	
-	public class json_list_tipo {
-		private List<json_node_tipo> lista;
+	public class json_list_auth {
+		private List<json_node_auth> lista;
 
-		public List<json_node_tipo> getLista() {
+		public List<json_node_auth> getLista() {
 			return lista;
 		}
 
-		public void setLista(List<Tipo> lista) {
+		public void setLista(List<Autorizacao> lista) {
 			int max = lista.size();
 			
 			for(int i=0; i<max; i++) {
-				json_node_tipo e = new json_node_tipo();
+				json_node_auth e = new json_node_auth();
 				e.set(lista.get(i));
 				this.lista.add(e);
 			}
@@ -237,113 +206,27 @@ public class UsuarioService {
 		
 		public String get() {
 			int max = lista.size();
-			String json = "{\"Tipo\":[";
+			String json = "{\"Auth\":[";
 			for(int i=0; i<max-1; i++) {
 				json = json + "{";
-				json_node_tipo temp = new json_node_tipo();
-				temp.setTipo(lista.get(i).getTipo());
+				json_node_auth temp = new json_node_auth();
+				temp.setAuth(lista.get(i).getAuth());
 				json = json + temp.get() + "},";
 			}
-			json_node_tipo temp = new json_node_tipo();
-			temp.setTipo(lista.get(max-1).getTipo());
+			json_node_auth temp = new json_node_auth();
+			temp.setAuth(lista.get(max-1).getAuth());
 			json = json + "{" + temp.get() + "}]}";
 			return json;
 		}
 		
-		public void set(Tipo item) {
-			json_node_tipo aux = new json_node_tipo();
+		public void set(Autorizacao item) {
+			json_node_auth aux = new json_node_auth();
 			aux.set(item);
 			this.lista.add(aux);
 		}
 		
-		public json_list_tipo() {
-			this.lista = new ArrayList<json_node_tipo>();
+		public json_list_auth() {
+			this.lista = new ArrayList<json_node_auth>();
 		}
 	}
-	
-	public class json_node_key {
-		private Key key;
-
-		public Key getKey() {
-			return key;
-		}
-
-		public void setKey(Key key) {
-			this.key = key;
-		}
-		
-		public String get() {
-			String node = new String();
-			
-			if(this.key == null)
-				node = "\"" + "id" + "\"" + ":" + "-1";
-			else
-				node = "\"" + "id" + "\"" + ":" + this.key.getId() + "," + "\"" + "nome" + "\"" + ":" + "\"" + this.key.getNome() + "\"";
-			
-			return node;
-		}
-		
-		public void set(int item) {
-			String temp = String.valueOf(item);
-			this.key = new Key(temp);
-		}
-		
-		public void set(Key item) {
-			this.setKey(item);
-		}
-		
-		public json_node_key() {
-			this.key = new Key();
-		}
-	}
-	
-	public class json_list_key {
-		private List<json_node_key> lista;
-
-		public List<json_node_key> getLista() {
-			return lista;
-		}
-
-		public void setLista(List<Key> lista) {
-			int max = lista.size();
-			
-			for(int i=0; i<max; i++) {
-				json_node_key e = new json_node_key();
-				e.set(lista.get(i));
-				this.lista.add(e);
-			}
-		}
-		
-		public String get() {
-			int max = lista.size();
-			String json = "{\"Key\":[";
-			for(int i=0; i<max-1; i++) {
-				json = json + "{";
-				json_node_key temp = new json_node_key();
-				temp.setKey(lista.get(i).getKey());
-				json = json + temp.get() + "},";
-			}
-			json_node_key temp = new json_node_key();
-			temp.setKey(lista.get(max-1).getKey());
-			json = json + "{" + temp.get() + "}]}";
-			return json;
-		}
-		
-		public void set(int item) {
-			json_node_key aux = new json_node_key();
-			aux.set(item);
-			this.lista.add(aux);
-		}
-		
-		public void set(Key item) {
-			json_node_key aux = new json_node_key();
-			aux.set(item);
-			this.lista.add(aux);
-		}
-		
-		public json_list_key() {
-			this.lista = new ArrayList<json_node_key>();
-		}
-	}
-	
 }

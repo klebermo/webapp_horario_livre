@@ -65,11 +65,11 @@ $("#incluir_campo").on("click", function () {
 	}).done(function(data){
 		var obj = jQuery.parseJSON( data );
 		
-		if(obj.id > 0) {
+		if(obj.Key[0].id > 0) {
 			var newRow = $('<tr id="linha_campo_'+obj.nome+'">');
 			
-			cols = '<td> <input type="text" name="'+obj.nome+'" value="'+obj.nome+'"> </td>';
-	        cols += '<td> <button type="button" id="excluir_campo_'+obj.nome+'" class="btn btn-link">Excluir</button> </td>';
+			cols = '<td> <input type="text" name="'+obj.Key[0].nome+'" value="'+obj.Key[0].nome+'"> </td>';
+	        cols += '<td> <button type="button" id="excluir_campo_'+obj.Key[0].nome+'" class="btn btn-link">Excluir</button> </td>';
 	        
 	        newRow.append(cols);
 	        $("table.campos").append(newRow);
@@ -141,11 +141,11 @@ $("#incluir_tipo").on("click", function () {
 	}).done(function(data){
 		var obj = jQuery.parseJSON( data );
 		
-		if(obj.id > 0) {
+		if(obj.Tipo[0].id > 0) {
 			var newRow = $('<tr id="linha_tipo_'+obj.nome+'">');
 			
-			cols = '<td> <input type="text" name="'+obj.nome+'" value="'+obj.nome+'"> </td>';
-	        cols += '<td> <button type="button" id="excluir_tipo_'+obj.id+'" class="btn btn-link">Excluir</button> </td>';
+			cols = '<td> <input type="text" name="'+obj.Tipo[0].nome+'" value="'+obj.Tipo[0].nome+'"> </td>';
+	        cols += '<td> <button type="button" id="excluir_tipo_'+obj.Tipo[0].id+'" class="btn btn-link">Excluir</button> </td>';
 	        
 	        newRow.append(cols);
 	        $("table.tipos").append(newRow);
@@ -219,12 +219,11 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
      			<div class="col-md-3"> Editar autoriza&ccedil;&otilde;es </div>
      			
      			<div class="col-md-6">
-     				<table class="hor-minimalist-a">
+     				<table id="auth-${item.id}" class="hor-minimalist-a">
 						    <thead>
 							    <tr>    
 							        <th>#</th>
 							        <th>Nome</th>
-							        <th>Descri&ccedil;&atilde;o</th>
 							    </tr>
 						    </thead>
 						    
@@ -232,17 +231,9 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 							    <tr>
 							        <td></td>        
 							        <td></td>
-							        <td></td>
 							    </tr>
 						    </tfoot>
 						    
-						    <tbody>
-						    	<tr>
-						    		<td></td>
-						    		<td></td>
-						    		<td></td>
-						    	</tr>
-						    </tbody>
      				</table>
      			</div>
      			
@@ -255,7 +246,7 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 	        		Editar dados de <br/> <i> ${item.primeiroNome} ${item.ultimoNome} </i>
         		</div>
 	        	<div class="col-md-6">
-						<table class="cadastro hor-minimalist-a">
+						<table id="cadastro-${item.id}" class="hor-minimalist-a">
 						    <thead>
 							    <tr>    
 							        <th>Atributo</th>
@@ -290,6 +281,7 @@ $("#excluir_tipo_${item_tipo.id}").on("click", function () {
 						    		<td>Ultimo Nome</td>
 						    		<td> <input type="text" name="unome" value="${item.ultimoNome}"> </td>
 						    	</tr>
+						    	
 						    </tbody>
 						</table>
 	       		</div>
@@ -312,7 +304,8 @@ function edit_tipos() {
 function editar(id_usuario) {
 	var div = "#edit_usuario_"+id_usuario;
 	$(div).toggle();
-	var newRow = $('<tr>');
+	$('#extra-cad-'+id_usuario).remove();
+	var newRow = $('<tr id="extra-cad-'+id_usuario+'">');
 	
 	$.ajax({
 		type: "GET",
@@ -330,45 +323,40 @@ function editar(id_usuario) {
 		newRow.append(col_1);
 		newRow.append(col_2);
 
-		$("table.cadastro").append(newRow);
+		$("#cadastro-"+id_usuario).append(newRow);
 	});
 	
 	$.ajax({
 		type: "GET",
-		url: "<c:out value="${pageContext.request.contextPath}/atributo/lista_key_value"/>",
+		url: "<c:out value="${pageContext.request.contextPath}/key/lista_key_value"/>",
 		data: {id: id_usuario}
 	}).done(function(data){
-		var obj_campo = jQuery.parseJSON( '${lista_campos}' );
+		var obj_campo = jQuery.parseJSON( data );
 
 		for(var item in obj_campo.Key)
-			$("table.cadastro").append('<tr> <td> '+obj_campo.Key[item].nome+' : </td> <td> <input type="text" name="'+obj_campo.Key[item].nome+'" size=20 maxlenght=40> </td> <tr>');
+			$("#cadastro-"+id_usuario).append('<tr> <td> '+obj_campo.Key[item].key+' : </td> <td> <input type="text" name="'+obj_campo.Key[item].key+'" value="'+obj_campo.Key[item].value+'" size=20 maxlenght=40> </td> <tr>');
 	});
 }
 
 function autorizacao(id_usuario) {
 	var div = "#edit_autorizacao_"+id_usuario;
 	$(div).toggle();
+	$('#extra-auth-'+id_usuario).remove();
+	var newRow = $('<tr id="extra-auth-'+id_usuario+'">');
 	
 	$.ajax({
 		type: "GET",
 		url: "<c:out value="${pageContext.request.contextPath}/usuario/lista_autorizacao"/>",
-		data: {id: id_usuario }
 	}).done(function(data){
-		var obj = jQuery.parseJSON( data );
+		var obj_auth = jQuery.parseJSON( data );
 		
-		if(obj.id > 0) {
-			var newRow = $('<tr id="linha_tipo_'+obj.nome+'">');
-			
-			cols = '<td> <input type="text" name="'+obj.nome+'" value="'+obj.nome+'"> </td>';
-	        cols += '<td> <button type="button" id="excluir_tipo_'+obj.id+'" class="btn btn-link">Excluir</button> </td>';
-	        
-	        newRow.append(cols);
-	        $("table.tipos").append(newRow);
-	        $("input[name=nome_tipo]").val("");
+		for(var item in obj_auth.Auth) {
+			var checkbox = $('<tr>');
+			checkbox.append('<td><input type="checkbox" name="'+obj_auth.Auth[item].nome+'"></td> <td>'+obj_auth.Auth[item].nome+'</td>');
+			checkbox.appendTo(newRow);
 		}
-		else {
-			$("#result_incluir_tipo").empty().append("erro");
-		}
+
+		$("#auth-"+id_usuario).append(newRow);
 	});
 }
 

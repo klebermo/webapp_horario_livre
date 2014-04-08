@@ -16,7 +16,7 @@
 
 <table>
 <tr>
-			<table id="hor-minimalist-a">
+			<table class="perfil" id="hor-minimalist-a">
 				    <thead>
 				    <tr>    
 				        <th colspan=2><div align="center"><h2>Dados de <strong>${usuario.login}</strong></h2></div></th>
@@ -36,17 +36,12 @@
 						<th> Tipo: </th> <td> ${usuario.tipo.nome} </td>
 					</tr>
 					
-					<c:forEach var="campo" items="${chave}" varStatus="status">
-						<tr>
-							<th>${campo}:</th> <td> ${value[status.index]} </td>
-						</tr>
-					</c:forEach>
 					</tbody>
 			</table>
 </tr>
 <tr>
 	<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/salva_perfil"/>" id="target">
-			<table id="hor-minimalist-a">
+			<table class="cadastro" id="hor-minimalist-a">
 				    <thead>
 				    <tr>    
 				        <th>Atributo</th>
@@ -54,10 +49,10 @@
 				    </tr>
 				    </thead>
 				    <tfoot>
-				    <tr>
-				        <td></td>        
-				        <td></td>
-				    </tr>
+					<tr>
+						<td> <button type="submit" class="btn btn-lg btn-primary">Salvar</button> </td>
+						<td> <div id="result"></div> </td>
+					</tr>
 				    </tfoot>
 				    <tr>
 						<td> Digite uma Senha:</td> <td> <input type="password" name="senha1" size=20 maxlength=40> </td>
@@ -75,30 +70,37 @@
 						<td> Ultimo Nome: </td> <td> <input type="text" name="unome" value="${usuario.ultimoNome}" size=20 maxlength=40> </td>
 					</tr>
 					
-					<tr>
-						<td> Tipo: </td> <td> <select name="tipo">
-							<c:forEach var="tipos" items="${tipos}">
-								<option value=<c:out value="${tipos.nome}"/> > <c:out value="${tipos.nome}"/> </option>
-						    </c:forEach>
-						</select> </td>
-					</tr>
-					
-					<c:forEach var="campo" items="${chave}" varStatus="status">
-						<tr>
-							<td>${campo}:</td> <td> <input type="text" name="${campo}" value="${value[status.index]}" size=20 maxlength=40> </td>
-						</tr>
-					</c:forEach>
-					
-					<tr>
-						<td> <button type="submit" class="btn btn-lg btn-primary">Salvar</button> </td>
-						<td> <div id="result"></div> </td>
-					</tr>
 			</table>
 	</form>
 </tr>
 </table>
 
 </div>
+
+<script>
+$(document).ready(function(){
+	var obj_tipo = jQuery.parseJSON( '${lista_tipos}' );
+	var obj_campo = jQuery.parseJSON( '${lista_campos}' );
+	
+	var newRow = $('<tr>');
+	col_1 = '<td> Tipo: </td>';
+	col_2 = $('<td></td>');
+	var select = $('<select name="tipo">');
+	for(var item in obj_tipo.Tipo)
+	    select.append('<option value="'+obj_tipo.Tipo[item].nome+'">'+obj_tipo.Tipo[item].nome+'</option>');
+
+	select.appendTo(col_2);
+	newRow.append(col_1);
+	newRow.append(col_2);
+
+	$("table.cadastro").append(newRow);
+	
+	for(var item in obj_campo.Key) {
+		$("table.cadastro").append('<tr> <td> '+obj_campo.Key[item].key+' : </td> <td> <input type="text" name="'+obj_campo.Key[item].key+'" value="'+obj_campo.Key[item].value+'" size=20 maxlenght=40> </td> <tr>');
+		$("table.perfil").append('<tr> <th> '+obj_campo.Key[item].key+' : </th> <td>'+obj_campo.Key[item].value+'</td> <tr>');
+	}
+});
+</script>
 
     <script>
     $( "#target" ).submit(function( event ) {
