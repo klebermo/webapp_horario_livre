@@ -256,6 +256,7 @@ $('.excluir_tipo').each(function(index, elem) {
        		
        		<div id="edit_usuario_${item.id}" class="row">
        			<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/altera_usuario"/>" id="target">
+       			<input type="hidden" name="id" value="${item.id}">
 	        	<div class="col-md-3">
 	        		Editar dados de <br/> <i> ${item.primeiroNome} ${item.ultimoNome} </i>
         		</div>
@@ -278,7 +279,7 @@ $('.excluir_tipo').each(function(index, elem) {
 						    <tbody class="basic">
 						    	<tr>
 						    		<td>Login</td>
-						    		<td> <input type="text" name="senha" value="${item.login}"> </td>
+						    		<td> <input type="text" name="login" value="${item.login}"> </td>
 						    	</tr>
 						    	
 						    	<tr>
@@ -305,7 +306,7 @@ $('.excluir_tipo').each(function(index, elem) {
 						</table>
 	       		</div>
 	        	<div class="col-md-3">
-	        		<button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> <br/> <div id="result"></div>
+	        		<button type="submit" class="btn btn-lg btn-primary">Salvar</button> <br/> <div id="result"></div>
         		</div>
 	        	</form>
        		</div>

@@ -3,9 +3,6 @@ package com.horariolivre.controller;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,8 +14,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.horariolivre.entity.Atributo;
-import com.horariolivre.entity.Tipo;
 import com.horariolivre.entity.Usuario;
 import com.horariolivre.service.AtributoService;
 import com.horariolivre.service.TipoService;
@@ -120,7 +115,7 @@ public class UsuarioController {
 	
 	@RequestMapping(value="altera_usuario", method=RequestMethod.POST)
 	@ResponseBody
-	public String altera_usuario(@ModelAttribute("username") String username, @RequestParam("id") String id_usuario_alterar, @RequestParam("login") String login, @RequestParam("senha1") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
+	public String altera_usuario(@ModelAttribute("username") String username, @RequestParam("id") String id_usuario_alterar, @RequestParam("login") String login, @RequestParam("senha") String senha, @RequestParam("pnome") String pnome, @RequestParam("unome") String unome, @RequestParam("tipo") String tipo, WebRequest webrequest) {
 		String saida = new String();
 		
 		Usuario user = usuario.getUsuarioByUsername(username);
@@ -128,23 +123,14 @@ public class UsuarioController {
 		if(usuario.temAutorizacaoCadastro(user.getId())) {
 			Usuario altera = usuario.getUsuarioById(Integer.valueOf(id_usuario_alterar).intValue());
 			
-			altera.setSenha(senha);
-			altera.setPrimeiroNome(pnome);
-			altera.setUltimoNome(unome);
-			altera.setTipo(new Tipo(tipo));
-			
 			String[] key = atributo.listaKey();
 			String[] value = new String[key.length];
-			List <Atributo> atributos = new ArrayList<Atributo>();
 			
 			for(int i=0; i<key.length; i++) {
 				value[i] = webrequest.getParameter(key[i]);
-				atributos.add(new Atributo(key[i], value[i]));
 			}
 			
-			altera.setAtributo(atributos);
-			
-			if (usuario.altera(altera))
+			if (usuario.altera(altera, senha, pnome, unome, tipo, key, value))
 				saida = "yes";
 			else
 				saida = "not";

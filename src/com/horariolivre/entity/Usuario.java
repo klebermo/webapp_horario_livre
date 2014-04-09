@@ -121,7 +121,7 @@ public class Usuario implements java.io.Serializable {
 		this.tipo = tipo;
 	}
 
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(name="atributo_usuario", joinColumns={@JoinColumn(name="fk_usuario")}, inverseJoinColumns={@JoinColumn(name="fk_atributo")})
 	public List<Atributo> getAtributo() {
 		return atributo;

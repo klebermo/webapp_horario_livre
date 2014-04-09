@@ -61,6 +61,7 @@ public class UsuarioService {
 		return this.usuario.persist(new Usuario(login, senha, primeiroNome, ultimoNome, tipo_usuario, lista_atributos));
 	}
 	
+	@Transactional
 	public boolean remove(Usuario usuario) {
 		return this.usuario.remove(usuario);
 	}
@@ -91,40 +92,54 @@ public class UsuarioService {
 			
 	}
 	
-	public boolean altera(Usuario usuario) {
-		if(this.usuario.merge(usuario) != null)
-			return true;
-		return false;
-	}
-	
+	@Transactional
 	public boolean salva_config(Time horaInicial, Time horaFinal, Usuario user) {
-		ConfigHorarioLivre config_horario = user.getConfig();
-		
-		config_horario.setHoraInicial(horaInicial);
-		config_horario.setHoraFinal(horaFinal);
-		
-		if (config.merge(config_horario) != null)
-			return true;
-		else
-			return false;
+		if(user.getConfig() == null) {
+			ConfigHorarioLivre config_horario = new ConfigHorarioLivre();
+			config_horario.setHoraInicial(horaInicial);
+			config_horario.setHoraFinal(horaFinal);
+			config.persist(config_horario);
+			user.setConfig(config_horario);
+			if (usuario.merge(user) != null)
+				return true;
+			else
+				return false;
+		}
+		else {
+			user.getConfig().setHoraInicial(horaInicial);
+			user.getConfig().setHoraFinal(horaFinal);
+			if(config.merge(user.getConfig()) != null)
+				return true;
+			else
+				return false;
+		}
 	}
 	
+	@Transactional
 	public List<Usuario> lista() {
-		return usuario.findALL();
+		List<Usuario> lista = usuario.findALL();
+		System.out.println("lista.size = "+lista.size());
+		for(int i=0; i<lista.size(); i++)
+			System.out.println("lista["+i+"]="+lista.get(i).getId()+","+lista.get(i).getLogin());
+		return lista;
 	}
-		
+	
+	@Transactional
 	public List<Autorizacao> listaAutorizacoes() {
 		return autorizacao.findALL();
 	}
 	
+	@Transactional
 	public List<Autorizacao> listaAutorizacoesUsuario(int id_usuario) {
 		return usuario.findById(id_usuario).getAutorizacao();
 	}
 	
+	@Transactional
 	public Usuario getUsuarioById(int id_usuario) {
 		return usuario.findById(id_usuario);
 	}
 	
+	@Transactional
 	public Usuario getUsuarioByUsername(String username) {
 		return usuario.findByUsername(username);
 	}

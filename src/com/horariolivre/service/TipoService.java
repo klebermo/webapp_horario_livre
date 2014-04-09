@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.horariolivre.dao.TipoHome;
 import com.horariolivre.dao.UsuarioHome;
@@ -20,26 +21,32 @@ public class TipoService {
 	@Autowired
 	private TipoHome tipo;
 	
+	@Transactional
 	public boolean cadastra(String tipoUsuario) {
 		return tipo.persist(new Tipo(tipoUsuario));
 	}
 	
+	@Transactional
 	public boolean remover(String tipoUsuario) {
 		return tipo.remove(this.tipo.findById(Integer.valueOf(tipoUsuario).intValue()));
 	}
 	
+	@Transactional
 	public Tipo getTipo(String tipoUsuario) {
 		return tipo.findByNome(tipoUsuario);
 	}
 	
+	@Transactional
 	public List<Tipo> listaTipos() {
 		return tipo.findALL();
 	}
 	
+	@Transactional
 	public Usuario getUsuarioById(int id_usuario) {
 		return usuario.findById(id_usuario);
 	}
 	
+	@Transactional
 	public Usuario getUsuarioByUsername(String username) {
 		return usuario.findByUsername(username);
 	}

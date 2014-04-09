@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.horariolivre.dao.AtributoHome;
 import com.horariolivre.dao.KeyHome;
@@ -30,10 +31,12 @@ public class AtributoService {
 	@Autowired
 	private ValueHome value;
 	
+	@Transactional
 	public boolean cadastra(String campo) {
 		return key.persist(new Key(campo));
 	}
 	
+	@Transactional
 	public boolean remover(String campo) {
 		List<Atributo> lista = atributo.findALL();
 		int max = lista.size();
@@ -48,10 +51,12 @@ public class AtributoService {
 		return key.remove(key.findByNome(campo));
 	}
 	
+	@Transactional
 	public Key getCampo(String nome) {
 		return key.findByNome(nome);
 	}
 	
+	@Transactional
 	public Value getValor(String campo, int id_usuario) {
 		Usuario user = this.getUsuarioById(id_usuario);
 		List<Value> lista = this.listaValores(user.getLogin());
@@ -63,10 +68,12 @@ public class AtributoService {
 		return null;
 	}
 	
+	@Transactional
 	public List<Key> listaCampos() {
 		return key.findALL();
 	}
 	
+	@Transactional
 	public List<Value> listaValores(String username) {
 		Usuario user = this.getUsuarioByUsername(username);
 		List<Atributo> lista = user.getAtributo();
@@ -79,6 +86,7 @@ public class AtributoService {
 		return lista_valores;
 	}
 	
+	@Transactional
 	public String[] listaKey() {
 		List<Key> lista_campos = key.findALL();
 		
@@ -90,6 +98,7 @@ public class AtributoService {
 		return lista;
 	}
 	
+	@Transactional
 	public String[] listaValue(Usuario user) {
 		List<Atributo> lista_atributo = user.getAtributo();
 		List<Value> lista_valores = new ArrayList<Value>();
@@ -105,10 +114,12 @@ public class AtributoService {
 		return lista;
 	}
 	
+	@Transactional
 	public Usuario getUsuarioById(int id_usuario) {
 		return usuario.findById(id_usuario);
 	}
 	
+	@Transactional
 	public Usuario getUsuarioByUsername(String username) {
 		return usuario.findByUsername(username);
 	}
