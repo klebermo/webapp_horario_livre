@@ -161,6 +161,12 @@ public class UsuarioController {
 		}
 	}
 	
+	@RequestMapping(value="toggle_autorizacao", method=RequestMethod.GET)
+	@ResponseBody
+	public String toggle_autorizacao(@ModelAttribute("username") String username, @RequestParam("id") String id_usuario, @RequestParam("id_auth") String id_autorizacao) {
+		return null;
+	}
+	
 	@RequestMapping(value="lista_autorizacao", method=RequestMethod.GET)
 	@ResponseBody
 	public String lista_autorizacao() {

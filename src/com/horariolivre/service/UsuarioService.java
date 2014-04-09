@@ -116,6 +116,11 @@ public class UsuarioService {
 	}
 	
 	@Transactional
+	public boolean toggle_autorizacao(Usuario user, Autorizacao auth) {
+		return false;
+	}
+	
+	@Transactional
 	public List<Usuario> lista() {
 		List<Usuario> lista = usuario.findALL();
 		System.out.println("lista.size = "+lista.size());

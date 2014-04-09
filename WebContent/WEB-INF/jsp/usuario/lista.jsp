@@ -312,6 +312,32 @@ $('.excluir_tipo').each(function(index, elem) {
        		</div>
 		</c:forEach>
 
+    <script>
+    $( "#target" ).submit(function( event ) {
+    	  // Stop form from submitting normally
+    	  event.preventDefault();
+    	 
+    	  // Get some values from elements on the page:
+    	  var $form = $( this ),
+    	  	url = $form.attr( "action" );
+    	 
+    	  // Send the data using post
+    	  var posting = $.post( url, $(this).serialize() );
+    	 
+    	  // Put the results in a div
+    	  posting.done(function( data ) {
+    		  if(data == "yes")
+    			  $( "#result" ).empty().append( "Usuario atualizado com sucesso" );
+    		  else
+    			  $( "#result" ).empty().append( "Usuario n&atilde;o atualizado" );
+    		  
+    		  $('#target').each (function(){
+    			  this.reset();
+    		  });
+    	  });
+    	});
+    </script>
+    
 <script>
 function edit_campos() {
 	$(".campos").toggle();
@@ -433,33 +459,6 @@ $('.del').each(function(index, elem) {
 });
 
 </script>
-
-    <script>
-    $( "#target" ).submit(function( event ) {
-    	 
-    	  // Stop form from submitting normally
-    	  event.preventDefault();
-    	 
-    	  // Get some values from elements on the page:
-    	  var $form = $( this ),
-    	  	url = $form.attr( "action" );
-    	 
-    	  // Send the data using post
-    	  var posting = $.post( url, $(this).serialize() );
-    	 
-    	  // Put the results in a div
-    	  posting.done(function( data ) {
-    		  if(data == "yes")
-    			  $( "#result" ).empty().append( "Usu&aacute;rio atualizado com sucesso" );
-    		  else
-    			  $( "#result" ).empty().append( "Usu&aacute;rio n&atilde;o atualizado" );
-    		  
-    		  $("#target").each (function(){
-    			  this.reset();
-    		  });
-    	  });
-    	});
-    </script>
 
 </body>
 </html>

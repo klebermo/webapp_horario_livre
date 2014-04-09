@@ -10,7 +10,7 @@
 
 <h1>Intervalos</h1>
 
-<form method="POST" action="<c:out value="${pageContext.request.contextPath}/usuario/salvar_config"/>">
+<form method="POST" action="<c:out value="${pageContext.request.contextPath}/usuario/salvar_config"/>" id="target">
 <p>Para qual intervalo do dia você deseja cadastrar horários?</p>
 
 <table>
@@ -46,10 +46,9 @@
 			$('#hora_final').timepicker();
 		});
 	</script>
-    
+
     <script>
     $( "#target" ).submit(function( event ) {
-    	 
     	  // Stop form from submitting normally
     	  event.preventDefault();
     	 
@@ -67,7 +66,7 @@
     		  else
     			  $( "#result" ).empty().append( "Configura&ccedil;&otilde;es n&atilde;o cadastradas" );
     		  
-    		  $("#target").each (function(){
+    		  $('#target').each (function(){
     			  this.reset();
     		  });
     	  });
