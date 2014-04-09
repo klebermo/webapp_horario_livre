@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.horariolivre.entity.Autorizacao;
 import com.horariolivre.entity.Usuario;
 import com.horariolivre.service.AtributoService;
 import com.horariolivre.service.TipoService;
@@ -164,7 +165,17 @@ public class UsuarioController {
 	@RequestMapping(value="toggle_autorizacao", method=RequestMethod.GET)
 	@ResponseBody
 	public String toggle_autorizacao(@ModelAttribute("username") String username, @RequestParam("id") String id_usuario, @RequestParam("id_auth") String id_autorizacao) {
-		return null;
+		Usuario user = usuario.getUsuarioByUsername(username);
+		
+		if(usuario.temAutorizacaoPermissoes(user.getId())) {
+			Usuario target = usuario.getUsuarioById(Integer.valueOf(id_usuario).intValue());
+			Autorizacao cadastra = usuario.getAutorizacao(Integer.valueOf(id_autorizacao).intValue());
+			if (usuario.toggle_autorizacao(target, cadastra))
+				return "yes";
+			else
+				return "not";
+		}
+		return "no_permit";
 	}
 	
 	@RequestMapping(value="lista_autorizacao", method=RequestMethod.GET)

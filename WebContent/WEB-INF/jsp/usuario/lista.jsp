@@ -239,7 +239,7 @@ $('.excluir_tipo').each(function(index, elem) {
 						    
 						    <tfoot>
 							    <tr>
-							        <td></td>        
+							        <td> <div id="result_auth"></div></td>        
 							        <td></td>
 							    </tr>
 						    </tfoot>
@@ -414,7 +414,7 @@ $('.auth').each(function(index, elem) {
     		
     		for(var item in obj_auth.Auth) {
     			var checkbox = $('<tr>');
-    			checkbox.append('<td><input type="checkbox" id="'+obj_auth.Auth[item].nome+'" name="'+obj_auth.Auth[item].nome+'"></td> <td>'+obj_auth.Auth[item].nome+'</td>');
+    			checkbox.append('<td><input type="checkbox" class="auth_check" data-user="'+index+'" data-key="'+obj_auth.Auth[item].id+'" name="'+obj_auth.Auth[item].nome+'"></td> <td>'+obj_auth.Auth[item].nome+'</td>');
     			checkbox.appendTo(newRow);
     		}
 
@@ -431,11 +431,34 @@ $('.auth').each(function(index, elem) {
     		var obj_auth = jQuery.parseJSON( data );
     		
     		for(var item in obj_auth.Auth) {
-    			var checkbox = getElementById(obj_auth.Auth[item].nome);
+    			var checkbox = $('input[name='+obj_auth.Auth[item].nome+']');
     			$(checkbox).attr("checked","true");
     		}
     	});
     });
+});
+
+$('.auth_check').each(function(index, elem) {
+	$(elem).click(function(){
+		var index = $(elem).data('key');
+		var user = $(elem).data('user');
+    	$.ajax({
+    		type: "GET",
+    		url: "<c:out value="${pageContext.request.contextPath}/usuario/toggle_autorizacao"/>",
+    		cache: false,
+    		data: {id_usuario: user, id_autorizacao: index}
+    	}).done(function(data){
+    		if(data == "yes") {
+    			$("#result_auth").empty().append("ok").hide(3000);
+    		}
+    		else if(data == "not") {
+    			$("#result_auth").empty().append("erro").hide(3000);
+    		}
+    		else {
+    			$("#result_auth").empty().append("sem acesso").hide(3000);
+    		}
+    	});
+	});
 });
 
 $('.del').each(function(index, elem) {

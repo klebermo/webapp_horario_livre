@@ -117,7 +117,20 @@ public class UsuarioService {
 	
 	@Transactional
 	public boolean toggle_autorizacao(Usuario user, Autorizacao auth) {
-		return false;
+		for(int i=0; i<user.getAutorizacao().size(); i++) {
+			if(user.getAutorizacao().get(i).getNome().equals(auth.getNome())) {
+				user.getAutorizacao().remove(i);
+				if(usuario.merge(user) != null)
+					return true;
+				else
+					return false;
+			}
+		}
+		user.getAutorizacao().add(auth);
+		if(usuario.merge(user) != null)
+			return true;
+		else
+			return false;
 	}
 	
 	@Transactional
@@ -137,6 +150,11 @@ public class UsuarioService {
 	@Transactional
 	public List<Autorizacao> listaAutorizacoesUsuario(int id_usuario) {
 		return usuario.findById(id_usuario).getAutorizacao();
+	}
+	
+	@Transactional
+	public Autorizacao getAutorizacao(int id_autorizacao) {
+		return autorizacao.findById(id_autorizacao);
 	}
 	
 	@Transactional
@@ -171,6 +189,17 @@ public class UsuarioService {
 		return false;
 	}
 	
+	public boolean temAutorizacaoPermissoes(int id_usuario) {
+		Usuario novo = usuario.findById(id_usuario);
+		
+		for(int i=0; i<novo.getAutorizacao().size(); i++) {
+			if(novo.getAutorizacao().get(i).getNome().equals("cad_permissao"))
+				return true;
+		}
+		
+		return false;
+	}
+	
 	public json_list_auth getJsonListAuth() {
 		json_list_auth lista = new json_list_auth();
 		return lista;
@@ -191,7 +220,7 @@ public class UsuarioService {
 			String node = new String();
 			
 			if(this.auth == null)
-				node = "\"" + "id" + "\"" + ":" + "-1";
+				node = "\"" + "id" + "\"" + ":" + "-1" + "," + "\"" + "nome" + "\"" + ":" + "\"" + "xxx" + "\"";
 			else
 				node = "\"" + "id" + "\"" + ":" + this.auth.getId() + "," + "\"" + "nome" + "\"" + ":" + "\"" + this.auth.getNome() + "\"";
 			
@@ -217,9 +246,16 @@ public class UsuarioService {
 		public void setLista(List<Autorizacao> lista) {
 			int max = lista.size();
 			
-			for(int i=0; i<max; i++) {
+			if(max > 0) {
+				for(int i=0; i<max; i++) {
+					json_node_auth e = new json_node_auth();
+					e.set(lista.get(i));
+					this.lista.add(e);
+				}
+			}
+			else {
 				json_node_auth e = new json_node_auth();
-				e.set(lista.get(i));
+				e.set(null);
 				this.lista.add(e);
 			}
 		}
