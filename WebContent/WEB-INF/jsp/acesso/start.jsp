@@ -15,7 +15,10 @@
     <link href="<c:out value="${pageContext.request.contextPath}/bootstrap/css/bootstrap-theme.min.css"/>" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-darkness/jquery-ui-theme.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-darkness/jquery-ui-min.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-darkness/jquery-ui.css"/>" rel="stylesheet">
+    
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/starter-template.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/grid.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/signin.css"/>" rel="stylesheet">
@@ -121,7 +124,7 @@
 		                $( "#dialog" ).dialog({ title: $temp.find('title').text() });
 		                $('#text').html($temp.remove('head').html());
 		                $( "#dialog" ).dialog({ height: 720 });
-		                $( "#dialog" ).dialog({ width: 720 });
+		                $( "#dialog" ).dialog({ width: 960 });
 		                $( "#dialog" ).dialog( "open" );
 		    		});
     			}

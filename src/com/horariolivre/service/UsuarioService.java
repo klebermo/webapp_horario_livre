@@ -53,7 +53,9 @@ public class UsuarioService {
 		for(int i=0; i<campo.length; i++) {
 			Key chave = key.findByNome(campo[i]);
 			Value conteudo = new Value(valor[i]);
+			value.persist(conteudo);
 			lista_atributos.add(new Atributo(chave, conteudo));
+			atributo.persist(lista_atributos.get(i));
 		}
 		
 		return this.usuario.persist(new Usuario(login, senha, primeiroNome, ultimoNome, tipo_usuario, lista_atributos));
@@ -70,7 +72,9 @@ public class UsuarioService {
 		for(int i=0; i<campo.length; i++) {
 			Key chave = key.findByNome(campo[i]);
 			Value conteudo = new Value(valor[i]);
+			value.persist(conteudo);
 			lista_atributos.add(new Atributo(chave, conteudo));
+			atributo.persist(lista_atributos.get(i));
 		}
 		
 		if(!senha.isEmpty())
@@ -96,7 +100,14 @@ public class UsuarioService {
 	
 	public boolean salva_config(Time horaInicial, Time horaFinal, Usuario user) {
 		ConfigHorarioLivre config_horario = user.getConfig();
-		return false;
+		
+		config_horario.setHoraInicial(horaInicial);
+		config_horario.setHoraFinal(horaFinal);
+		
+		if (config.merge(config_horario) != null)
+			return true;
+		else
+			return false;
 	}
 	
 	public List<Usuario> lista() {

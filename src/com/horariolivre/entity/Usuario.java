@@ -107,7 +107,7 @@ public class Usuario implements java.io.Serializable {
 		this.ultimoNome = ultimoNome;
 	}
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="fk_tipo")
 	public Tipo getTipo() {
 		return tipo;

@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+
 @Entity
 @Table(name = "atributo")
 public class Atributo implements java.io.Serializable {
@@ -44,8 +46,9 @@ public class Atributo implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
 	@JoinColumn(name="key")
+	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	public Key getKey() {
 		return key;
 	}
