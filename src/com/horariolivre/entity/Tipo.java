@@ -19,7 +19,6 @@ public class Tipo implements java.io.Serializable {
 
 	private int id;
 	private String nome;
-	private String descricao;
 
 	public Tipo() {
 	}
@@ -32,13 +31,8 @@ public class Tipo implements java.io.Serializable {
 		this.nome = nome;
 	}
 
-	public Tipo(String nome, String descricao) {
-		this.nome = nome;
-		this.descricao = descricao;
-	}
-
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getId() {
 		return this.id;
@@ -48,7 +42,7 @@ public class Tipo implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "nome", nullable = false, length = 16)
+	@Column(name = "nome")
 	public String getNome() {
 		return this.nome;
 	}
@@ -57,12 +51,4 @@ public class Tipo implements java.io.Serializable {
 		this.nome = nome;
 	}
 
-	@Column(name = "descricao", length = 48)
-	public String getDescricao() {
-		return this.descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
 }

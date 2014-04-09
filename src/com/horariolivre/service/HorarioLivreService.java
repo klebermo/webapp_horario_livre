@@ -28,8 +28,13 @@ public class HorarioLivreService {
 	
 	public boolean cadastra(Date data, Time hora, int id_usuario) {
 		Usuario owner = usuario.findById(id_usuario);
-		HorarioLivre horario = new HorarioLivre(data, hora, owner);
-		return horariolivre.persist(horario);
+		HorarioLivre horario = new HorarioLivre(data, hora);
+		horariolivre.persist(horario);
+		owner.getHorario_livre().add(horario);
+		if(usuario.merge(owner) != null)
+			return true;
+		else
+			return false;
 	}
 	
 	public boolean remove(HorarioLivre horario) {
@@ -37,13 +42,19 @@ public class HorarioLivreService {
 	}
 	
 	public boolean existe(Date data, Time hora, String username) {
-		if(horariolivre.findByExample(new HorarioLivre(data, hora, this.getUsuarioByUsername(username))).size() > 0)
-			return true;
-		else
-			return false;
+		Usuario owner = usuario.findByUsername(username);
+		List<HorarioLivre> lista = owner.getHorario_livre();
+		int max = lista.size();
+		for(int i=0; i<max; i++) {
+			if(lista.get(i).getData().equals(data) && lista.get(i).getHora().equals(hora)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	public List<HorarioLivre> lista(int id_usuario) {
-		return horariolivre.findByUsuario(usuario.findById(id_usuario));
+		Usuario owner = usuario.findById(id_usuario);
+		return owner.getHorario_livre();
 	}
 	
 	public Usuario getUsuarioById(int id_usuario) {

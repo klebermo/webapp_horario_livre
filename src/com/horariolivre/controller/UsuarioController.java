@@ -85,11 +85,9 @@ public class UsuarioController {
 
 			
 			if (usuario.cadastra(login, senha1, pnome, unome, tipo, key, value)) {
-				System.out.println("cadastrou");
 				saida = "yes";
 			}
 			else {
-				System.out.println("nao cadastrou");
 				saida = "not";
 			}
 		}

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.horariolivre.dao.AtributoHome;
 import com.horariolivre.dao.AutorizacaoHome;
@@ -45,7 +46,8 @@ public class UsuarioService {
 	
 	@Autowired
 	private ConfigHorarioLivreHome config;
-		
+
+	@Transactional
 	public boolean cadastra(String login, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String[] campo, String[] valor) {
 		Tipo tipo_usuario = tipo.findByNome(tipoUsuario);
 		List<Atributo> lista_atributos = new ArrayList<Atributo>();
@@ -53,9 +55,7 @@ public class UsuarioService {
 		for(int i=0; i<campo.length; i++) {
 			Key chave = key.findByNome(campo[i]);
 			Value conteudo = new Value(valor[i]);
-			value.persist(conteudo);
 			lista_atributos.add(new Atributo(chave, conteudo));
-			atributo.persist(lista_atributos.get(i));
 		}
 		
 		return this.usuario.persist(new Usuario(login, senha, primeiroNome, ultimoNome, tipo_usuario, lista_atributos));
@@ -65,6 +65,7 @@ public class UsuarioService {
 		return this.usuario.remove(usuario);
 	}
 	
+	@Transactional
 	public boolean altera(Usuario user, String senha, String primeiroNome, String ultimoNome, String tipoUsuario, String[] campo, String[] valor) {
 		Tipo tipo_usuario = tipo.findByNome(tipoUsuario);
 		List<Atributo> lista_atributos = new ArrayList<Atributo>();
@@ -72,9 +73,7 @@ public class UsuarioService {
 		for(int i=0; i<campo.length; i++) {
 			Key chave = key.findByNome(campo[i]);
 			Value conteudo = new Value(valor[i]);
-			value.persist(conteudo);
 			lista_atributos.add(new Atributo(chave, conteudo));
-			atributo.persist(lista_atributos.get(i));
 		}
 		
 		if(!senha.isEmpty())

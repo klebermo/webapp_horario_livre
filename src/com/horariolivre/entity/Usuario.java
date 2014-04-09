@@ -18,6 +18,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 // Generated 24/03/2014 06:49:18 by Hibernate Tools 3.4.0.CR1
 
@@ -37,9 +39,10 @@ public class Usuario implements java.io.Serializable {
 	private String primeiroNome;
 	private String ultimoNome;
 	private Tipo tipo;
-	private List<Atributo> atributo;
 	private ConfigHorarioLivre config;
+	private List<Atributo> atributo;
 	private List<Autorizacao> autorizacao;
+	private List<HorarioLivre> horario_livre;
 
 	public Usuario() {
 	}
@@ -109,6 +112,7 @@ public class Usuario implements java.io.Serializable {
 
 	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="fk_tipo")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	public Tipo getTipo() {
 		return tipo;
 	}
@@ -117,9 +121,8 @@ public class Usuario implements java.io.Serializable {
 		this.tipo = tipo;
 	}
 
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name="atributo_usuario", joinColumns={@JoinColumn(name="fk_usuario")}, inverseJoinColumns={@JoinColumn(name="fk_atributo")})
-	@LazyCollection(LazyCollectionOption.FALSE)
 	public List<Atributo> getAtributo() {
 		return atributo;
 	}
@@ -130,6 +133,7 @@ public class Usuario implements java.io.Serializable {
 
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="fk_config")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	public ConfigHorarioLivre getConfig() {
 		return config;
 	}
@@ -147,6 +151,17 @@ public class Usuario implements java.io.Serializable {
 
 	public void setAutorizacao(List<Autorizacao> autorizacao) {
 		this.autorizacao = autorizacao;
+	}
+
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinTable(name="horariolivre_usuario", joinColumns={@JoinColumn(name="fk_usuario")}, inverseJoinColumns={@JoinColumn(name="fk_horariolivre")})
+	@LazyCollection(LazyCollectionOption.FALSE)
+	public List<HorarioLivre> getHorario_livre() {
+		return horario_livre;
+	}
+
+	public void setHorario_livre(List<HorarioLivre> horario_livre) {
+		this.horario_livre = horario_livre;
 	}
 
 }

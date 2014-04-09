@@ -68,7 +68,7 @@ public class HorarioLivreController {
 		int id_usuario = horariolivre.getUsuarioByUsername(username).getId();
 		
 		if(horariolivre.existe(data2, hora2, username)) {
-			if (horariolivre.remove(new HorarioLivre(data2, hora2, horariolivre.getUsuarioByUsername(username))))
+			if (horariolivre.remove(new HorarioLivre(data2, hora2)))
 				return "removed";
 			else
 				return "not removed";

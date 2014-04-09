@@ -57,8 +57,9 @@ public class Atributo implements java.io.Serializable {
 		this.key = key;
 	}
 
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
 	@JoinColumn(name="value")
+	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
 	public Value getValue() {
 		return value;
 	}
