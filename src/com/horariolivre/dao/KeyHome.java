@@ -84,21 +84,6 @@ public class KeyHome {
 		}
 	}
 	
-	@Transactional
-	public Key findByNome(String nome) {
-		log.debug("getting Key instance with nome: " + nome);
-		try {
-			Query q = sessionFactory.getCurrentSession().createQuery("from Key where nome = :nome");
-			q.setParameter("nome", nome);
-			Key instance = (Key) q.uniqueResult();
-			log.debug("get successful");
-			return instance;
-		} catch (RuntimeException re) {
-			log.error("get failed", re);
-			return null;
-		}
-	}
-	
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Key> findALL() {
