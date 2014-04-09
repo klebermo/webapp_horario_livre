@@ -96,19 +96,7 @@ public class UsuarioService {
 	
 	public boolean salva_config(Time horaInicial, Time horaFinal, Usuario user) {
 		ConfigHorarioLivre config_horario = user.getConfig();
-		config_horario.setHoraInicial(horaInicial);
-		config_horario.setHoraFinal(horaFinal);
-		
-		if(config.merge(config_horario) != null) {
-			user.setConfig(config_horario);
-			if(usuario.merge(user) != null)
-				return true;
-			else
-				return false;
-		}
-		else {
-			return false;
-		}
+		return false;
 	}
 	
 	public List<Usuario> lista() {

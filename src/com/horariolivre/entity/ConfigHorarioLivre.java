@@ -23,6 +23,7 @@ public class ConfigHorarioLivre implements java.io.Serializable {
 	private Time horaFinal;
 
 	public ConfigHorarioLivre() {
+		this.id = -1;
 		this.horaInicial = new Time(0);
 		this.horaFinal = new Time(0);
 	}
@@ -32,6 +33,7 @@ public class ConfigHorarioLivre implements java.io.Serializable {
 	}
 
 	public ConfigHorarioLivre(Time horaInicial, Time horaFinal) {
+		this.id = -1;
 		this.horaInicial = horaInicial;
 		this.horaFinal = horaFinal;
 	}

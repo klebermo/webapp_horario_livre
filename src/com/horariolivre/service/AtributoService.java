@@ -35,6 +35,16 @@ public class AtributoService {
 	}
 	
 	public boolean remover(String campo) {
+		List<Atributo> lista = atributo.findALL();
+		int max = lista.size();
+		
+		for(int i=0; i<max; i++) {
+			if(lista.get(i).getKey().getNome().equals(campo)) {
+				Atributo temp = new Atributo(lista.get(i).getKey(), lista.get(i).getValue());
+				atributo.remove(temp);
+			}
+		}
+		
 		return key.remove(key.findByNome(campo));
 	}
 	

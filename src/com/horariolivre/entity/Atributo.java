@@ -3,16 +3,12 @@ package com.horariolivre.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "atributo")
@@ -47,11 +43,9 @@ public class Atributo implements java.io.Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="fk_key")
-	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-	@OnDelete(action = OnDeleteAction.CASCADE)
+
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="key")
 	public Key getKey() {
 		return key;
 	}
@@ -59,10 +53,9 @@ public class Atributo implements java.io.Serializable {
 	public void setKey(Key key) {
 		this.key = key;
 	}
-	
+
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="fk_value")
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name="value")
 	public Value getValue() {
 		return value;
 	}

@@ -12,7 +12,6 @@
 
     <!-- Bootstrap core CSS -->
     <link href="<c:out value="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/bootstrap/css/bootstrap-formhelpers.min.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/bootstrap/css/bootstrap-theme.min.css"/>" rel="stylesheet">
 
     <!-- Custom styles for this template -->
@@ -95,7 +94,6 @@
     <script src="<c:out value="${pageContext.request.contextPath}/jquery/js/jquery-2.1.0.min.js"/>"></script>
     <script src="<c:out value="${pageContext.request.contextPath}/jquery/js/jquery-ui-1.10.4.custom.min.js"/>"></script>
     <script src="<c:out value="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"/>"></script>
-    <script src="<c:out value="${pageContext.request.contextPath}/bootstrap/js/bootstrap-formhelpers.min.js"/>"></script>
     <script src="<c:out value="${pageContext.request.contextPath}/extras/js/jquery-ui-timepicker-addon.js"/>"></script>
     <script src="<c:out value="${pageContext.request.contextPath}/extras/js/jquery-ui-sliderAccess.js"/>"></script>
     
@@ -122,7 +120,7 @@
 		                //$('#title').text($temp.find('title').text());
 		                $( "#dialog" ).dialog({ title: $temp.find('title').text() });
 		                $('#text').html($temp.remove('head').html());
-		                $( "#dialog" ).dialog({ height: 640 });
+		                $( "#dialog" ).dialog({ height: 720 });
 		                $( "#dialog" ).dialog({ width: 720 });
 		                $( "#dialog" ).dialog( "open" );
 		    		});

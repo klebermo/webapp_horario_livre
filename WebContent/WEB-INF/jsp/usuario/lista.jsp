@@ -31,28 +31,29 @@ $(document).ready(function(){
 <p>
 	<table id="hor-minimalist-a" class="campos">
 	  <thead>
-	  <tr>    
-	      <th>Campo</th>
-	      <th>#</th>
-	  </tr>
+		  <tr>    
+		      <th>Campo</th>
+		      <th>#</th>
+		  </tr>
 	  </thead>
 	  <tfoot>
-	  <tr>
-	  	<td> <input type="text" name="nome_campo"> </td>
-	  	<td> <button type="button" id="incluir_campo" class="btn btn-link">Incluir</button> </td>
-	  </tr>
-	  <tr>
-	  	<td> <div id="result_incluir_campo"></div> </td>
-	  	<td> <div id="result_excluir_campo"></div> </td>
-	  </tr>
+		  <tr>
+		  	<td> <input type="text" name="nome_campo"> </td>
+		  	<td> <button type="button" id="incluir_campo" class="btn btn-link">Incluir</button> </td>
+		  </tr>
+		  <tr>
+		  	<td> <div id="result_incluir_campo"></div> </td>
+		  	<td> <div id="result_excluir_campo"></div> </td>
+		  </tr>
 	  </tfoot>
-	  
-	  <c:forEach var="item_key" items="${campos}" varStatus="status">
-	  <tr id="linha_campo_${item_key}">
-		<td> <input type="text" value="${item_key}"> </td>
-		<td> <button type="button" class="btn btn-link excluir_campo" data-key="${item_key}">Excluir</button> </td>
-	  </tr>
-	  </c:forEach>
+	  <tbody>
+		  <c:forEach var="item_key" items="${campos}">
+			  <tr id="linha_campo_${item_key}">
+				<td> <input type="text" value="${item_key}"> </td>
+				<td> <button type="button" class="excluir_campo btn btn-link" data-key="${item_key}">Excluir</button> </td>
+			  </tr>
+		  </c:forEach>
+	  </tbody>
 	</table>
 </p>
 
@@ -69,10 +70,10 @@ $("#incluir_campo").on("click", function () {
 		if(obj.Key[0].id > 0) {
 			var newRow = $('<tr id="linha_campo_'+obj.Key[0].key+'">');
 			
-			cols = '<td> <input type="text" name="'+obj.Key[0].key+'" value="'+obj.Key[0].key+'"> </td>';
-	        cols += '<td> <button type="button" class="btn btn-link excluir_campo" data-key="'+obj.Key[0].key+'">Excluir</button> </td>';
+			cols = '<td> <input type="text" value="'+obj.Key[0].key+'"> </td>';
+	        cols += '<td> <button type="button" class="excluir_campo btn btn-link" data-key="'+obj.Key[0].key+'">Excluir</button> </td>';
 	        newRow.append(cols);
-	        $("table.campos").append(newRow);
+	        $("table.campos tbody").append(newRow);
 	        $("input[name=nome_campo]").val("");
 		}
 		else {
@@ -111,28 +112,29 @@ $('.excluir_campo').each(function(index, elem){
 <p>
 	<table id="hor-minimalist-a" class="tipos">
 	  <thead>
-	  <tr>    
-	      <th>Tipo</th>
-	      <th>#</th>
-	  </tr>
+		  <tr>
+		      <th>Tipo</th>
+		      <th>#</th>
+		  </tr>
 	  </thead>
 	  <tfoot>
-	  <tr>
-	  	<td> <input type="text" name="nome_tipo"> </td>
-	  	<td> <button type="button" id="incluir_tipo" class="btn btn-link">Incluir</button> </td>
-	  </tr>
-	  <tr>
-	  	<td> <div id="result_incluir_tipo"></div> </td>
-	  	<td> <div id="result_excluir_tipo"></div> </td>
-	  </tr>
+		  <tr>
+		  	<td> <input type="text" name="nome_tipo"> </td>
+		  	<td> <button type="button" id="incluir_tipo" class="btn btn-link">Incluir</button> </td>
+		  </tr>
+		  <tr>
+		  	<td> <div id="result_incluir_tipo"></div> </td>
+		  	<td> <div id="result_excluir_tipo"></div> </td>
+		  </tr>
 	  </tfoot>
-	  
-	  <c:forEach var="item_tipo" items="${tipos}">
-	  <tr id="linha_tipo_${item_tipo.nome}">
-		<td> <input type="text" name="${item_tipo.nome}" value="${item_tipo.nome}"> </td>
-		<td> <button type="button" class="btn btn-link excluir_tipo" data-key="${item_tipo.nome}">Excluir</button> </td>
-	  </tr>
-	  </c:forEach>
+	  <tbody>
+		  <c:forEach var="item_tipo" items="${tipos}">
+			  <tr id="linha_tipo_${item_tipo.id}">
+				<td> <input type="text" name="${item_tipo.nome}" value="${item_tipo.nome}"> </td>
+				<td> <button type="button" class="excluir_tipo btn btn-link" data-key="${item_tipo.id}">Excluir</button> </td>
+			  </tr>
+		  </c:forEach>
+	  </tbody>
 	</table>
 </p>
 
@@ -147,13 +149,13 @@ $("#incluir_tipo").on("click", function () {
 		var obj = jQuery.parseJSON( data );
 		
 		if(obj.Tipo[0].id > 0) {
-			var newRow = $('<tr id="linha_tipo_'+obj.nome+'">');
+			var newRow = $('<tr id="linha_tipo_'+obj.Tipo[0].id+'">');
 			
 			cols = '<td> <input type="text" name="'+obj.Tipo[0].nome+'" value="'+obj.Tipo[0].nome+'"> </td>';
-	        cols += '<td> <button type="button" class="btn btn-link excluir_tipo" data-key="'+obj.Tipo[0].nome+'">Excluir</button> </td>';
+	        cols += '<td> <button type="button" class="excluir_tipo btn btn-link" data-key="'+obj.Tipo[0].id+'">Excluir</button> </td>';
 	        
 	        newRow.append(cols);
-	        $("table.tipos").append(newRow);
+	        $("table.tipos tbody").append(newRow);
 	        $("input[name=nome_tipo]").val("");
 		}
 		else {
@@ -203,7 +205,7 @@ $('.excluir_tipo').each(function(index, elem) {
       	</div>
 
 		<c:forEach var="item" items="${usuarios}">
-		<div class="row">
+		<div class="row" id="row-${item.id}">
         	<div class="col-md-3">
         		<c:out value="${item.login}"/>
        		</div>
@@ -215,9 +217,9 @@ $('.excluir_tipo').each(function(index, elem) {
         	<div class="col-md-3">
         		<table>
         		<tr>
-	        		<td><a href="#" onclick="editar('<c:out value="${item.id}"/>')"> <span class="ui-icon ui-icon-pencil"> </span> </a></td>
-	        		<td><a href="#" onclick="remover('<c:out value="${item.id}"/>')"> <span class="ui-icon ui-icon-trash"> </span> </a></td>
-	        		<td><a href="#" onclick="autorizacao('<c:out value="${item.id}"/>')"> <span class="ui-icon ui-icon-wrench"> </span> </a></td>
+	        		<td><a href="#" class="edit" data-key="${item.id}"> <span class="ui-icon ui-icon-pencil"> </span> </a></td>
+	        		<td><a href="#" class="del" data-key="${item.id}"> <span class="ui-icon ui-icon-trash"> </span> </a></td>
+	        		<td><a href="#" class="auth" data-key="${item.id}"> <span class="ui-icon ui-icon-wrench"> </span> </a></td>
         		</tr>
         		</table>
        		</div>
@@ -242,6 +244,10 @@ $('.excluir_tipo').each(function(index, elem) {
 							    </tr>
 						    </tfoot>
 						    
+						    <tbody class="auth">
+						    
+						    </tbody>
+						    
      				</table>
      			</div>
      			
@@ -254,7 +260,7 @@ $('.excluir_tipo').each(function(index, elem) {
 	        		Editar dados de <br/> <i> ${item.primeiroNome} ${item.ultimoNome} </i>
         		</div>
 	        	<div class="col-md-6">
-						<table id="cadastro-${item.id}" class="hor-minimalist-a">
+						<table id="cad-${item.id}" class="hor-minimalist-a">
 						    <thead>
 							    <tr>    
 							        <th>Atributo</th>
@@ -269,7 +275,7 @@ $('.excluir_tipo').each(function(index, elem) {
 							    </tr>
 						    </tfoot>
 						    
-						    <tbody>
+						    <tbody class="basic">
 						    	<tr>
 						    		<td>Login</td>
 						    		<td> <input type="text" name="senha" value="${item.login}"> </td>
@@ -291,6 +297,11 @@ $('.excluir_tipo').each(function(index, elem) {
 						    	</tr>
 						    	
 						    </tbody>
+						    
+						    <tbody class="extra">
+						    
+						    </tbody>
+						    
 						</table>
 	       		</div>
 	        	<div class="col-md-3">
@@ -309,71 +320,117 @@ function edit_tipos() {
 	$(".tipos").toggle();
 }
 
-function editar(id_usuario) {
-	var div = "#edit_usuario_"+id_usuario;
-	$(div).toggle();
-	$('#extra-cad-'+id_usuario).remove();
-	var newRow = $('<tr id="extra-cad-'+id_usuario+'">');
-	
-	$.ajax({
-		type: "GET",
-		url: "<c:out value="${pageContext.request.contextPath}/tipo/lista_tipo"/>",
-		cache: false
-	}).done(function(data){
-		var obj_tipo = jQuery.parseJSON( data );
+$('.edit').each(function(index, elem) {
+    $(elem).click(function(){
+        //do you stuff here!
+        var index = $(elem).data('key'); //this will read data-key attribute
+        
+    	var div = "#edit_usuario_"+index;
+    	$(div).toggle();
+    	
+    	$('#cad-'+index+' tbody.extra').remove();
+    	var newRow = $('<tr>');
+    	
+    	$.ajax({
+    		type: "GET",
+    		url: "<c:out value="${pageContext.request.contextPath}/tipo/lista_tipo"/>",
+    		cache: false
+    	}).done(function(data){
+    		var obj_tipo = jQuery.parseJSON( data );
+    		
+    		col_1 = '<td> Tipo: </td>';
+    		col_2 = $('<td></td>');
+    		var select = $('<select name="tipo">');
+    		for(var item in obj_tipo.Tipo)
+    		    select.append('<option value="'+obj_tipo.Tipo[item].nome+'">'+obj_tipo.Tipo[item].nome+'</option>');
+
+    		select.appendTo(col_2);
+    		newRow.append(col_1);
+    		newRow.append(col_2);
+
+    		$('#cad-'+index).append('<tbody class="extra">');
+    		$('#cad-'+index+' tbody.extra').append(newRow);
+    	});
+    	
+    	$.ajax({
+    		type: "GET",
+    		url: "<c:out value="${pageContext.request.contextPath}/key/lista_key_value"/>",
+    		cache: false,
+    		data: {id: index}
+    	}).done(function(data){
+    		var obj_campo = jQuery.parseJSON( data );
+
+    		for(var item in obj_campo.Key) {
+    			$('#cad-'+index+' tbody.extra').append('<tr> <td> '+obj_campo.Key[item].key+' : </td> <td> <input type="text" name="'+obj_campo.Key[item].key+'" value="'+obj_campo.Key[item].value+'" size=20 maxlenght=40> </td> <tr>');
+    		}
+    	});
+    });
+});
+
+$('.auth').each(function(index, elem) {
+    $(elem).click(function(){
+        //do you stuff here!
+        var index = $(elem).data('key'); //this will read data-key attribute
+
+    	var div = "#edit_autorizacao_"+index;
+    	$(div).toggle();
+    	
+    	$('#auth-'+index+' tbody.auth').remove();
+    	var newRow = $('<tr>');
+    	
+    	$.ajax({
+    		type: "GET",
+    		url: "<c:out value="${pageContext.request.contextPath}/usuario/lista_autorizacao"/>",
+    		cache: false
+    	}).done(function(data){
+    		var obj_auth = jQuery.parseJSON( data );
+    		
+    		for(var item in obj_auth.Auth) {
+    			var checkbox = $('<tr>');
+    			checkbox.append('<td><input type="checkbox" id="'+obj_auth.Auth[item].nome+'" name="'+obj_auth.Auth[item].nome+'"></td> <td>'+obj_auth.Auth[item].nome+'</td>');
+    			checkbox.appendTo(newRow);
+    		}
+
+    		$('#auth-'+index).append('<tbody class="auth">')
+    		$('#auth-'+index+' tbody.auth').append(newRow);
+    	});
+    	
+    	$.ajax({
+    		type: "GET",
+    		url: "<c:out value="${pageContext.request.contextPath}/usuario/lista_autorizacao_usuario"/>",
+    		cache: false,
+    		data: {id: index}
+    	}).done(function(data){
+    		var obj_auth = jQuery.parseJSON( data );
+    		
+    		for(var item in obj_auth.Auth) {
+    			var checkbox = getElementById(obj_auth.Auth[item].nome);
+    			$(checkbox).attr("checked","true");
+    		}
+    	});
+    });
+});
+
+$('.del').each(function(index, elem) {
+	$(elem).click(function() {
+		var index = $(elem).data('key'); //this will read data-key attribute
 		
-		col_1 = '<td> Tipo: </td>';
-		col_2 = $('<td></td>');
-		var select = $('<select name="tipo">');
-		for(var item in obj_tipo.Tipo)
-		    select.append('<option value="'+obj_tipo.Tipo[item].nome+'">'+obj_tipo.Tipo[item].nome+'</option>');
-
-		select.appendTo(col_2);
-		newRow.append(col_1);
-		newRow.append(col_2);
-
-		$("#cadastro-"+id_usuario).append(newRow);
+    	$.ajax({
+    		type: "GET",
+    		url: "<c:out value="${pageContext.request.contextPath}/usuario/remover_usuario"/>",
+    		cache: false,
+    		data: {id: index}
+    	}).done(function(data){
+    		var div1 = "#edit_autorizacao_"+index;
+        	$(div1).remove();
+        	var div2 = "#edit_usuario_"+index;
+        	$(div2).remove();
+        	var row = "row-"+index;
+        	$(row).remove();
+    	});
 	});
-	
-	$.ajax({
-		type: "GET",
-		url: "<c:out value="${pageContext.request.contextPath}/key/lista_key_value"/>",
-		cache: false,
-		data: {id: id_usuario}
-	}).done(function(data){
-		var obj_campo = jQuery.parseJSON( data );
+});
 
-		for(var item in obj_campo.Key)
-			$("#cadastro-"+id_usuario).append('<tr> <td> '+obj_campo.Key[item].key+' : </td> <td> <input type="text" name="'+obj_campo.Key[item].key+'" value="'+obj_campo.Key[item].value+'" size=20 maxlenght=40> </td> <tr>');
-	});
-}
-
-function autorizacao(id_usuario) {
-	var div = "#edit_autorizacao_"+id_usuario;
-	$(div).toggle();
-	$('#extra-auth-'+id_usuario).remove();
-	var newRow = $('<tr id="extra-auth-'+id_usuario+'">');
-	
-	$.ajax({
-		type: "GET",
-		url: "<c:out value="${pageContext.request.contextPath}/usuario/lista_autorizacao"/>",
-		cache: false
-	}).done(function(data){
-		var obj_auth = jQuery.parseJSON( data );
-		
-		for(var item in obj_auth.Auth) {
-			var checkbox = $('<tr>');
-			checkbox.append('<td><input type="checkbox" name="'+obj_auth.Auth[item].nome+'"></td> <td>'+obj_auth.Auth[item].nome+'</td>');
-			checkbox.appendTo(newRow);
-		}
-
-		$("#auth-"+id_usuario).append(newRow);
-	});
-}
-
-function remover(data) {
-	alert("remover usuario: "+data);
-}
 </script>
 
     <script>
