@@ -37,6 +37,15 @@ $('document').ready(function(){
 		newCol2 = '<td>' + obj_hora.Hora[item].string + '</td>';
 		for(var item2 in obj_data.Data) {
 			newCol2 += '<td>' + '<input type="checkbox" class="horario" data-key_data="'+obj_data.Data[item2].data+'" data-key_hora="'+obj_hora.Hora[item].hora+'" name="'+counter+'">' + '</td>';
+			for(var index in obj_horario.Horario) {
+				if(obj_hora.Hora[item].hora == obj_horario.Horario[index].hora && obj_data.Data[item2].data == obj_horario.Horario[index].data) {
+					console.info('counter='+counter);
+					console.info('Hora = ' + obj_hora.Hora[item].hora + '| Horario.hora = ' + obj_horario.Horario[index].hora);
+					console.info('Data = ' + obj_data.Data[item2].data + '| Horario.data = ' + obj_horario.Horario[index].data);
+					
+					$('input[name='+counter+']').attr("checked", "true");
+				}
+			}
 			counter++;
 		}
 		newRow2.append(newCol2);
