@@ -10,52 +10,72 @@
 
 <div id="result"></div>
 
-<table id="hor-zebra" border = 2>
-
-<tr>
-	<th>  </th>
-	<c:forEach var="item" items="${lista_data}">
-	    <th> <c:out value="${item}"/> </th>
-	</c:forEach>
-</tr>
-
-<c:set var='counter' value='1'/>
-
-<c:forEach var="item2" items="${lista_hora}">
-<tr>
-	<td>
-		<c:out value="${item2}"/>
-	</td>
-	
-	<c:forEach var="item" items="${lista_data}">
-    <td>
-          	<c:set var="isChecked" value="${false}"/>
-          	<c:forEach var="user" items="${lista_horarios}">
-				    <c:if test="${item2 eq user.hora && item eq user.data}">
-				       <c:set var="isChecked" value="${true}"/>
-				    </c:if>
-    		</c:forEach>
-    		
-	    	<input type="checkbox" <c:if test="${isChecked==true}">checked="checked"</c:if> id="cb_${counter}">
-	    	
-		    <script>
-				$("#cb_${counter}").click(function(){
-					$.ajax({
-						  url: "<c:out value="${pageContext.request.contextPath}/horario/toggle_horario"/>",
-						  data: { data: "${item}", hora: "${item2}" },
-						  cache: false
-						}).done(function(data) {
-							$("#result").empty().append( data+" ${counter}" );
-						});
-				});
-		    </script>
-		    <c:set var='counter' value='${counter+1}'/>    
-    </td>
-	</c:forEach>
-</tr>
-</c:forEach>
+<table class="horarios" id="hor-zebra" border = 2>
 
 </table>
+
+<script>
+$('document').ready(function(){
+	var obj_data = jQuery.parseJSON( '${lista_data}' );
+	var obj_hora = jQuery.parseJSON( '${lista_hora}' );
+	var obj_horario = jQuery.parseJSON( '${lista_horarios}' );
+	
+	var newRow1 = $('<tr>');
+	for(var item in obj_hora.Hora) {
+		newCol1 = "<td></td>";
+		for(var item2 in obj_data.Data) {
+			newCol1 += '<td>' + obj_data.Data[item2].string + '</td>';
+		}
+	}
+	newRow1.append(newCol1);
+	$("table.horarios").append(newRow1);
+	
+	var counter = 1;
+	var newRow2 = "";
+	for(var item in obj_hora.Hora) {
+		newRow2 = $('<tr>');
+		newCol2 = '<td>' + obj_hora.Hora[item].string + '</td>';
+		for(var item2 in obj_data.Data) {
+			newCol2 += '<td>' + '<input type="checkbox" class="horario" data-key_data="'+obj_data.Data[item2].data+'" data-key_hora="'+obj_hora.Hora[item].hora+'" name="'+counter+'">' + '</td>';
+			counter++;
+		}
+		newRow2.append(newCol2);
+		$("table.horarios").append(newRow2);
+	}
+	
+	counter = 1;
+	for(var item3 in obj_horario.Horario) {
+		for(var item2 in obj_data.Data) {
+			for(var item in obj_hora.Hora) {
+				if(obj_data.Data[item2].data == obj_horario.Horario[item3].data && obj_hora.Hora[item].hora == obj_horario.Horario[item3].hora) {
+					var checkbox = $('input[name='+counter+']');
+					$(checkbox).attr('checked', 'true');
+				}
+				counter++;
+			}
+		}
+	}
+	
+});
+
+$('.horarios').on('click', '.horario', function(event){
+	var hora = $(this).data('key_hora');
+	var data = $(this).data('key_data');
+	$.ajax({
+		type: "GET",
+		url: "<c:out value="${pageContext.request.contextPath}/horario/toggle_horario"/>",
+		cache: false,
+		data: {data: data, hora: hora}
+	}).done(function(result){
+		if(result == "added") {
+			$("#result").empty().append("ok").hide(3000);
+		}
+		else {
+			$("#result").empty().append("erro").hide(3000);
+		}
+	});
+});
+</script>
 
 </body>
 </html>

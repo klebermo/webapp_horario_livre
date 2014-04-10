@@ -22,6 +22,9 @@ import com.horariolivre.entity.HorarioLivre;
 import com.horariolivre.entity.Usuario;
 import com.horariolivre.service.EventoService;
 import com.horariolivre.service.HorarioLivreService;
+import com.horariolivre.service.HorarioLivreService.json_list_data;
+import com.horariolivre.service.HorarioLivreService.json_list_hora;
+import com.horariolivre.service.HorarioLivreService.json_list_horario;
 import com.horariolivre.service.UsuarioService;
 
 @Controller
@@ -46,9 +49,17 @@ public class HorarioLivreController {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("horario/cadastra");
 			
-			mav.addObject("lista_data", horariolivre.listaData());
-			mav.addObject("lista_hora", horariolivre.listaHora(username));
-			mav.addObject("lista_horarios", horariolivre.lista(user.getId()));
+			json_list_hora lista_hora = horariolivre.getListaJsonHora();
+			lista_hora.set(horariolivre.getListaHora(username));
+			mav.addObject("lista_hora", lista_hora.get());
+			
+			json_list_data lista_data = horariolivre.getListaJsonData();
+			lista_data.set(horariolivre.getListaData());
+			mav.addObject("lista_data", lista_data.get());
+			
+			json_list_horario lista_horarios = horariolivre.getListaJsonHorario();
+			lista_horarios.set(horariolivre.listaHorarioUsuario(user));
+			mav.addObject("lista_horarios", lista_horarios.get());
 			
 			return mav;
 		}
@@ -125,7 +136,7 @@ public class HorarioLivreController {
 				{
 					for(int j=0; j<lista_usuarios.size(); j++)
 					{
-						List<HorarioLivre> lista_horario_usuario = horariolivre.listaHorarioUsuario(lista_usuarios.get(j), evento_em_uso);
+						List<HorarioLivre> lista_horario_usuario = horariolivre.listaHorarioUsuario(lista_usuarios.get(j));
 						for(int k=0; k<lista_horario_usuario.size(); k++)
 						{
 							if(lista_horario_evento.get(i).equals(lista_horario_usuario.get(k)))

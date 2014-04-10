@@ -62,4 +62,12 @@ public class HorarioLivre implements java.io.Serializable {
 		this.hora = hora;
 	}
 	
+	public boolean equals(HorarioLivre temp) {
+		return this.data.equals(temp.getData()) && this.hora.equals(temp.getHora());
+	}
+	
+	public String toString() {
+		return this.data.toString() + " " + this.hora.toString();
+	}
+	
 }

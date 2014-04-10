@@ -54,7 +54,14 @@ public class HorarioLivreService {
 	}
 	public List<HorarioLivre> lista(int id_usuario) {
 		Usuario owner = usuario.findById(id_usuario);
-		return owner.getHorario_livre();
+		List<HorarioLivre> lista = owner.getHorario_livre();
+		if(lista == null) {
+			lista = new ArrayList<HorarioLivre>();
+			lista.add(new HorarioLivre(new Date(0), new Time(0)));
+		}
+		if(lista.size() == 0)
+			lista.add(new HorarioLivre(new Date(0), new Time(0)));
+		return lista;
 	}
 	
 	public Usuario getUsuarioById(int id_usuario) {
@@ -79,38 +86,6 @@ public class HorarioLivreService {
 		return lista;
 	}
 	
-	public List<String> listaData() {
-		String [] meses = {"JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"};
-		List<String> lista = new ArrayList<String>();
-		
-		Calendar start = Calendar.getInstance();
-		Calendar end = Calendar.getInstance();
-		end.add(Calendar.DATE, 10);
-		
-		for(Calendar i=start; i.before(end); i.add(Calendar.DATE, 1)) {
-			int d = i.get(Calendar.DATE);
-			int m = i.get(Calendar.MONTH);
-			if(d<10) {
-				if(m<10) {
-					lista.add("0"+String.valueOf(d)+" "+meses[m]);
-				}
-				else {
-					lista.add("0"+String.valueOf(d)+" "+meses[m]);
-				}
-			}
-			else {
-				if(m<10) {
-					lista.add(String.valueOf(d)+" "+meses[m]);
-				}
-				else {
-					lista.add(String.valueOf(d)+" "+meses[m]);
-				}
-			}
-		}
-		
-		return lista;
-	}
-	
 	public List<Time> getListaHora(String username) {
 		Usuario user = this.getUsuarioByUsername(username);
 		List<Time> lista = new ArrayList<Time>();
@@ -124,47 +99,6 @@ public class HorarioLivreService {
 		for(Calendar i=inicio; i.before(fim); i.add(Calendar.MINUTE, intervalo)) {
 			lista.add(new Time(i.getTimeInMillis()));
 		}
-		
-		return lista;
-	}
-	
-	public List<String> listaHora(String username) {
-		Usuario user = this.getUsuarioByUsername(username);
-		List<String> lista = new ArrayList<String>();
-		
-		Calendar h1 = Calendar.getInstance();
-		h1.setTimeInMillis(user.getConfig().getHoraInicial().getTime());
-		
-		Calendar h2 = Calendar.getInstance();
-		h2.setTimeInMillis(user.getConfig().getHoraFinal().getTime());
-		
-		Calendar i = h1;
-		do {
-			int hora1 = i.get(Calendar.HOUR_OF_DAY);
-			int minuto1 = i.get(Calendar.MINUTE);
-			
-			i.add(Calendar.MINUTE, intervalo);
-			
-			int hora2 = i.get(Calendar.HOUR_OF_DAY);
-			int minuto2 = i.get(Calendar.MINUTE);
-			
-			if(minuto1<10) {
-				if(minuto2<10) {
-					lista.add(String.valueOf(hora1)+":"+"0"+String.valueOf(minuto1)+"-"+String.valueOf(hora2)+":"+"0"+String.valueOf(minuto2));
-				}
-				else {
-					lista.add(String.valueOf(hora1)+":"+"0"+String.valueOf(minuto1)+"-"+String.valueOf(hora2)+":"+String.valueOf(minuto2));
-				}
-			}
-			else {
-				if(minuto2<10) {
-					lista.add(String.valueOf(hora1)+":"+String.valueOf(minuto1)+"-"+String.valueOf(hora2)+":"+"0"+String.valueOf(minuto2));
-				}
-				else {
-					lista.add(String.valueOf(hora1)+":"+String.valueOf(minuto1)+"-"+String.valueOf(hora2)+":"+String.valueOf(minuto2));
-				}
-			}
-		}while(i.before(h2));
 		
 		return lista;
 	}
@@ -185,7 +119,7 @@ public class HorarioLivreService {
 			Calendar hora_1 = Calendar.getInstance();
 			hora_1.setTimeInMillis(evento.getHoraFinal().getTime());
 			
-			for(Calendar j=hora_0; j.before(hora_1); j.add(Calendar.MINUTE, 1)) {
+			for(Calendar j=hora_0; j.before(hora_1); j.add(Calendar.MINUTE, intervalo)) {
 				Date data= new Date(i.getTimeInMillis());
 				Time hora = new Time(j.getTimeInMillis());
 				lista.add(new HorarioLivre(data, hora));
@@ -195,7 +129,7 @@ public class HorarioLivreService {
 		return lista;
 	}
 	
-	public List<HorarioLivre> listaHorarioUsuario(Usuario user, Evento evento) {
+	public List<HorarioLivre> listaHorarioUsuario(Usuario user) {
 		List<HorarioLivre> lista = new ArrayList<HorarioLivre>();
 		List<HorarioLivre> lista_horario_usuario = this.lista(user.getId());
 		
@@ -209,7 +143,7 @@ public class HorarioLivreService {
 			end.setTimeInMillis(lista_horario_usuario.get(i).getHora().getTime());
 			end.add(Calendar.MINUTE, intervalo);
 			
-			for(Calendar j=start; j.before(end); j.add(Calendar.MINUTE, 1)) {
+			for(Calendar j=start; j.before(end); j.add(Calendar.MINUTE, intervalo)) {
 				Time novo = new Time(j.getTimeInMillis());
 				lista.add(new HorarioLivre(data, novo));
 			}
@@ -238,6 +172,247 @@ public class HorarioLivreService {
 		}
 		
 		return false;
+	}
+	
+	public json_list_data getListaJsonData() {
+		return new json_list_data();
+	}
+	
+	public json_list_hora getListaJsonHora() {
+		return new json_list_hora();
+	}
+	
+	public json_list_horario getListaJsonHorario() {
+		return new json_list_horario();
+	}
+	
+	public class json_node_data {
+		private Date data;
+
+		public Date getData() {
+			return data;
+		}
+
+		public void setData(Date data) {
+			this.data = data;
+		}
+		
+		public String get() {
+			String node = new String(), nova_data = new String();
+			
+			String [] meses = {"", "JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"};
+			Calendar temp = Calendar.getInstance();
+			temp.setTimeInMillis(this.data.getTime());
+			int dia = temp.get(Calendar.DATE);
+			int mes = temp.get(Calendar.MONDAY);
+			nova_data = String.valueOf(dia)+"/"+meses[mes];
+			
+			node = "\"" + "data" + "\"" + ":" + "\"" + data.toString() + "\"" + "," + "\"" + "string" + "\"" + ":" + "\"" + nova_data + "\"";
+			return node;
+		}
+	}
+	
+	public class json_list_data {
+		private List<json_node_data> lista = new ArrayList<json_node_data>();
+
+		public List<json_node_data> getLista() {
+			return lista;
+		}
+
+		public void setLista(List<json_node_data> lista) {
+			this.lista = lista;
+		}
+		
+		public void add(Date data) {
+			json_node_data node = new json_node_data();
+			node.setData(data);
+			lista.add(node);
+		}
+		
+		public String get() {
+			int i, max = lista.size();
+			String json = "{\"Data\":[";
+			for(i=0; i<max-1; i++) {
+				json = json + "{";
+				json_node_data temp = new json_node_data();
+				System.out.println(lista.get(i).getData().toString());
+				temp.setData(lista.get(i).getData());
+				json = json + temp.get() + "},";
+			}
+			json_node_data temp = new json_node_data();
+			temp.setData(lista.get(i).getData());
+			json = json + "{" + temp.get() + "}]}";
+			return json;
+		}
+		
+		public void set(List<Date> lista) {
+			for(int i=0; i<lista.size(); i++) {
+				json_node_data node = new json_node_data();
+				node.setData(lista.get(i));
+				this.lista.add(node);
+			}
+		}
+	}
+	
+	public class json_node_hora {
+		private Time hora;
+
+		public String get() {
+			String node = new String(), nova_hora = new String();
+			
+			Calendar temp1 = Calendar.getInstance();
+			temp1.setTimeInMillis(hora.getTime());
+			int hour = temp1.get(Calendar.HOUR_OF_DAY);
+			int minute = temp1.get(Calendar.MINUTE);
+			nova_hora = String.valueOf(hour)+":"+String.valueOf(minute);
+			
+			Calendar temp2 = Calendar.getInstance();
+			temp2.setTimeInMillis(hora.getTime());
+			temp2.add(Calendar.MINUTE, intervalo);
+			hour = temp1.get(Calendar.HOUR_OF_DAY);
+			minute = temp1.get(Calendar.MINUTE);
+			nova_hora += "-"+String.valueOf(hour)+":"+String.valueOf(minute);
+			
+			node = "\"" + "hora" + "\"" + ":" + "\"" + hora.toString() + "\"" + "," + "\"" + "string" + "\"" + ":" + "\"" + nova_hora + "\"";
+			return node;
+		}
+
+		public Time getHora() {
+			return hora;
+		}
+
+		public void setHora(Time hora) {
+			this.hora = hora;
+		}
+	}
+	
+	public class json_list_hora {
+		private List<json_node_hora> lista = new ArrayList<json_node_hora>();
+
+		public List<json_node_hora> getLista() {
+			return lista;
+		}
+
+		public void setLista(List<json_node_hora> lista) {
+			this.lista = lista;
+		}
+		
+		public void add(Time hora) {
+			json_node_hora node = new json_node_hora();
+			node.setHora(hora);
+			lista.add(node);
+		}
+		
+		public String get() {
+			int i, max = lista.size();
+			String json = "{\"Hora\":[";
+			for(i=0; i<max-1; i++) {
+				json = json + "{";
+				json_node_hora temp = new json_node_hora();
+				System.out.println(lista.get(i).getHora().toString());
+				temp.setHora(lista.get(i).getHora());
+				json = json + temp.get() + "},";
+			}
+			json_node_hora temp = new json_node_hora();
+			temp.setHora(lista.get(i).getHora());
+			json = json + "{" + temp.get() + "}]}";
+			return json;
+		}
+		
+		public void set(List<Time> lista) {
+			for(int i=0; i<lista.size(); i++) {
+				json_node_hora node = new json_node_hora();
+				node.setHora(lista.get(i));
+				this.lista.add(node);
+			}
+		}
+	}
+	
+	public class json_node_horario {
+		private HorarioLivre horario;
+
+		public String get() {
+			String node = new String(), nova_data = new String(), nova_hora = new String();
+			
+			String [] meses = {"", "JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"};
+			Calendar temp = Calendar.getInstance();
+			temp.setTimeInMillis(this.horario.getData().getTime());
+			int dia = temp.get(Calendar.DATE);
+			int mes = temp.get(Calendar.MONDAY);
+			nova_data = String.valueOf(dia)+"/"+meses[mes];
+			
+			Calendar temp1 = Calendar.getInstance();
+			temp1.setTimeInMillis(horario.getHora().getTime());
+			int hour = temp1.get(Calendar.HOUR_OF_DAY);
+			int minute = temp1.get(Calendar.MINUTE);
+			nova_hora = String.valueOf(hour)+":"+String.valueOf(minute);
+			
+			Calendar temp2 = Calendar.getInstance();
+			temp2.setTimeInMillis(horario.getHora().getTime());
+			temp2.add(Calendar.MINUTE, intervalo);
+			hour = temp1.get(Calendar.HOUR_OF_DAY);
+			minute = temp1.get(Calendar.MINUTE);
+			nova_hora += "-"+String.valueOf(hour)+":"+String.valueOf(minute);
+			
+			node = "\"" + "horario" + "\"" + ":" + "\"" + horario.toString() + "\"" + ",";
+			node = node + "\"" +  "data" + "\"" + ":" + "\"" + horario.getData().toString() + "\"" + ",";
+			node = node + "\"" + "string_data" + "\"" + ":" + "\"" + nova_data + "\"" + ",";
+			node = node + "\"" + "hora" + "\"" + ":" + "\"" + horario.getHora().toString() + "\""  + ",";
+			node = node + "\"" + "string_hora" + "\"" + ":" + "\"" + nova_hora + "\"";
+			
+			return node;
+		}
+
+		public HorarioLivre getHorario() {
+			return horario;
+		}
+
+		public void setHorario(HorarioLivre horario) {
+			this.horario = horario;
+		}
+
+	}
+	
+	public class json_list_horario {
+		private List<json_node_horario> lista = new ArrayList<json_node_horario>();
+
+		public List<json_node_horario> getLista() {
+			return lista;
+		}
+
+		public void setLista(List<json_node_horario> lista) {
+			this.lista = lista;
+		}
+		
+		public void add(HorarioLivre horario) {
+			json_node_horario node = new json_node_horario();
+			node.setHorario(horario);
+			lista.add(node);
+		}
+		
+		public String get() {
+			int i, max = lista.size();
+			String json = "{\"Horario\":[";
+			for(i=0; i<max-1; i++) {
+				json = json + "{";
+				json_node_horario temp = new json_node_horario();
+				System.out.println(lista.get(i).getHorario().toString());
+				temp.setHorario(lista.get(i).getHorario());
+				json = json + temp.get() + "},";
+			}
+			json_node_horario temp = new json_node_horario();
+			temp.setHorario(lista.get(i).getHorario());
+			json = json + "{" + temp.get() + "}]}";
+			return json;
+		}
+		
+		public void set(List<HorarioLivre> lista) {
+			for(int i=0; i<lista.size(); i++) {
+				json_node_horario node = new json_node_horario();
+				node.setHorario(lista.get(i));
+				this.lista.add(node);
+			}
+		}
 	}
 	
 }
