@@ -22,7 +22,6 @@ import com.horariolivre.entity.HorarioLivre;
 import com.horariolivre.entity.Usuario;
 import com.horariolivre.service.EventoService;
 import com.horariolivre.service.HorarioLivreService;
-import com.horariolivre.service.HorarioLivreService.HorarioLivreInterno;
 import com.horariolivre.service.UsuarioService;
 
 @Controller
@@ -49,7 +48,7 @@ public class HorarioLivreController {
 			
 			mav.addObject("lista_data", horariolivre.listaData());
 			mav.addObject("lista_hora", horariolivre.listaHora(username));
-			mav.addObject("lista_horarios", horariolivre.getlistaHorarioUsuario(user));
+			mav.addObject("lista_horarios", horariolivre.lista(user.getId()));
 			
 			return mav;
 		}
@@ -103,12 +102,12 @@ public class HorarioLivreController {
 	@ResponseBody
 	public String lista_horario(@ModelAttribute("username") String username, @RequestParam("id_evento") String id_evento, @RequestParam("id_usuarios[]") String[] usuarios)
 	{
+		String saida = new String();
+		
 		int id_usuario = horariolivre.getUsuarioByUsername(username).getId();
 		Evento evento_em_uso = evento.getEvento(Integer.valueOf(id_evento).intValue());
 		
-		String saida = "Os horarios disponiveis para o evento são:<br/>";
-		
-		List<HorarioLivreInterno> lista_horario_evento = horariolivre.listaHorarioEvento(evento_em_uso);
+		List<HorarioLivre> lista_horario_evento = horariolivre.listaHorarioEvento(evento_em_uso);
 		
 		List<Usuario> lista_usuarios = new ArrayList<Usuario>();
 		for(int i=0; i<usuarios.length; i++)
@@ -126,7 +125,7 @@ public class HorarioLivreController {
 				{
 					for(int j=0; j<lista_usuarios.size(); j++)
 					{
-						List<HorarioLivre> lista_horario_usuario = horariolivre.lista(lista_usuarios.get(j).getId());
+						List<HorarioLivre> lista_horario_usuario = horariolivre.listaHorarioUsuario(lista_usuarios.get(j), evento_em_uso);
 						for(int k=0; k<lista_horario_usuario.size(); k++)
 						{
 							if(lista_horario_evento.get(i).equals(lista_horario_usuario.get(k)))

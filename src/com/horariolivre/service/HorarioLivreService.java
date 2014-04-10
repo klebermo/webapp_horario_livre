@@ -65,106 +65,6 @@ public class HorarioLivreService {
 		return usuario.findByUsername(username);
 	}
 	
-	public List<HorarioLivreInterno> listaHorarioUsuario(Usuario user) {
-		List<HorarioLivreInterno> lista = new ArrayList<HorarioLivreInterno>();
-		
-		Calendar start = Calendar.getInstance();
-		Calendar end = Calendar.getInstance();
-		end.add(Calendar.DATE, 10);
-		
-		for(Calendar i=start; i.before(end); i.add(Calendar.DATE, 1)) {
-			Calendar inicio = Calendar.getInstance();
-			inicio.setTimeInMillis(user.getConfig().getHoraInicial().getTime());
-			
-			Calendar fim = Calendar.getInstance();
-			fim.setTimeInMillis(user.getConfig().getHoraFinal().getTime());
-			
-			for(Calendar j=inicio; j.before(fim); j.add(Calendar.MINUTE, intervalo)) {
-				Date d = new Date(i.getTimeInMillis());
-				Time t = new Time(j.getTimeInMillis());
-				lista.add(new HorarioLivreInterno(d, t));
-			}
-		}
-		
-		return lista;
-	}
-	
-	public List<HorarioLivreString> getlistaHorarioUsuario(Usuario user) {
-		List<HorarioLivreString> lista = new ArrayList<HorarioLivreString>();
-		
-		Calendar start = Calendar.getInstance();
-		Calendar end = Calendar.getInstance();
-		end.add(Calendar.DATE, 10);
-		
-		for(Calendar i=start; i.before(end); i.add(Calendar.DATE, 1)) {
-			Calendar inicio = Calendar.getInstance();
-			inicio.setTimeInMillis(user.getConfig().getHoraInicial().getTime());
-			
-			Calendar fim = Calendar.getInstance();
-			fim.setTimeInMillis(user.getConfig().getHoraFinal().getTime());
-			
-			for(Calendar j=inicio; j.before(fim); j.add(Calendar.MINUTE, intervalo)) {
-				Date d = new Date(i.getTimeInMillis());
-				Time t = new Time(j.getTimeInMillis());
-				lista.add(new HorarioLivreString(d, t));
-			}
-		}
-		
-		return lista;
-	}
-	
-	public List<HorarioLivreInterno> listaHorarioEvento(Evento evento_interno) {
-		List<HorarioLivreInterno> lista = new ArrayList<HorarioLivreInterno>();
-		
-		Calendar inicio = Calendar.getInstance();
-		inicio.setTime(evento_interno.getDataInicial());
-		
-		Calendar fim = Calendar.getInstance();
-		fim.setTime(evento_interno.getDataFinal());
-		
-		for(Calendar i=inicio; i.before(fim); i.add(Calendar.DATE, 1)) {
-			Calendar hora_inicial = Calendar.getInstance();
-			hora_inicial.setTimeInMillis(evento_interno.getHoraInicial().getTime());
-			
-			Calendar hora_final = Calendar.getInstance();
-			hora_final.setTimeInMillis(evento_interno.getHoraFinal().getTime());
-			
-			for(Calendar j=hora_inicial; j.before(hora_final); j.add(Calendar.MINUTE, 1)) {
-				Date d = new Date(i.getTimeInMillis());
-				Time t = new Time(j.getTimeInMillis());
-				lista.add(new HorarioLivreInterno(d, t));
-			}
-		}
-		
-		return lista;
-	}
-	
-	public List<HorarioLivreString> getlistaHorarioEvento(Evento evento_interno) {
-		List<HorarioLivreString> lista = new ArrayList<HorarioLivreString>();
-		
-		Calendar inicio = Calendar.getInstance();
-		inicio.setTime(evento_interno.getDataInicial());
-		
-		Calendar fim = Calendar.getInstance();
-		fim.setTime(evento_interno.getDataFinal());
-		
-		for(Calendar i=inicio; i.before(fim); i.add(Calendar.DATE, 1)) {
-			Calendar hora_inicial = Calendar.getInstance();
-			hora_inicial.setTimeInMillis(evento_interno.getHoraInicial().getTime());
-			
-			Calendar hora_final = Calendar.getInstance();
-			hora_final.setTimeInMillis(evento_interno.getHoraFinal().getTime());
-			
-			for(Calendar j=hora_inicial; j.before(hora_final); j.add(Calendar.MINUTE, 1)) {
-				Date d = new Date(i.getTimeInMillis());
-				Time t = new Time(j.getTimeInMillis());
-				lista.add(new HorarioLivreString(d, t));
-			}
-		}
-		
-		return lista;
-	}
-	
 	public List<Date> getListaData() {
 		List<Date> lista = new ArrayList<Date>();
 		
@@ -269,88 +169,53 @@ public class HorarioLivreService {
 		return lista;
 	}
 	
-	public class HorarioLivreString {
-		private Date data;
-		private Time hora;
-		public HorarioLivreString(Date date, Time time) {
-			this.setData(date);
-			this.setHora(time);
-		}
-		public String getData() {
-			String [] meses = {"JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"};
+	public List<HorarioLivre> listaHorarioEvento(Evento evento) {
+		List<HorarioLivre> lista = new ArrayList<HorarioLivre>();
+		
+		Calendar start = Calendar.getInstance();
+		start.setTime(evento.getDataInicial());
+		
+		Calendar end = Calendar.getInstance();
+		end.setTime(evento.getDataFinal());
+		
+		for(Calendar i=start; i.before(end); i.add(Calendar.DATE, 1)) {
+			Calendar hora_0 = Calendar.getInstance();
+			hora_0.setTimeInMillis(evento.getHoraInicial().getTime());
 			
-			Calendar data = Calendar.getInstance();
-			data.setTimeInMillis(this.data.getTime());
+			Calendar hora_1 = Calendar.getInstance();
+			hora_1.setTimeInMillis(evento.getHoraFinal().getTime());
 			
-			int dia = data.get(Calendar.DATE);
-			int mes = data.get(Calendar.MONTH);
-			
-			return String.valueOf(dia)+" "+meses[mes];
-		}
-		public void setData(Date data) {
-			this.data = data;
-		}
-		public String getHora() {
-			Calendar h1 = Calendar.getInstance();
-			h1.setTimeInMillis(this.hora.getTime());
-			
-			int hora1 = h1.get(Calendar.HOUR_OF_DAY);
-			int minuto1 = h1.get(Calendar.MINUTE);
-			
-			Calendar h2 = Calendar.getInstance();
-			h2.setTimeInMillis(this.hora.getTime());
-			h2.add(Calendar.MINUTE, intervalo);
-			
-			int hora2 = h2.get(Calendar.HOUR_OF_DAY);
-			int minuto2 = h2.get(Calendar.MINUTE);
-			
-			if(minuto1<10) {
-				if(minuto2<10) {
-					return String.valueOf(hora1)+":"+"0"+String.valueOf(minuto1)+"-"+String.valueOf(hora2)+":"+"0"+String.valueOf(minuto2);
-				}
-				else {
-					return String.valueOf(hora1)+":"+"0"+String.valueOf(minuto1)+"-"+String.valueOf(hora2)+":"+String.valueOf(minuto2);
-				}
-			}
-			else {
-				if(minuto2<10) {
-					return String.valueOf(hora1)+":"+String.valueOf(minuto1)+"-"+String.valueOf(hora2)+":"+"0"+String.valueOf(minuto2);
-				}
-				else {
-					return String.valueOf(hora1)+":"+String.valueOf(minuto1)+"-"+String.valueOf(hora2)+":"+String.valueOf(minuto2);
-				}
+			for(Calendar j=hora_0; j.before(hora_1); j.add(Calendar.MINUTE, 1)) {
+				Date data= new Date(i.getTimeInMillis());
+				Time hora = new Time(j.getTimeInMillis());
+				lista.add(new HorarioLivre(data, hora));
 			}
 		}
-		public void setHora(Time hora) {
-			this.hora = hora;
-		}
-		public boolean equals(HorarioLivre horario) {
-			return this.data.equals(horario.getData()) && this.hora.equals(horario.getHora());
-		}
+		
+		return lista;
 	}
 	
-	public class HorarioLivreInterno {
-		private Date data;
-		private Time hora;
-		public HorarioLivreInterno(Date date, Time time) {
-			this.setData(date);
-			this.setHora(time);
+	public List<HorarioLivre> listaHorarioUsuario(Usuario user, Evento evento) {
+		List<HorarioLivre> lista = new ArrayList<HorarioLivre>();
+		List<HorarioLivre> lista_horario_usuario = this.lista(user.getId());
+		
+		for(int i=0; i<lista_horario_usuario.size(); i++) {
+			Date data = lista_horario_usuario.get(i).getData();
+			
+			Calendar start = Calendar.getInstance();
+			start.setTimeInMillis(lista_horario_usuario.get(i).getHora().getTime());
+			
+			Calendar end = Calendar.getInstance();
+			end.setTimeInMillis(lista_horario_usuario.get(i).getHora().getTime());
+			end.add(Calendar.MINUTE, intervalo);
+			
+			for(Calendar j=start; j.before(end); j.add(Calendar.MINUTE, 1)) {
+				Time novo = new Time(j.getTimeInMillis());
+				lista.add(new HorarioLivre(data, novo));
+			}
 		}
-		public Date getData() {
-			return data;
-		}
-		public void setData(Date data) {
-			this.data = data;
-		}
-		public Time getHora() {
-			return hora;
-		}
-		public void setHora(Time hora) {
-			this.hora = hora;
-		}
-		public boolean equals(HorarioLivre horario) {
-			 return this.getData().equals(horario.getData()) && this.getHora().equals(horario.getHora());
-		}
+		
+		return lista;
 	}
 	
 	public boolean temAutorizacaoCadastro(int id_usuario) {

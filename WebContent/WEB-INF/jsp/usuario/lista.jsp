@@ -244,8 +244,7 @@ $('.excluir_tipo').each(function(index, elem) {
 							    </tr>
 						    </tfoot>
 						    
-						    <tbody class="auth">
-						    
+						    <tbody class="auth_container">
 						    </tbody>
 						    
      				</table>
@@ -297,10 +296,6 @@ $('.excluir_tipo').each(function(index, elem) {
 						    		<td> <input type="text" name="unome" value="${item.ultimoNome}"> </td>
 						    	</tr>
 						    	
-						    </tbody>
-						    
-						    <tbody class="extra">
-						    
 						    </tbody>
 						    
 						</table>
@@ -402,7 +397,9 @@ $('.auth').each(function(index, elem) {
     	var div = "#edit_autorizacao_"+index;
     	$(div).toggle();
     	
-    	$('#auth-'+index+' tbody.auth').remove();
+    	var container = $('.auth_container');
+    	$(container).empty();
+    	//$('#auth-'+index+' tbody.auth').remove();
     	var newRow = $('<tr>');
     	
     	$.ajax({
@@ -417,9 +414,11 @@ $('.auth').each(function(index, elem) {
     			checkbox.append('<td><input type="checkbox" class="auth_check" data-user="'+index+'" data-key="'+obj_auth.Auth[item].id+'" name="'+obj_auth.Auth[item].nome+'"></td> <td>'+obj_auth.Auth[item].nome+'</td>');
     			checkbox.appendTo(newRow);
     		}
+    		
+    		$(container).append(newRow);
 
-    		$('#auth-'+index).append('<tbody class="auth">')
-    		$('#auth-'+index+' tbody.auth').append(newRow);
+    		//$('#auth-'+index).append('<tbody class="auth">');
+    		//$('#auth-'+index+' tbody.auth').append(newRow);
     	});
     	
     	$.ajax({
@@ -436,6 +435,27 @@ $('.auth').each(function(index, elem) {
     		}
     	});
     });
+});
+
+$('.auth_container').on('click', '.auth_check', function(event){
+		var id_auth = $(this).data('key');
+		var id_user = $(this).data('user');
+    	$.ajax({
+    		type: "GET",
+    		url: "<c:out value="${pageContext.request.contextPath}/usuario/toggle_autorizacao"/>",
+    		cache: false,
+    		data: {id_usuario: id_user, id_autorizacao: id_auth}
+    	}).done(function(data){
+    		if(data == "yes") {
+    			$("#result_auth").empty().append("ok").hide(3000);
+    		}
+    		else if(data == "not") {
+    			$("#result_auth").empty().append("erro").hide(3000);
+    		}
+    		else {
+    			$("#result_auth").empty().append("sem acesso").hide(3000);
+    		}
+    	});
 });
 
 $('.auth_check').each(function(index, elem) {
