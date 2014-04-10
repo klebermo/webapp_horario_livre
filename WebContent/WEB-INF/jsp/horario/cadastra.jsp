@@ -42,20 +42,7 @@ $('document').ready(function(){
 		newRow2.append(newCol2);
 		$("table.horarios").append(newRow2);
 	}
-	
-	counter = 1;
-	for(var item3 in obj_horario.Horario) {
-		for(var item2 in obj_data.Data) {
-			for(var item in obj_hora.Hora) {
-				if(obj_data.Data[item2].data == obj_horario.Horario[item3].data && obj_hora.Hora[item].hora == obj_horario.Horario[item3].hora) {
-					var checkbox = $('input[name='+counter+']');
-					$(checkbox).attr('checked', 'true');
-				}
-				counter++;
-			}
-		}
-	}
-	
+		
 });
 
 $('.horarios').on('click', '.horario', function(event){
