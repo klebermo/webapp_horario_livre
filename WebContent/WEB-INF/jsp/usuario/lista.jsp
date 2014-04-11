@@ -217,7 +217,7 @@ $('.excluir_tipo').each(function(index, elem) {
         	<div class="col-md-3">
         		<table>
         		<tr>
-	        		<td><a href="#" class="edit" data-key="${item.id}"> <span class="ui-icon ui-icon-pencil"> </span> </a></td>
+	        		<td><a href="#" class="edit" data-key="${item.id}" data-tipo="${item.tipo.nome}"> <span class="ui-icon ui-icon-pencil"> </span> </a></td>
 	        		<td><a href="#" class="del" data-key="${item.id}"> <span class="ui-icon ui-icon-trash"> </span> </a></td>
 	        		<td><a href="#" class="auth" data-key="${item.id}"> <span class="ui-icon ui-icon-wrench"> </span> </a></td>
         		</tr>
@@ -254,7 +254,7 @@ $('.excluir_tipo').each(function(index, elem) {
      		</div>
        		
        		<div id="edit_usuario_${item.id}" class="row">
-       			<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/altera_usuario"/>" id="target">
+       			<form class="target" method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/altera_usuario"/>">
        			<input type="hidden" name="id" value="${item.id}">
 	        	<div class="col-md-3">
 	        		Editar dados de <br/> <i> ${item.primeiroNome} ${item.ultimoNome} </i>
@@ -301,14 +301,14 @@ $('.excluir_tipo').each(function(index, elem) {
 						</table>
 	       		</div>
 	        	<div class="col-md-3">
-	        		<button type="submit" class="btn btn-lg btn-primary">Salvar</button> <br/> <div id="result"></div>
+	        		<button type="submit" class="btn btn-lg btn-primary">Salvar</button> <br/> <div class="result"></div>
         		</div>
 	        	</form>
        		</div>
 		</c:forEach>
 
     <script>
-    $( "#target" ).submit(function( event ) {
+    $( ".target" ).submit(function( event ) {
     	  // Stop form from submitting normally
     	  event.preventDefault();
     	 
@@ -321,14 +321,12 @@ $('.excluir_tipo').each(function(index, elem) {
     	 
     	  // Put the results in a div
     	  posting.done(function( data ) {
+    		  $(".result").fadeIn();
     		  if(data == "yes")
-    			  $( "#result" ).empty().append( "Usuario atualizado com sucesso" );
+    			  $( ".result" ).empty().append( "Usuario atualizado com sucesso" );
     		  else
-    			  $( "#result" ).empty().append( "Usuario n&atilde;o atualizado" );
-    		  
-    		  $('#target').each (function(){
-    			  this.reset();
-    		  });
+    			  $( ".result" ).empty().append( "Usuario n&atilde;o atualizado" );
+    		  $(".result").fadeOut();
     	  });
     	});
     </script>
@@ -346,6 +344,7 @@ $('.edit').each(function(index, elem) {
     $(elem).click(function(){
         //do you stuff here!
         var index = $(elem).data('key'); //this will read data-key attribute
+        var tipo = $(elem).data('tipo');
         
     	var div = "#edit_usuario_"+index;
     	$(div).toggle();
@@ -363,8 +362,12 @@ $('.edit').each(function(index, elem) {
     		col_1 = '<td> Tipo: </td>';
     		col_2 = $('<td></td>');
     		var select = $('<select name="tipo">');
-    		for(var item in obj_tipo.Tipo)
-    		    select.append('<option value="'+obj_tipo.Tipo[item].nome+'">'+obj_tipo.Tipo[item].nome+'</option>');
+    		for(var item in obj_tipo.Tipo) {
+    			if(obj_tipo.Tipo[item].nome = tipo)
+    		    	select.append('<option value="'+obj_tipo.Tipo[item].nome+'" selected="selected">'+obj_tipo.Tipo[item].nome+'</option>');
+    			else
+    				select.append('<option value="'+obj_tipo.Tipo[item].nome+'">'+obj_tipo.Tipo[item].nome+'</option>');
+    		}
 
     		select.appendTo(col_2);
     		newRow.append(col_1);

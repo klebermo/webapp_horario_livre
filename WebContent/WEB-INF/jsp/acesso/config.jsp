@@ -65,10 +65,6 @@
     			  $( "#result" ).empty().append( "Configura&ccedil;&otilde;es salvas com sucesso" );
     		  else
     			  $( "#result" ).empty().append( "Configura&ccedil;&otilde;es n&atilde;o cadastradas" );
-    		  
-    		  $('#target').each (function(){
-    			  this.reset();
-    		  });
     	  });
     	});
     </script>

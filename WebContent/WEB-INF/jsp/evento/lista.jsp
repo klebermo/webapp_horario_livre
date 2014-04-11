@@ -58,7 +58,7 @@ $(document).ready(function(){
       	</div>
        		
        		<div id="edit_evento_${item.id}_2" class="row">
-       			<form method="post" action="<c:out value="${pageContext.request.contextPath}/evento/altera_evento"/>" id="target">
+       			<form class="target" method="post" action="<c:out value="${pageContext.request.contextPath}/evento/altera_evento"/>">
        			<input type="hidden" name="id" value="${item.id}">
        			<div class="col-md-3">
        				Edi&ccedil;&atilde;o de evento
@@ -88,8 +88,8 @@ $(document).ready(function(){
 								<td>
 									<table>
 										<tr>
-											<td>inicio: <input type="text" id="data_inicial" name="data_inicial" value="<c:out value="${item.dataInicial}"/>"/> </td>
-											<td>final: <input type="text" id="data_final" name="data_final" value="<c:out value="${item.dataFinal}"/>"/> </td>
+											<td>inicio: <input type="text" class="data_inicial" name="data_inicial" value="<c:out value="${item.dataInicial}"/>"/> </td>
+											<td>final: <input type="text" class="data_final" name="data_final" value="<c:out value="${item.dataFinal}"/>"/> </td>
 										</tr>
 									</table>
 								</td>
@@ -100,8 +100,8 @@ $(document).ready(function(){
 								<td>
 									<table>
 										<tr>
-											<td>inicio: <input type="text" id="hora_inicial" name="hora_inicial" value="${item.horaInicial}"/> </td>
-											<td> final: <input type="text" id="hora_final" name="hora_final" value="${item.horaFinal}"/> </td>
+											<td>inicio: <input type="text" class="hora_inicial" name="hora_inicial" value="${item.horaInicial}"/> </td>
+											<td> final: <input type="text" class="hora_final" name="hora_final" value="${item.horaFinal}"/> </td>
 										</tr>
 									</table>
 								</td>
@@ -114,7 +114,7 @@ $(document).ready(function(){
 							
 							<tr>
 								<td> </td>
-								<td> <div id="result"></div> </td>
+								<td> <div class="result"></div> </td>
 							</tr>
 						</tbody>
 						
@@ -159,26 +159,26 @@ $(document).ready(function(){
 		
 	<script type="text/javascript">
 		$(function(){
-			$('#data_inicial').datepicker({
+			$('.data_inicial').datepicker({
 				inline: true,
 				showOtherMonths: true,
 				dateFormat: 'dd/mm/yy',
 				dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
 
 			});
-			$('#data_final').datepicker({
+			$('.data_final').datepicker({
 				inline: true,
 				showOtherMonths: true,
 				dateFormat: 'dd/mm/yy',
 				dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
 			});
-			$('#hora_inicial').timepicker();
-			$('#hora_final').timepicker();
+			$('.hora_inicial').timepicker();
+			$('.hora_final').timepicker();
 		});
 	</script>
-		
+
     <script>
-    $( "#target" ).submit(function( event ) {
+    $( ".target" ).submit(function( event ) {
     	 
     	  // Stop form from submitting normally
     	  event.preventDefault();
@@ -193,11 +193,11 @@ $(document).ready(function(){
     	  // Put the results in a div
     	  posting.done(function( data ) {
     		  if(data == "yes")
-    			  $( "#result" ).empty().append( "Evento atualizado com sucesso" );
+    			  $( ".result" ).empty().append( "Evento atualizado com sucesso" );
     		  else if(data == "not")
-    			  $( "#result" ).empty().append( "Evento n&atilde;o atualizado" );
+    			  $( ".result" ).empty().append( "Evento n&atilde;o atualizado" );
     		  else
-    			  $( "#result" ).empty().append( "Usu&aacute;rio n&atilde;o tem permiss&atilde;o para executar essa opera&ccedil;&atilde;o" );
+    			  $( ".result" ).empty().append( "Usu&aacute;rio n&atilde;o tem permiss&atilde;o para executar essa opera&ccedil;&atilde;o" );
     	  });
     	});
     </script>
