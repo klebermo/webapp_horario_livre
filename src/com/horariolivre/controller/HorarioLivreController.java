@@ -115,48 +115,32 @@ public class HorarioLivreController {
 	{
 		String saida = new String();
 		
-		int id_usuario = horariolivre.getUsuarioByUsername(username).getId();
+		Usuario user = usuario.getUsuarioByUsername(username);
 		Evento evento_em_uso = evento.getEvento(Integer.valueOf(id_evento).intValue());
 		
 		List<HorarioLivre> lista_horario_evento = horariolivre.listaHorarioEvento(evento_em_uso);
 		
 		List<Usuario> lista_usuarios = new ArrayList<Usuario>();
-		for(int i=0; i<usuarios.length; i++)
-		{
-			lista_usuarios.add(usuario.getUsuarioById(Integer.valueOf(usuarios[i])));
+		for(int i=0; i<usuarios.length; i++) {
+			lista_usuarios.add(usuario.getUsuarioById(Integer.valueOf(usuarios[i]).intValue()));
 		}
 		
-		int array[] = new int[lista_horario_evento.size()];
-		for(int i=0; i<lista_horario_evento.size(); i++)
-			array[i] = 0;
-		
-			if(horariolivre.temAutorizacaoListagem(id_usuario))
-			{
-				for(int i=0; i<lista_horario_evento.size(); i++)
-				{
-					for(int j=0; j<lista_usuarios.size(); j++)
-					{
-						List<HorarioLivre> lista_horario_usuario = horariolivre.listaHorarioUsuario(lista_usuarios.get(j));
-						for(int k=0; k<lista_horario_usuario.size(); k++)
-						{
-							if(lista_horario_evento.get(i).equals(lista_horario_usuario.get(k)))
-								array[i]++;
-						}
-					}
-				}
-				
-				for(int i=0; i<lista_horario_evento.size(); i++)
-				{
-					if(array[i] == usuarios.length)
-						saida = saida + "{" + lista_horario_evento.get(i).getData() + " " + lista_horario_evento.get(i).getHora() + "}<br/>";
-				}
-				
-				return saida;
+		if(horariolivre.temAutorizacaoListagem(user.getId())) {
+			List<HorarioLivre> lista_final = horariolivre.find_horario(lista_horario_evento, lista_usuarios);
+			horariolivre.sequence(lista_final, evento_em_uso);
+			
+			if(!lista_final.isEmpty()) {
+				json_list_horario lista = horariolivre.getListaJsonHorario();
+				lista.set(lista_final);
+				saida = lista.get();
 			}
-			else
-			{
-				saida = "<div class=\"alert alert-danger\"><strong>Erro!</strong> Usu&aacute;rio não autorizado.</div>";
+			else {
+				saida = "not";
 			}
+		}
+		else {
+			saida = "no_permit";
+		}
 		
 		return saida;
 	}

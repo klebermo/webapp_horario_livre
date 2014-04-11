@@ -11,6 +11,7 @@
 <script>
 $( document ).ready(function() {
 	$("result").hide();
+	$("result_table").hide();
 });
 </script>
 
@@ -48,12 +49,34 @@ $( document ).ready(function() {
 		</form>
 	</div>
 
-<div class="jumbotron" id="result"> </div>
+	<div class="jumbotron" id="result">
+	</div>
 
-<!-- Bootstrap core JavaScript -->
-<!-- Placed at the end of the document so the pages load faster -->
+	<div id="result_table" align="center">
+		<table id="box-table-a">
+			<thead>
+				<tr>
+					<th>Data</th>
+					<th>Hora</th>
+				</tr>
+			</thead>
+			
+			<tfoot>
+				<tr>
+					<td></td>
+					<td></td>
+				</tr>
+			</tfoot>
+			
+			<tbody class="horarios">
+				<tr>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 
-<script src="js/jquery-2.1.0.min.js"></script>
 <script>
     $('#for_right').click(function(e) {
         var selectedOpts = $('#usuarios option:selected');
@@ -87,8 +110,25 @@ $( document ).ready(function() {
 			url: "<c:out value="${pageContext.request.contextPath}/horario/find_horario"/>",
 			data: { id_evento: $('#id_evento option:selected').val(), id_usuarios: selecao_usuario }
 		}).done(function(data) {
-			$("#result").show();
-			$("#result").empty().append( data );
+			if(data == "not") {
+				$('#result').empty().append('<div class="alert alert-danger"><strong>Erro!</strong> Nenhum hor&aacute;rio encontrado para esse evento e usu&aacute;rios.</div>');
+			}
+			else if(data == "no_permit") {
+				$('#result').empty().append('<div class="alert alert-danger"><strong>Erro!</strong> Usu&aacute;rio n&atilde;o autorizado.</div>');
+			}
+			else {
+				$('#result').empty().append('<div class="alert alert-success"><strong>Pronto!</strong> Os hor&aacute;rios dispon&iacute;veis para esse evento s&atilde;o:</div>');
+				$('#result_table').show()
+				var obj_data = jQuery.parseJSON( data );
+				for(var item in obj_data.Horario) {
+					var newRow1 = $('<tr>');
+					var newCol1 = "";
+					newCol1 += '<td>' + obj_data.Horario[item].data + '</td>';
+					newCol1 += '<td>' + obj_data.Horario[item].hora + '<td>';
+					newRow1.append(newCol1);
+					$("tbody.horarios").append(newRow1);
+				}
+			}
 		});
 	});
 </script>

@@ -104,7 +104,7 @@ public class HorarioLivreHome {
 	@Transactional
 	public List<HorarioLivre> findByUsuario(Usuario user) {
 		Query query = sessionFactory.getCurrentSession().createSQLQuery(
-				"select * from horario_livre where fk_usuario = :id_usuario")
+				"SELECT h.data, h.hora  FROM horario_livre h, horariolivre_usuario hu WHERE hu.fk_usuario = :id_usuario GROUP BY h.data, h.hora ORDER BY h.data, h.hora")
 				.addEntity(HorarioLivre.class)
 				.setParameter("id_usuario", user.getId());
 				List<HorarioLivre> allUsers = query.list();

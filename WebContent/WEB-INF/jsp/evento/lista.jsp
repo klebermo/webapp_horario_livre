@@ -88,8 +88,8 @@ $(document).ready(function(){
 								<td>
 									<table>
 										<tr>
-											<td>inicio: <input type="text" name="data_inicial" value="${item.dataInicial}" id="data_inicial"/> </td>
-											<td>final: <input type="text" name="data_final" value="${item.dataFinal}" id="data_final"/> </td>
+											<td>inicio: <input type="text" id="data_inicial" name="data_inicial" value="<c:out value="${item.dataInicial}"/>"/> </td>
+											<td>final: <input type="text" id="data_final" name="data_final" value="<c:out value="${item.dataFinal}"/>"/> </td>
 										</tr>
 									</table>
 								</td>
@@ -100,8 +100,8 @@ $(document).ready(function(){
 								<td>
 									<table>
 										<tr>
-											<td>inicio: <input type="text" name="hora_inicial" value="${item.horaInicial}" id="hora_inicial"/> </td>
-											<td> final: <input type="text" name="hora_final" value="${item.horaFinal}" id="hora_final"/> </td>
+											<td>inicio: <input type="text" id="hora_inicial" name="hora_inicial" value="${item.horaInicial}"/> </td>
+											<td> final: <input type="text" id="hora_final" name="hora_final" value="${item.horaFinal}"/> </td>
 										</tr>
 									</table>
 								</td>
@@ -194,12 +194,10 @@ $(document).ready(function(){
     	  posting.done(function( data ) {
     		  if(data == "yes")
     			  $( "#result" ).empty().append( "Evento atualizado com sucesso" );
-    		  else
+    		  else if(data == "not")
     			  $( "#result" ).empty().append( "Evento n&atilde;o atualizado" );
-    		  
-    		  $("#target").each (function(){
-    			  this.reset();
-    		  });
+    		  else
+    			  $( "#result" ).empty().append( "Usu&aacute;rio n&atilde;o tem permiss&atilde;o para executar essa opera&ccedil;&atilde;o" );
     	  });
     	});
     </script>
