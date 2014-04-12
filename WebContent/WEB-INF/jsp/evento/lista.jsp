@@ -114,7 +114,7 @@ $(document).ready(function(){
 							
 							<tr>
 								<td> </td>
-								<td> <div class="result"></div> </td>
+								<td> <div class="result_edit_evento"></div> </td>
 							</tr>
 						</tbody>
 						
@@ -193,11 +193,11 @@ $(document).ready(function(){
     	  // Put the results in a div
     	  posting.done(function( data ) {
     		  if(data == "yes")
-    			  $( ".result" ).empty().append( "Evento atualizado com sucesso" );
+    			  $( ".result_edit_evento" ).empty().append( "Evento atualizado com sucesso" );
     		  else if(data == "not")
-    			  $( ".result" ).empty().append( "Evento n&atilde;o atualizado" );
+    			  $( ".result_edit_evento" ).empty().append( "Evento n&atilde;o atualizado" );
     		  else
-    			  $( ".result" ).empty().append( "Usu&aacute;rio n&atilde;o tem permiss&atilde;o para executar essa opera&ccedil;&atilde;o" );
+    			  $( ".result_edit_evento" ).empty().append( "Usu&aacute;rio n&atilde;o tem permiss&atilde;o para executar essa opera&ccedil;&atilde;o" );
     	  });
     	});
     </script>

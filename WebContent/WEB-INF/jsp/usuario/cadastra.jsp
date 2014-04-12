@@ -20,7 +20,7 @@
 				    <tfoot>
 						<tr>
 							<td> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </td>
-							<td> <div id="result"></div> </td>
+							<td> <div id="result_cad_usuario"></div> </td>
 						</tr>
 				    </tfoot>
 				    
@@ -91,9 +91,9 @@ $(document).ready(function(){
     	  // Put the results in a div
     	  posting.done(function( data ) {
     		  if(data == "yes")
-    			  $( "#result" ).empty().append( "Usuario cadastrado com sucesso" );
+    			  $( "#result_cad_usuario" ).empty().append( "Usuario cadastrado com sucesso" );
     		  else
-    			  $( "#result" ).empty().append( "Usuario n&atilde;o cadastrado" );
+    			  $( "#result_cad_usuario" ).empty().append( "Usuario n&atilde;o cadastrado" );
     		  
     		  $('#target').each (function(){
     			  this.reset();

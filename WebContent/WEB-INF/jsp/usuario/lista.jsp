@@ -301,7 +301,7 @@ $('.excluir_tipo').each(function(index, elem) {
 						</table>
 	       		</div>
 	        	<div class="col-md-3">
-	        		<button type="submit" class="btn btn-lg btn-primary">Salvar</button> <br/> <div class="result"></div>
+	        		<button type="submit" class="btn btn-lg btn-primary">Salvar</button> <br/> <div class="result_edit_usuario"></div>
         		</div>
 	        	</form>
        		</div>
@@ -323,9 +323,9 @@ $('.excluir_tipo').each(function(index, elem) {
     	  posting.done(function( data ) {
     		  $(".result").fadeIn();
     		  if(data == "yes")
-    			  $( ".result" ).empty().append( "Usuario atualizado com sucesso" );
+    			  $( ".result_edit_usuario" ).empty().append( "Usuario atualizado com sucesso" );
     		  else
-    			  $( ".result" ).empty().append( "Usuario n&atilde;o atualizado" );
+    			  $( ".result_edit_usuario" ).empty().append( "Usuario n&atilde;o atualizado" );
     		  $(".result").fadeOut();
     	  });
     	});

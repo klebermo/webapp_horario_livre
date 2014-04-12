@@ -69,7 +69,7 @@
 		
 		<tr>
 			<td> <button type="submit" class="btn btn-lg btn-primary">Cadastrar</button> </td>
-			<td> <div id="result"> </div> </td>
+			<td> <div id="result_cad_evento"> </div> </td>
 		</tr>
 		</tbody>
 	</table>
@@ -112,9 +112,9 @@
     	  // Put the results in a div
     	  posting.done(function( data ) {
     		  if(data == "yes")
-    			  $( "#result" ).empty().append( "Evento cadastrado com sucesso" );
+    			  $( "#result_cad_evento" ).empty().append( "Evento cadastrado com sucesso" );
     		  else
-    			  $( "#result" ).empty().append( "Evento n&atilde;o cadastrado" );
+    			  $( "#result_cad_evento" ).empty().append( "Evento n&atilde;o cadastrado" );
     		  
     		  $("#target").each (function(){
     			  this.reset();

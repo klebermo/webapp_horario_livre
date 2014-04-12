@@ -15,7 +15,7 @@
     <link href="<c:out value="${pageContext.request.contextPath}/bootstrap/css/bootstrap-theme.min.css"/>" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/jquery/css/custom-theme/jquery-ui-1.10.4.custom.min.css"/>" rel="stylesheet">
     
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/starter-template.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/grid.css"/>" rel="stylesheet">
@@ -83,9 +83,6 @@
       </div>
       
       <div id="container">
-		<div id="dialog" title="Basic dialog">
-			<p> <span id="text"></span> </p>
-		</div>
 	  </div>
 
 
@@ -100,7 +97,7 @@
     
     <script>
     $('document').ready(function(){
-    	$( "#dialog" ).dialog({
+    	$( ".dialog" ).dialog({
     	      autoOpen: false,
     	      show: {
     	        effect: "fadeIn",
@@ -115,15 +112,17 @@
     	$('a').click(function(e){
     		if($(this).attr('href') != '<c:out value="${pageContext.request.contextPath}/logout"/>') {
     			if($(this).attr('href') != '#') {
+    				var id_dialog_div = Math.floor(Math.random() * 1000000);
+    				var dialog_div = $('<div id="'+id_dialog_div+'" class="dialog" title="Basic dialog"> <p> <span id="text'+id_dialog_div+'"></span> </p> </div>');
+    				$("#container").append(dialog_div);
 	    			e.preventDefault();
 		    		$.get($(this).attr('href'), function(data){
 		    			var $temp  = $('<div/>', {html:data});
-		                //$('#title').text($temp.find('title').text());
-		                $( "#dialog" ).dialog({ title: $temp.find('title').text() });
-		                $('#text').html($temp.remove('head').html());
-		                $( "#dialog" ).dialog({ height: 720 });
-		                $( "#dialog" ).dialog({ width: 960 });
-		                $( "#dialog" ).dialog( "open" );
+		                $( dialog_div ).dialog({ title: $temp.find('title').text() });
+		                $('#text'+id_dialog_div).html($temp.remove('head').html());
+		                $( dialog_div ).dialog({ height: 720 });
+		                $( dialog_div ).dialog({ width: 720 });
+		                $( dialog_div ).dialog( "open" );
 		    		});
     			}
     		}
