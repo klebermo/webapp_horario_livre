@@ -21,6 +21,8 @@
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/grid.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/signin.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/table.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/responsible_table.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/style.css"/>" rel="stylesheet">
     
 	<link href="${pageContext.request.contextPath}/extras/css/normalize.css" rel="stylesheet" type="text/css"/>
 	<link href="${pageContext.request.contextPath}/extras/css/datepicker.css" rel="stylesheet" type="text/css"/>
@@ -54,16 +56,16 @@
           <ul class="nav navbar-nav">
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Evento<b class="caret"></b></a>
             	<ul class="dropdown-menu">
-            		<li><a href="<c:out value="${pageContext.request.contextPath}/evento/lista"/>">Listar</a>
-            		<li><a href="<c:out value="${pageContext.request.contextPath}/evento/cadastra"/>">Cadastrar</a>
+            		<li><a href="[<c:out value="${pageContext.request.contextPath}/evento/lista"/>]">Listar</a>
+            		<li><a href="[<c:out value="${pageContext.request.contextPath}/evento/cadastra"/>]">Cadastrar</a>
             	</ul>
             </li>
-            <li><a href="<c:out value="${pageContext.request.contextPath}/horario/lista"/>">Listar Hor&aacute;rios</a></li>
-            <li><a href="<c:out value="${pageContext.request.contextPath}/horario/cadastra"/>">Cadastrar Hor&aacute;rios</a></li>
+            <li><a href="[<c:out value="${pageContext.request.contextPath}/horario/lista"/>]">Listar Hor&aacute;rios</a></li>
+            <li><a href="[<c:out value="${pageContext.request.contextPath}/horario/cadastra"/>]">Cadastrar Hor&aacute;rios</a></li>
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Usu&aacute;rio<b class="caret"></b></a>
             	<ul class="dropdown-menu">
-            		<li><a href="<c:out value="${pageContext.request.contextPath}/usuario/lista"/>">Listar</a>
-            		<li><a href="<c:out value="${pageContext.request.contextPath}/usuario/cadastra"/>">Cadastrar</a>
+            		<li><a href="[<c:out value="${pageContext.request.contextPath}/usuario/lista"/>]">Listar</a>
+            		<li><a href="[<c:out value="${pageContext.request.contextPath}/usuario/cadastra"/>]">Cadastrar</a>
             	</ul>
            	</li>
           </ul>
@@ -71,8 +73,8 @@
 	          <li class="dropdown">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">${usuario.primeiroNome} ${usuario.ultimoNome}<b class="caret"></b></a>
 		          <ul class="dropdown-menu">
-		            <li><a href="<c:out value="${pageContext.request.contextPath}/usuario/perfil"/>">Perfil</a></li>
-		            <li><a href="<c:out value="${pageContext.request.contextPath}/usuario/config"/>">Configura&ccedil;&otilde;es</a></li>
+		            <li><a href="[<c:out value="${pageContext.request.contextPath}/usuario/perfil"/>]">Perfil</a></li>
+		            <li><a href="[<c:out value="${pageContext.request.contextPath}/usuario/config"/>]">Configura&ccedil;&otilde;es</a></li>
 		            <c:url value="/logout" var="logoutUrl"/>
 		            <li><a href="${logoutUrl}">Sair</a></li>
 		          </ul>
@@ -110,21 +112,35 @@
     	    });
     	
     	$('a').click(function(e){
-    		if($(this).attr('href') != '<c:out value="${pageContext.request.contextPath}/logout"/>') {
-    			if($(this).attr('href') != '#') {
-    				var id_dialog_div = Math.floor(Math.random() * 1000000);
-    				var dialog_div = $('<div id="'+id_dialog_div+'" class="dialog" title="Basic dialog"> <p> <span id="text'+id_dialog_div+'"></span> </p> </div>');
-    				$("#container").append(dialog_div);
-	    			e.preventDefault();
-		    		$.get($(this).attr('href'), function(data){
-		    			var $temp  = $('<div/>', {html:data});
-		                $( dialog_div ).dialog({ title: $temp.find('title').text() });
-		                $('#text'+id_dialog_div).html($temp.remove('head').html());
-		                $( dialog_div ).dialog({ height: 720 });
-		                $( dialog_div ).dialog({ width: 720 });
-		                $( dialog_div ).dialog( "open" );
-		    		});
-    			}
+    		var link = $(this).attr('href');
+    		var tam = link.length;
+    		console.log("tam="+tam);
+    		console.log("link="+link);
+    		
+    		var primeiraLetra = link.charAt(0);
+    		console.log("primeiraLetra="+primeiraLetra);
+    		
+    		var ultimaLetra = link.charAt(tam-1);
+    		console.log("ultimaLetra="+ultimaLetra);
+    		
+    		var result = link.substr(1, tam-2);
+    		console.log("result="+result);
+    		
+    		if(primeiraLetra == '[' && ultimaLetra == ']') {
+   				var id_dialog_div = Math.floor(Math.random() * 1000000);
+   				var dialog_div = $('<div id="'+id_dialog_div+'" class="dialog" title="Basic dialog"> <p> <span id="text'+id_dialog_div+'"></span> </p> </div>');
+   				$("#container").append(dialog_div);
+   				
+   				e.preventDefault();
+    			
+	    		$.get(result, function(data){
+	    			var $temp  = $('<div/>', {html:data});
+	                $( dialog_div ).dialog({ title: $temp.find('title').text() });
+	                $('#text'+id_dialog_div).html($temp.remove('head').html());
+	                $( dialog_div ).dialog({ height: 720 });
+	                $( dialog_div ).dialog({ width: 720 });
+	                $( dialog_div ).dialog( "open" );
+	    		});
     		}
     	});
     });

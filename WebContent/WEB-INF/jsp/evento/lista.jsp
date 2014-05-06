@@ -64,7 +64,7 @@ $(document).ready(function(){
        				Edi&ccedil;&atilde;o de evento
      			</div>
        			<div class="col-md-6">
-					<table id="hor-minimalist-a">
+					<table>
 					    <thead>
 						    <tr>
 						        <th>Atributo</th>
