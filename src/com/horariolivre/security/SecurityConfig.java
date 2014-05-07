@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     			.disable()
     		.authorizeRequests()
     			.antMatchers("/acesso/erro-login").permitAll()
+    			.antMatchers("/instala/app").permitAll()
     			.antMatchers("/bootstrap/**", "/extras/**", "/jquery/**").permitAll()
     			.anyRequest().authenticated()
     			.and()
