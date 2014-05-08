@@ -121,7 +121,7 @@
                         <button type="button" class="btn-glow primary btn-next" data-last="Finish">
                             Pr&otilde;ximo <i class="icon-chevron-right"></i>
                         </button>
-                        <button type="button" onclick="window.location=<c:out value="${pageContext.request.contextPath}/acesso/login"/>;" class="btn-glow success btn-finish">
+                        <button type="button" onclick="location.href='<c:out value="${pageContext.request.contextPath}/acesso/login"/>';" class="btn-glow success btn-finish">
                             Fa&ccedil;a login no sistema!
                         </button>
                     </div>
@@ -155,7 +155,7 @@
                 $btnNext = $('.wizard-actions .btn-next'),
                 $btnFinish = $(".wizard-actions .btn-finish");
 
-            $wizard.wizard().on('finished', function(e) {
+            $wizard.wizard().on("finished", function(e) {
                 var fnprocessform = function (targetform) {
                     if (targetform.attr('id') === 'target') {
                         //do your validation before you move to the next so you can show errors if needed 
@@ -185,9 +185,6 @@
 
                 if (step.step === 1) {
                     $btnPrev.attr("disabled", "disabled");
-                    $btnPrev.attr("formaction","<c:out value="${pageContext.request.contextPath}/instala/createdb"/>");
-                } else if(step.step === 2) {
-                	$btnPrev.attr("formaction","<c:out value="${pageContext.request.contextPath}/instala/createuser"/>");
                 } else if (step.step === 3) {
                     $btnNext.hide();
                     $btnFinish.show();
