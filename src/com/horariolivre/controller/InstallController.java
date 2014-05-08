@@ -32,8 +32,8 @@ public class InstallController {
 	}
 	
 	@RequestMapping(value="createuser", method=RequestMethod.POST)
-	public String createuser(@RequestParam("usuario") String usuario, @RequestParam("senha1") String senha, @RequestParam("email") String email) {
-		if(instala.create_user(usuario, senha, email))
+	public String createuser(@RequestParam("usuario") String usuario, @RequestParam("senha1") String senha, @RequestParam("primeiroNome") String pnome, @RequestParam("ultimoNome") String unome) {
+		if(instala.create_user(usuario, senha, pnome, unome))
 			return "yes";
 		else
 			return "not";

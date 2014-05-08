@@ -51,6 +51,13 @@ public class Usuario implements java.io.Serializable {
 		this.setLogin(login);
 		this.setSenha(senha);
 	}
+	
+	public Usuario(String login, String senha, String pnome, String unome) {
+		this.setLogin(login);
+		this.setSenha(senha);
+		this.setPrimeiroNome(primeiroNome);
+		this.setUltimoNome(ultimoNome);
+	}
 
 	public Usuario(String login, String senha, String primeiroNome, String ultimoNome, Tipo tipo, List<Atributo> atributos) {
 		this.setLogin(login);

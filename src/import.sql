@@ -1,0 +1,9 @@
+INSERT INTO autorizacao( id, nome) VALUES (1, "cad_evento");
+INSERT INTO autorizacao( id, nome) VALUES (2, "lista_evento");
+INSERT INTO autorizacao( id, nome) VALUES (3, "cad_horario");
+INSERT INTO autorizacao( id, nome) VALUES (4, "lista_horario");
+INSERT INTO autorizacao( id, nome) VALUES (5, "cad_usuario");
+INSERT INTO autorizacao( id, nome) VALUES (6, "lista_usuario");
+INSERT INTO autorizacao( id, nome) VALUES (7, "cad_campo");
+INSERT INTO autorizacao( id, nome) VALUES (8, "cad_tipo");
+INSERT INTO autorizacao( id, nome) VALUES (9, "cad_permissao");

@@ -92,8 +92,12 @@
                                             <input class="form-control" type="password" name="senha2" />
                                         </div>
                                         <div class="field-box">
-                                            <label>E-mail:</label>
-                                            <input class="form-control" type="text" name="email" />
+                                            <label>Primeiro nome:</label>
+                                            <input class="form-control" type="text" name="primeiroNome" />
+                                        </div>
+                                        <div class="field-box">
+                                            <label>Ultimo nome:</label>
+                                            <input class="form-control" type="text" name="ultimoNome" />
                                         </div>
                                     </form>
                                 </div>
