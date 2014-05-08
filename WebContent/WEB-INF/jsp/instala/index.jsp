@@ -57,7 +57,7 @@
                         <div class="step-pane active" id="step1">
                             <div class="row form-wrapper">
                                 <div class="col-md-8">
-                                    <form name="target" method="post">
+                                    <form id="target" method="post">
                                         <div class="field-box">
                                             <label>M&aacute;quina (IP):</label>
                                             <input class="form-control" type="text" name="maquina" />
@@ -78,7 +78,7 @@
                         <div class="step-pane" id="step2">
                             <div class="row form-wrapper">
                                 <div class="col-md-8">
-                                    <form name="target" method="post">
+                                    <form id="target2" method="post">
                                         <div class="field-box">
                                             <label>Usu&aacute;rio:</label>
                                             <input class="form-control" type="text" name="usuario" />
@@ -156,10 +156,28 @@
                 $btnFinish = $(".wizard-actions .btn-finish");
 
             $wizard.wizard().on('finished', function(e) {
-                // wizard complete code
+                var fnprocessform = function (targetform) {
+                    if (targetform.attr('id') === 'target') {
+                        //do your validation before you move to the next so you can show errors if needed 
+                        alert('validating form 1');
+                        //if the form is validated move to the next step
+                        var nextstep = $('.wizard-steps').find('.active').next();
+                        nextstep.find('a').tab('show');
+                        //then submit the form via ajax
+                        //to make sure that the behavior you expect happens 
+                        //when you process the form, you probably want to send back an id of the newly created record
+                        //so that if someone clicks back and then next again you don't create two records
+                        //instead you read the id and update the record  
+                    }
+                    if (targetform.attr('id') === 'target2') {
+                        //same comments as above
+                        alert('validating form 2');
+                        var nextstep = $('.wizard-steps').find('.active').next();
+                        nextstep.find('a').tab('show');
+                    };
+                };
             }).on("changed", function(e) {
                 var step = $wizard.wizard("selectedItem");
-                // reset states
                 $btnNext.removeAttr("disabled");
                 $btnPrev.removeAttr("disabled");
                 $btnNext.show();
@@ -184,26 +202,6 @@
                 $wizard.wizard('next');
             });
             
-            $( "#target" ).submit(function( event ) {
-           	 
-          	  // Stop form from submitting normally
-          	  event.preventDefault();
-          	 
-          	  // Get some values from elements on the page:
-          	  var $form = $( this ),
-          	  	url = $form.attr( "action" );
-          	 
-          	  // Send the data using post
-          	  var posting = $.post( url, $(this).serialize() );
-          	 
-          	  // Put the results in a div
-          	  posting.done(function( data ) {
-          		  if(data == "not") {
-          			$( "#result" ).show();
-          			$( "#result" ).empty().append( "Erro ao executar os procedimentos dessa etapa" ).fadeOut();
-          		  }
-          	  });
-          	});
         });
     </script>
 
