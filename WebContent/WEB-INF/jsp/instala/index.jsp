@@ -157,12 +157,8 @@
 
             $wizard.wizard().on("finished", function(e) {
                 var fnprocessform = function (targetform) {
-                    if (targetform.attr('id') === 'target') {
-                        //do your validation before you move to the next so you can show errors if needed 
+                    if (targetform.attr('id') === 'target') { 
                         alert('validating form 1');
-                        //if the form is validated move to the next step
-                        var nextstep = $('.wizard-steps').find('.active').next();
-                        nextstep.find('a').tab('show');
                         //then submit the form via ajax
                         //to make sure that the behavior you expect happens 
                         //when you process the form, you probably want to send back an id of the newly created record
@@ -170,12 +166,19 @@
                         //instead you read the id and update the record  
                     }
                     if (targetform.attr('id') === 'target2') {
-                        //same comments as above
                         alert('validating form 2');
-                        var nextstep = $('.wizard-steps').find('.active').next();
-                        nextstep.find('a').tab('show');
+                        //then submit the form via ajax
+                        //to make sure that the behavior you expect happens 
+                        //when you process the form, you probably want to send back an id of the newly created record
+                        //so that if someone clicks back and then next again you don't create two records
+                        //instead you read the id and update the record  
                     };
                 };
+                if(fnprocessform == "yes") {
+                	alert('form validated');
+                    var nextstep = $('.wizard-steps').find('.active').next();
+                    nextstep.find('a').tab('show');
+                }
             }).on("changed", function(e) {
                 var step = $wizard.wizard("selectedItem");
                 $btnNext.removeAttr("disabled");
