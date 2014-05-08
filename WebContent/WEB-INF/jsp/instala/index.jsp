@@ -57,7 +57,7 @@
                         <div class="step-pane active" id="step1">
                             <div class="row form-wrapper">
                                 <div class="col-md-8">
-                                    <form id="target" method="post">
+                                    <form id="target">
                                         <div class="field-box">
                                             <label>M&aacute;quina (IP):</label>
                                             <input class="form-control" type="text" name="maquina" />
@@ -78,7 +78,7 @@
                         <div class="step-pane" id="step2">
                             <div class="row form-wrapper">
                                 <div class="col-md-8">
-                                    <form id="target2" method="post">
+                                    <form id="target2">
                                         <div class="field-box">
                                             <label>Usu&aacute;rio:</label>
                                             <input class="form-control" type="text" name="usuario" />
@@ -156,22 +156,36 @@
                 $btnFinish = $(".wizard-actions .btn-finish");
 
             $wizard.wizard().on("finished", function(e) {
+            	alert("finished");
                 var fnprocessform = function (targetform) {
                     if (targetform.attr('id') === 'target') { 
                         alert('validating form 1');
-                        //then submit the form via ajax
-                        //to make sure that the behavior you expect happens 
-                        //when you process the form, you probably want to send back an id of the newly created record
-                        //so that if someone clicks back and then next again you don't create two records
-                        //instead you read the id and update the record  
+                        
+                        var maquina = $("input[maquina]").val();
+                        var usuario = $("input[usuario_db]").val();
+                        var senha = $("input[senha_db]").val();
+                        
+                        var request = $.ajax({
+                      	  url: "<c:out value="${pageContext.request.contextPath}/instala/createdb"/>",
+                      	  type: "POST",
+                      	  data: { maquina : maquina, usuario_db: usuario, senha_db: senha }
+                      });
+                      return request;
                     }
                     if (targetform.attr('id') === 'target2') {
                         alert('validating form 2');
-                        //then submit the form via ajax
-                        //to make sure that the behavior you expect happens 
-                        //when you process the form, you probably want to send back an id of the newly created record
-                        //so that if someone clicks back and then next again you don't create two records
-                        //instead you read the id and update the record  
+                        
+                        var usuario = $("input[usuario]").val();
+                        var senha = $("input[senha1]").val();
+                        var pnome = $("input[primeiroNome]").val();
+                        var unome = $("input[ultimoNome]").val();
+                        
+                        var request = $.ajax({
+                        	  url: "<c:out value="${pageContext.request.contextPath}/instala/createuser"/>",
+                        	  type: "POST",
+                        	  data: { usuario : usuario, senha1: senha, primeiroNome: pnome, ultimoNome: unome }
+                        });
+                        return request;
                     };
                 };
                 if(fnprocessform == "yes") {
@@ -180,6 +194,7 @@
                     nextstep.find('a').tab('show');
                 }
             }).on("changed", function(e) {
+            	alert("changed");
                 var step = $wizard.wizard("selectedItem");
                 $btnNext.removeAttr("disabled");
                 $btnPrev.removeAttr("disabled");

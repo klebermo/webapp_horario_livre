@@ -1,9 +1,9 @@
 package com.horariolivre.service;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 import org.hibernate.cfg.Configuration;
@@ -33,22 +33,6 @@ public class InstallService {
 		config.setProperty("jdbc.user", usuario);
 		config.setProperty("jdbc.pass", senha);
 		
-		InputStream file = null;
-		try {
-			file = new FileInputStream("classpath:persistence.properties");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-		try {
-			property.load(file);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-		
 		property.setProperty("jdbc.Classname", "org.postgresql.Driver");
 		property.setProperty("jdbc.url", "jdbc:postgresql://"+maquina+"/horario?charSet=LATIN1");
 		property.setProperty("jdbc.user", usuario);
@@ -56,6 +40,27 @@ public class InstallService {
 		property.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 		property.setProperty("hibernate.show_sql", "false");
 		property.setProperty("hibernate.hbm2ddl.auto", "update");
+		
+		File file = new File("classpath:persistence.properties");
+		FileOutputStream fileOut = null;
+		try {
+			fileOut = new FileOutputStream(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			property.store(fileOut, "database properties");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			fileOut.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		SchemaExport schema = new SchemaExport(config);
 		schema.create(true, true);
