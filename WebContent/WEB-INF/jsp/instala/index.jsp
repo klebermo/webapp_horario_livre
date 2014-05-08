@@ -118,10 +118,10 @@
                         <button type="button" disabled class="btn-glow primary btn-prev"> 
                             <i class="icon-chevron-left"></i> Anterior
                         </button>
-                        <button type="submit" class="btn-glow primary btn-next" data-last="Finish">
+                        <button type="button" class="btn-glow primary btn-next" data-last="Finish">
                             Pr&otilde;ximo <i class="icon-chevron-right"></i>
                         </button>
-                        <button type="button" onclick="<c:out value="${pageContext.request.contextPath}/acesso/login"/>" class="btn-glow success btn-finish">
+                        <button type="button" onclick="window.location=<c:out value="${pageContext.request.contextPath}/acesso/login"/>;" class="btn-glow success btn-finish">
                             Fa&ccedil;a login no sistema!
                         </button>
                     </div>
