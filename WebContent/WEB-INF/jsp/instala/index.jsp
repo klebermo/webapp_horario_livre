@@ -57,7 +57,7 @@
                         <div class="step-pane active" id="step1">
                             <div class="row form-wrapper">
                                 <div class="col-md-8">
-                                    <form name="target" method="post" action="<c:out value="${pageContext.request.contextPath}/instala/createdb"/>">
+                                    <form name="target" method="post">
                                         <div class="field-box">
                                             <label>M&aacute;quina (IP):</label>
                                             <input class="form-control" type="text" name="maquina" />
@@ -78,7 +78,7 @@
                         <div class="step-pane" id="step2">
                             <div class="row form-wrapper">
                                 <div class="col-md-8">
-                                    <form name="target" method="post" action="<c:out value="${pageContext.request.contextPath}/instala/createuser"/>">
+                                    <form name="target" method="post">
                                         <div class="field-box">
                                             <label>Usu&aacute;rio:</label>
                                             <input class="form-control" type="text" name="usuario" />
@@ -163,9 +163,9 @@
 
                 if (step.step === 1) {
                     $btnPrev.attr("disabled", "disabled");
-                    //
+                    $btnPrev.attr("formaction","<c:out value="${pageContext.request.contextPath}/instala/createdb"/>");
                 } else if(step.step === 2) {
-                	//
+                	$btnPrev.attr("formaction","<c:out value="${pageContext.request.contextPath}/instala/createuser"/>");
                 } else if (step.step === 3) {
                     $btnNext.hide();
                     $btnFinish.show();
