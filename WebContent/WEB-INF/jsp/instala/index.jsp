@@ -169,8 +169,8 @@
                       	  url: "<c:out value="${pageContext.request.contextPath}/instala/createdb"/>",
                       	  type: "POST",
                       	  data: { maquina : maquina, usuario_db: usuario, senha_db: senha }
-                      });
-                      return request;
+                      	});
+                      	return request;
                     }
                     if (targetform.attr('id') === 'target2') {
                         alert('validating form 2');
