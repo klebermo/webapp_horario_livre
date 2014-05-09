@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.hibernate.cfg.Configuration;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -30,47 +28,33 @@ public class InstallService {
 	public boolean create_database(String maquina, String usuario, String senha) {
 		try {
 			Class.forName("org.postgresql.Driver");
-			String url = "jdbc:postgresql://localhost:5432/postgres?user="+usuario+"&password="+senha;
-			Connection conn = null;
-			conn = DriverManager.getConnection(url);
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			String url = "jdbc:postgresql://"+maquina+"/postgres";
+			Connection conn = DriverManager.getConnection(url,usuario,senha);
+			
 			Statement stmt = conn.createStatement();
-			String sql = "SELECT * FROM pg_database";
+		    String sql = "SELECT * FROM pg_database";
 		    ResultSet rs = stmt.executeQuery(sql);
-		    while(rs.next()) {
-		    	System.out.println("rs = "+rs.toString());
-		    	
+			while(rs.next()) {
 				if(rs.getString("datname").equals("horario"))
 					return false;
 			}
+			
 		    sql = "CREATE DATABASE horario WITH OWNER = "+usuario+" ENCODING = 'UTF8' TABLESPACE = pg_default LC_COLLATE = 'pt_BR.utf8' LC_CTYPE = 'pt_BR.utf8' CONNECTION LIMIT = -1;";
-		    if(stmt.executeUpdate(sql) == 0)
-		    	return false;
-		    rs.close();
-		    stmt.close();
-		    conn.close();
+			stmt.executeUpdate(sql);
+
+			rs.close();
+			stmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.getStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.getStackTrace();
+			return false;
 		}
-		
-		return create_tables(maquina, usuario, senha);
-	}
-	
-	public boolean create_tables(String maquina, String usuario, String senha) {
-		Configuration config = new Configuration();
-		config.setProperty("jdbc.Classname", "org.postgresql.Driver");
-		config.setProperty("jdbc.url", "jdbc:postgresql://"+maquina+"/horario?charSet=LATIN1");
-		config.setProperty("jdbc.user", usuario);
-		config.setProperty("jdbc.pass", senha);
-		config.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-		config.setProperty("hibernate.show_sql", "false");
-		config.setProperty("hibernate.hbm2ddl.auto", "create");
-		
-		SchemaExport schema = new SchemaExport(config);
-		schema.create(true, true);
-				
-		return autorizacao.persist(new Autorizacao("permissao_teste"));
+
+		return true;
 	}
 	
 	public boolean create_user(String login, String senha, String pnome, String unome) {
