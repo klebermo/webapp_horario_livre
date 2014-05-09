@@ -4,6 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 import org.hibernate.cfg.Configuration;
@@ -13,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.horariolivre.dao.AutorizacaoHome;
 import com.horariolivre.dao.UsuarioHome;
+import com.horariolivre.entity.Autorizacao;
 import com.horariolivre.entity.Usuario;
 
 @Service
@@ -25,46 +31,66 @@ public class InstallService {
 	AutorizacaoHome autorizacao;
 	
 	public boolean create_database(String maquina, String usuario, String senha) {
-		Configuration config = new Configuration();
-		Properties property = new Properties();
+		try {
+			Class.forName("org.postgresql.Driver");
+			String url = "jdbc:postgresql://localhost:5432/postgres?user="+usuario+"&password="+senha;
+			Connection conn = null;
+			conn = DriverManager.getConnection(url);
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT * FROM pg_database";
+		    ResultSet rs = stmt.executeQuery(sql);
+		    while(rs.next()) {
+				if(rs.getString("datname").equals("horario"))
+					return false;
+			}
+		    sql = "CREATE DATABASE horario WITH OWNER = "+usuario+" ENCODING = 'UTF8' TABLESPACE = pg_default LC_COLLATE = 'pt_BR.utf8' LC_CTYPE = 'pt_BR.utf8' CONNECTION LIMIT = -1;";
+		    stmt.executeUpdate(sql);
+		    rs.close();
+		    stmt.close();
+		    conn.close();
+		} catch (SQLException e) {
+			e.getStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.getStackTrace();
+		}
 		
+		return create_tables(maquina, usuario, senha);
+	}
+	
+	public boolean create_tables(String maquina, String usuario, String senha) {
+		Configuration config = new Configuration();
 		config.setProperty("jdbc.Classname", "org.postgresql.Driver");
 		config.setProperty("jdbc.url", "jdbc:postgresql://"+maquina+"/horario?charSet=LATIN1");
 		config.setProperty("jdbc.user", usuario);
 		config.setProperty("jdbc.pass", senha);
-		
-		property.setProperty("jdbc.Classname", "org.postgresql.Driver");
-		property.setProperty("jdbc.url", "jdbc:postgresql://"+maquina+"/horario?charSet=LATIN1");
-		property.setProperty("jdbc.user", usuario);
-		property.setProperty("jdbc.pass", senha);
-		property.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-		property.setProperty("hibernate.show_sql", "false");
-		property.setProperty("hibernate.hbm2ddl.auto", "update");
-		
-		File file = new File("classpath:persistence.properties");
-		FileOutputStream fileOut = null;
-		try {
-			fileOut = new FileOutputStream(file);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			property.store(fileOut, "database properties");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			fileOut.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		config.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+		config.setProperty("hibernate.show_sql", "false");
+		config.setProperty("hibernate.hbm2ddl.auto", "create");
 		
 		SchemaExport schema = new SchemaExport(config);
 		schema.create(true, true);
-		return true;
+		
+		Properties properties = new Properties();
+		properties.setProperty("jdbc.Classname", "org.postgresql.Driver");
+		properties.setProperty("jdbc.url", "jdbc:postgresql://"+maquina+"/horario?charSet=LATIN1");
+		properties.setProperty("jdbc.user", usuario);
+		properties.setProperty("jdbc.pass", senha);
+		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+		properties.setProperty("hibernate.show_sql", "false");
+		properties.setProperty("hibernate.hbm2ddl.auto", "validate");
+		
+		try {
+			File file = new File("database.properties");
+			FileOutputStream fileOut = new FileOutputStream(file);
+			properties.store(fileOut, "propriedades");
+			fileOut.close();
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		return autorizacao.persist(new Autorizacao("permissao_teste"));
 	}
 	
 	public boolean create_user(String login, String senha, String pnome, String unome) {

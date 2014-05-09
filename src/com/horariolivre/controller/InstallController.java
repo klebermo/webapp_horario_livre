@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.horariolivre.service.InstallService;
@@ -24,6 +25,7 @@ public class InstallController {
 	}
 	
 	@RequestMapping(value="createdb", method=RequestMethod.POST)
+	@ResponseBody
 	public String createdb(@RequestParam("maquina") String maquina, @RequestParam("usuario_db") String usuario, @RequestParam("senha_db") String senha) {
 		if(instala.create_database(maquina, usuario, senha))
 			return "yes";
@@ -32,6 +34,7 @@ public class InstallController {
 	}
 	
 	@RequestMapping(value="createuser", method=RequestMethod.POST)
+	@ResponseBody
 	public String createuser(@RequestParam("usuario") String usuario, @RequestParam("senha1") String senha, @RequestParam("primeiroNome") String pnome, @RequestParam("ultimoNome") String unome) {
 		if(instala.create_user(usuario, senha, pnome, unome))
 			return "yes";

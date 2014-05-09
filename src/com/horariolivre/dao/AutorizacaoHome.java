@@ -31,14 +31,15 @@ public class AutorizacaoHome {
 	}
 
 	@Transactional
-	public void persist(Autorizacao transientInstance) {
+	public boolean persist(Autorizacao transientInstance) {
 		log.debug("persisting Autorizacao instance");
 		try {
 			sessionFactory.getCurrentSession().persist(transientInstance);
 			log.debug("persist successful");
+			return true;
 		} catch (RuntimeException re) {
 			log.error("persist failed", re);
-			throw re;
+			return false;
 		}
 	}
 

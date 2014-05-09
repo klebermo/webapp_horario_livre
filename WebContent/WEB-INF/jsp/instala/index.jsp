@@ -121,7 +121,7 @@
                         <button type="button" class="btn-glow primary btn-next" data-last="Finish">
                             Pr&otilde;ximo <i class="icon-chevron-right"></i>
                         </button>
-                        <button type="button" onclick="location.href='<c:out value="${pageContext.request.contextPath}/acesso/login"/>';" class="btn-glow success btn-finish">
+                        <button type="button" class="btn-glow success btn-finish">
                             Fa&ccedil;a login no sistema!
                         </button>
                     </div>
@@ -156,45 +156,8 @@
                 $btnFinish = $(".wizard-actions .btn-finish");
 
             $wizard.wizard().on("finished", function(e) {
-            	alert("finished");
-                var fnprocessform = function (targetform) {
-                    if (targetform.attr('id') === 'target') { 
-                        alert('validating form 1');
-                        
-                        var maquina = $("input[maquina]").val();
-                        var usuario = $("input[usuario_db]").val();
-                        var senha = $("input[senha_db]").val();
-                        
-                        var request = $.ajax({
-                      	  url: "<c:out value="${pageContext.request.contextPath}/instala/createdb"/>",
-                      	  type: "POST",
-                      	  data: { maquina : maquina, usuario_db: usuario, senha_db: senha }
-                      	});
-                      	return request;
-                    }
-                    if (targetform.attr('id') === 'target2') {
-                        alert('validating form 2');
-                        
-                        var usuario = $("input[usuario]").val();
-                        var senha = $("input[senha1]").val();
-                        var pnome = $("input[primeiroNome]").val();
-                        var unome = $("input[ultimoNome]").val();
-                        
-                        var request = $.ajax({
-                        	  url: "<c:out value="${pageContext.request.contextPath}/instala/createuser"/>",
-                        	  type: "POST",
-                        	  data: { usuario : usuario, senha1: senha, primeiroNome: pnome, ultimoNome: unome }
-                        });
-                        return request;
-                    };
-                };
-                if(fnprocessform == "yes") {
-                	alert('form validated');
-                    var nextstep = $('.wizard-steps').find('.active').next();
-                    nextstep.find('a').tab('show');
-                }
+            	//
             }).on("changed", function(e) {
-            	alert("changed");
                 var step = $wizard.wizard("selectedItem");
                 $btnNext.removeAttr("disabled");
                 $btnPrev.removeAttr("disabled");
@@ -208,13 +171,46 @@
                     $btnFinish.show();
                 };
             });
-
+            
             $btnPrev.on('click', function() {
                 $wizard.wizard('previous');
             });
             
             $btnNext.on('click', function() {
-                $wizard.wizard('next');
+            	var step = $wizard.wizard("selectedItem");
+            	if(step.step === 1) {
+                    var maquina = $("input[name=maquina]").val();
+                    var usuario = $("input[name=usuario_db]").val();
+                    var senha = $("input[name=senha_db]").val();
+                    
+                    $.ajax({
+                  	  url: "<c:out value="${pageContext.request.contextPath}/instala/createdb"/>",
+                  	  type: "POST",
+                  	  data: { maquina : maquina, usuario_db: usuario, senha_db: senha }
+                  	}).done(function(data){
+                  		if(data === "yes")
+                  			$wizard.wizard('next');
+                  	});
+            	}
+            	else {
+                    var usuario = $("input[name=usuario]").val();
+                    var senha = $("input[name=senha1]").val();
+                    var pnome = $("input[name=primeiroNome]").val();
+                    var unome = $("input[name=ultimoNome]").val();
+                    
+                    $.ajax({
+                    	  url: "<c:out value="${pageContext.request.contextPath}/instala/createuser"/>",
+                    	  type: "POST",
+                    	  data: { usuario : usuario, senha1: senha, primeiroNome: pnome, ultimoNome: unome }
+                    }).done(function(data) {
+                    	if(data === "yes")
+                    		$wizard.wizard('next');
+                    });
+            	}
+            });
+            
+            $btnFinish.on("click", function() {
+        		location.href="<c:out value="${pageContext.request.contextPath}/acesso/login"/>";
             });
             
         });
