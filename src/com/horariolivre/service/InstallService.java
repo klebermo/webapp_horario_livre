@@ -5,11 +5,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import com.horariolivre.dao.AutorizacaoHome;
@@ -18,13 +18,14 @@ import com.horariolivre.entity.Autorizacao;
 import com.horariolivre.entity.Usuario;
 
 @Service
+@PropertySource("classpath:database.properties")
 public class InstallService {
 	
 	@Autowired
-	UsuarioHome usuario;
+	private UsuarioHome usuario;
 	
 	@Autowired
-	AutorizacaoHome autorizacao;
+	private AutorizacaoHome autorizacao;
 	
 	public boolean create_database(String maquina, String usuario, String senha) {
 		try {
@@ -67,7 +68,6 @@ public class InstallService {
 		config.setProperty("hibernate.hbm2ddl.auto", "create");
 		
 		SchemaExport schema = new SchemaExport(config);
-		schema.setOutputFile("database.properties");
 		schema.create(true, true);
 				
 		return autorizacao.persist(new Autorizacao("permissao_teste"));
