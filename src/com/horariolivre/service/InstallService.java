@@ -1,9 +1,5 @@
 package com.horariolivre.service;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -40,11 +36,14 @@ public class InstallService {
 			String sql = "SELECT * FROM pg_database";
 		    ResultSet rs = stmt.executeQuery(sql);
 		    while(rs.next()) {
+		    	System.out.println("rs = "+rs.toString());
+		    	
 				if(rs.getString("datname").equals("horario"))
 					return false;
 			}
 		    sql = "CREATE DATABASE horario WITH OWNER = "+usuario+" ENCODING = 'UTF8' TABLESPACE = pg_default LC_COLLATE = 'pt_BR.utf8' LC_CTYPE = 'pt_BR.utf8' CONNECTION LIMIT = -1;";
-		    stmt.executeUpdate(sql);
+		    if(stmt.executeUpdate(sql) == 0)
+		    	return false;
 		    rs.close();
 		    stmt.close();
 		    conn.close();
@@ -68,9 +67,11 @@ public class InstallService {
 		config.setProperty("hibernate.hbm2ddl.auto", "create");
 		
 		SchemaExport schema = new SchemaExport(config);
+		schema.setOutputFile("database.properties");
 		schema.create(true, true);
 		
 		Properties properties = new Properties();
+		//
 		properties.setProperty("jdbc.Classname", "org.postgresql.Driver");
 		properties.setProperty("jdbc.url", "jdbc:postgresql://"+maquina+"/horario?charSet=LATIN1");
 		properties.setProperty("jdbc.user", usuario);
@@ -78,17 +79,6 @@ public class InstallService {
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 		properties.setProperty("hibernate.show_sql", "false");
 		properties.setProperty("hibernate.hbm2ddl.auto", "validate");
-		
-		try {
-			File file = new File("database.properties");
-			FileOutputStream fileOut = new FileOutputStream(file);
-			properties.store(fileOut, "propriedades");
-			fileOut.close();
-		} catch(FileNotFoundException e) {
-			e.printStackTrace();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
 		
 		return autorizacao.persist(new Autorizacao("permissao_teste"));
 	}
