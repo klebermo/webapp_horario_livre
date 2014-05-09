@@ -69,17 +69,7 @@ public class InstallService {
 		SchemaExport schema = new SchemaExport(config);
 		schema.setOutputFile("database.properties");
 		schema.create(true, true);
-		
-		Properties properties = new Properties();
-		//
-		properties.setProperty("jdbc.Classname", "org.postgresql.Driver");
-		properties.setProperty("jdbc.url", "jdbc:postgresql://"+maquina+"/horario?charSet=LATIN1");
-		properties.setProperty("jdbc.user", usuario);
-		properties.setProperty("jdbc.pass", senha);
-		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-		properties.setProperty("hibernate.show_sql", "false");
-		properties.setProperty("hibernate.hbm2ddl.auto", "validate");
-		
+				
 		return autorizacao.persist(new Autorizacao("permissao_teste"));
 	}
 	
