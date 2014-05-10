@@ -13,7 +13,7 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
 @Configuration
-@PropertySource("classpath:database.properties")
+@PropertySource("file:database.properties")
 @ComponentScan("com.horariolivre.dao")
 public class HibernateConfig {
 
@@ -26,7 +26,6 @@ public class HibernateConfig {
       sessionFactory.setDataSource(restDataSource());
       sessionFactory.setPackagesToScan("com.horariolivre.entity");
       sessionFactory.setHibernateProperties(hibernateProperties());
-      
       return sessionFactory;
    }
 
