@@ -1,5 +1,6 @@
 package com.horariolivre.service;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -72,7 +73,6 @@ public class InstallService {
 			System.out.println("SQLException");
 			return false;
 		}
-		System.out.println("retornando false");
 		return false;
 	}
 	
@@ -81,14 +81,28 @@ public class InstallService {
 		create_properties(maquina, usuario, senha);
 		
 		Configuration config = new Configuration();
-		config.setProperty("jdbc.Classname", "org.postgresql.Driver");
-		config.setProperty("jdbc.url", "jdbc:postgresql://"+maquina+"/horario" );
-		config.setProperty("jdbc.user", usuario );
-		config.setProperty("jdbc.pass", senha );
-		config.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+		Properties props = new Properties();
+		FileInputStream fos;
+		try {
+			fos = new FileInputStream( "database.properties" );
+			props.load(fos);
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		config.setProperties(props);
 		
-        SchemaExport schema = new SchemaExport(config);
-        schema.create(true, true);
+		try {
+			String url = props.getProperty("jdbc.url");
+			Connection conn = DriverManager.getConnection(url,usuario,senha);
+			SchemaExport schema = new SchemaExport(config, conn);
+	        schema.create(true, true);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         insert_default_values();
 	}
@@ -112,7 +126,7 @@ public class InstallService {
 		
 		props.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 		props.setProperty("hibernate.show_sql", "false");
-		props.setProperty("hibernate.hbm2ddl.auto", "validate");
+		props.setProperty("hibernate.hbm2ddl.auto", "update");
 
 		FileOutputStream fos;
 		try {
@@ -129,7 +143,15 @@ public class InstallService {
 	public boolean create_user(String login, String senha, String pnome, String unome) {
 		System.out.println("create_user");
 		Usuario novo = new Usuario(login, senha, pnome, unome);
-		novo.setAutorizacao(autorizacao.findALL());
-		return usuario.persist(novo);
+		
+		if(usuario.persist(novo))
+			novo.setAutorizacao(autorizacao.findALL());
+		else
+			return false;
+		
+		if(usuario.merge(novo) != null)
+			return true;
+		else
+			return false;
 	}
 }
