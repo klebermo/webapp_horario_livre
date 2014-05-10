@@ -97,6 +97,16 @@ public class InstallService {
 		}
 		config.setProperties(props);
 		
+		config.addAnnotatedClass(com.horariolivre.entity.Atributo.class);
+		config.addAnnotatedClass(com.horariolivre.entity.ConfigHorarioLivre.class);
+		config.addAnnotatedClass(com.horariolivre.entity.Evento.class);
+		config.addAnnotatedClass(com.horariolivre.entity.HorarioLivre.class);
+		config.addAnnotatedClass(com.horariolivre.entity.Key.class);
+		config.addAnnotatedClass(com.horariolivre.entity.Tipo.class);
+		config.addAnnotatedClass(com.horariolivre.entity.Value.class);
+		config.addAnnotatedClass(com.horariolivre.entity.Autorizacao.class);
+		config.addAnnotatedClass(com.horariolivre.entity.Usuario.class);
+		
 		try {
 			String url = props.getProperty("jdbc.url");
 			Connection conn = DriverManager.getConnection(url,usuario,senha);

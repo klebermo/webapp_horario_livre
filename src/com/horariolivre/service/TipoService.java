@@ -117,6 +117,12 @@ public class TipoService {
 		
 		public String get() {
 			int i, max = lista.size();
+			if (max == 0) {
+				String json = "{\"Tipo\":[";
+				json_node node = new json_node();
+				json = json + "{" + node + "}]}";
+				return json;
+			}
 			String json = "{\"Tipo\":[";
 			for(i=0; i<max-1; i++) {
 				json = json + "{";

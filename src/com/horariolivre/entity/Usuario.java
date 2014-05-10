@@ -104,8 +104,8 @@ public class Usuario implements java.io.Serializable {
 		return primeiroNome;
 	}
 
-	public void setPrimeiroNome(String primeiroNome) {
-		this.primeiroNome = primeiroNome;
+	public void setPrimeiroNome(String pNome) {
+		this.primeiroNome = pNome;
 	}
 
 	@Column(name = "ultimo_nome")
@@ -113,8 +113,8 @@ public class Usuario implements java.io.Serializable {
 		return ultimoNome;
 	}
 
-	public void setUltimoNome(String ultimoNome) {
-		this.ultimoNome = ultimoNome;
+	public void setUltimoNome(String uNome) {
+		this.ultimoNome = uNome;
 	}
 
 	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
