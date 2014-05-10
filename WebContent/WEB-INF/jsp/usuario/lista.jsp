@@ -297,7 +297,7 @@ $('.excluir_tipo').each(function(index, elem) {
 						    	</tr>
 						    	
 						    </tbody>
-						    
+						    						    
 						</table>
 	       		</div>
 	        	<div class="col-md-3">
@@ -402,7 +402,6 @@ $('.auth').each(function(index, elem) {
     	
     	var container = $('.auth_container');
     	$(container).empty();
-    	//$('#auth-'+index+' tbody.auth').remove();
     	var newRow = $('<tr>');
     	
     	$.ajax({

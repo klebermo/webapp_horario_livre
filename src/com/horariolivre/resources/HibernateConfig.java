@@ -19,6 +19,8 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 @Configuration
 @ComponentScan("com.horariolivre.dao")
 public class HibernateConfig {
+	
+	private String property_file = "database.properties";
 
    @Autowired
    private Environment env;
@@ -39,7 +41,7 @@ public class HibernateConfig {
 		Properties props = new Properties();
 		FileInputStream fos;
 		try {
-			fos = new FileInputStream( "database.properties" );
+			fos = new FileInputStream( this.property_file );
 			props.load(fos);
 			fos.close();
 		} catch (FileNotFoundException e) {
@@ -64,29 +66,24 @@ public class HibernateConfig {
    }
 
    Properties hibernateProperties() {
-      return new Properties() {
-         /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			Properties props = new Properties();
-			FileInputStream fos;
-			try {
-				fos = new FileInputStream( "database.properties" );
-				props.load(fos);
-				fos.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-            setProperty("hibernate.hbm2ddl.auto", props.getProperty("hibernate.hbm2ddl.auto"));
-            setProperty("hibernate.show_sql", props.getProperty("hibernate.show_sql"));
-            setProperty("hibernate.dialect", props.getProperty("hibernate.dialect"));
-         }
-      };
+	   Properties props = new Properties();
+	   
+	   FileInputStream fos;
+	   try {
+		   fos = new FileInputStream( this.property_file );
+		   props.load(fos);
+		   fos.close();
+	   } catch (FileNotFoundException e) {
+		   e.printStackTrace();
+	   } catch (IOException e) {
+		   e.printStackTrace();
+	   }
+	   
+	   props.setProperty("hibernate.hbm2ddl.auto", props.getProperty("hibernate.hbm2ddl.auto"));
+	   props.setProperty("hibernate.show_sql", props.getProperty("hibernate.show_sql"));
+	   props.setProperty("hibernate.dialect", props.getProperty("hibernate.dialect"));
+	   
+	   return props;
    }
+
 }

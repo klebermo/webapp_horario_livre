@@ -24,6 +24,8 @@ import com.horariolivre.entity.Usuario;
 @Service
 public class InstallService {
 	
+	private String property_file = "database.properties";
+	
 	@Autowired
 	private UsuarioHome usuario;
 	
@@ -87,7 +89,7 @@ public class InstallService {
 		Properties props = new Properties();
 		FileInputStream fos;
 		try {
-			fos = new FileInputStream( "database.properties" );
+			fos = new FileInputStream( this.property_file );
 			props.load(fos);
 			fos.close();
 		} catch (FileNotFoundException e) {
@@ -142,7 +144,7 @@ public class InstallService {
 
 		FileOutputStream fos;
 		try {
-			fos = new FileOutputStream( "database.properties" );
+			fos = new FileOutputStream( this.property_file );
 			props.store( fos, "propriedades" );
 			fos.close();
 		} catch (FileNotFoundException e) {
