@@ -229,7 +229,7 @@ $('.excluir_tipo').each(function(index, elem) {
      			<div class="col-md-3"> Editar autoriza&ccedil;&otilde;es </div>
      			
      			<div class="col-md-6">
-     				<table id="auth-${item.id}" class="hor-minimalist-a">
+     				<table id="auth-${item.id}" class="bordered">
 						    <thead>
 							    <tr>    
 							        <th>#</th>
@@ -260,7 +260,7 @@ $('.excluir_tipo').each(function(index, elem) {
 	        		Editar dados de <br/> <i> ${item.primeiroNome} ${item.ultimoNome} </i>
         		</div>
 	        	<div class="col-md-6">
-						<table id="cad-${item.id}" class="hor-minimalist-a">
+						<table id="cad-${item.id}" class="bordered">
 						    <thead>
 							    <tr>    
 							        <th>Atributo</th>

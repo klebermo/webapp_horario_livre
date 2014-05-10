@@ -9,7 +9,7 @@
 <body>
 
 	<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/cadastra_usuario"/>" id="target">
-			<table class="cadastro" id="hor-minimalist-a">
+			<table class="bordered cadastro">
 				    <thead>
 					    <tr>
 					        <th>Atributo</th>

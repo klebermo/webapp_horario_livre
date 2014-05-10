@@ -14,9 +14,9 @@
       
 <div class="container">
 
-<table>
+<table id="hor-minimalist-a">
 <tr>
-			<table class="perfil" id="hor-minimalist-a">
+			<table id="hor-minimalist-a" class="perfil">
 				    <thead>
 				    <tr>    
 				        <th colspan=2><div align="center"><h2>Dados de <strong>${usuario.login}</strong></h2></div></th>
@@ -41,7 +41,7 @@
 </tr>
 <tr>
 	<form method="post" action="<c:out value="${pageContext.request.contextPath}/usuario/salva_perfil"/>" id="target">
-			<table class="cadastro" id="hor-minimalist-a">
+			<table id="hor-minimalist-a" class="cadastro">
 				    <thead>
 				    <tr>    
 				        <th>Atributo</th>

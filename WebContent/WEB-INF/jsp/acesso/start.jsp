@@ -21,7 +21,7 @@
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/grid.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/signin.css"/>" rel="stylesheet">
     <link href="<c:out value="${pageContext.request.contextPath}/extras/css/table.css"/>" rel="stylesheet">
-    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/responsible_table.css"/>" rel="stylesheet">
+    <link href="<c:out value="${pageContext.request.contextPath}/extras/css/style.css"/>" rel="stylesheet">
     
 	<link href="${pageContext.request.contextPath}/extras/css/normalize.css" rel="stylesheet" type="text/css"/>
 	<link href="${pageContext.request.contextPath}/extras/css/datepicker.css" rel="stylesheet" type="text/css"/>

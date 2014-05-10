@@ -10,8 +10,8 @@
 
 <script>
 $( document ).ready(function() {
-	$("result").hide();
-	$("result_table").hide();
+	$("#result").hide();
+	$("#result_horarios").hide();
 });
 </script>
 
@@ -23,7 +23,7 @@ $( document ).ready(function() {
 				</c:forEach>
 			</select>
 			
-			<table id="hor-zebra" border = 2>
+			<table class="bordered">
 			<tr>
 				<td>
 					<select name="lista_usuarios" id="usuarios" size="10" multiple="multiple">
@@ -49,13 +49,11 @@ $( document ).ready(function() {
 		</form>
 	</div>
 
-	<div class="jumbotron">
+	<div class="jumbotron" id="result">
 	
-		<div id="result_horario">
-		</div>
-		
-		<div id="result_table" align="center">
-			<table id="box-table-a">
+			<div id="result_horarios"></div>
+	
+			<table class="bordered">
 				<thead>
 					<tr>
 						<th>Data</th>
@@ -77,7 +75,6 @@ $( document ).ready(function() {
 					</tr>
 				</tbody>
 			</table>
-		</div>
 	
 	</div>
 
@@ -115,14 +112,19 @@ $( document ).ready(function() {
 			data: { id_evento: $('#id_evento option:selected').val(), id_usuarios: selecao_usuario }
 		}).done(function(data) {
 			if(data == "not") {
-				$('#result_horario').empty().append('<div class="alert alert-danger"><strong>Erro!</strong> Nenhum hor&aacute;rio encontrado para esse evento e usu&aacute;rios.</div>');
+				$('#result').show();
+				$('#result_horarios').show();
+				$('#result_horarios').empty().append('<div class="alert alert-danger"><strong>Erro!</strong> Nenhum hor&aacute;rio encontrado para esse evento e usu&aacute;rios.</div>');
 			}
 			else if(data == "no_permit") {
-				$('#result_horario').empty().append('<div class="alert alert-danger"><strong>Erro!</strong> Usu&aacute;rio n&atilde;o autorizado.</div>');
+				$('#result').show();
+				$('#result_horarios').show();
+				$('#result_horarios').empty().append('<div class="alert alert-danger"><strong>Erro!</strong> Usu&aacute;rio n&atilde;o autorizado.</div>');
 			}
 			else {
-				$('#result_horario').empty().append('<div class="alert alert-success"><strong>Pronto!</strong> Os hor&aacute;rios dispon&iacute;veis para esse evento s&atilde;o:</div>');
-				$('#result_table').show()
+				$('#result').show();
+				$('#result_horarios').show();
+				$('#result_horarios').empty().append('<div class="alert alert-success"><strong>Pronto!</strong> Os hor&aacute;rios dispon&iacute;veis para esse evento s&atilde;o:</div>');
 				var obj_data = jQuery.parseJSON( data );
 				for(var item in obj_data.Horario) {
 					var newRow1 = $('<tr>');

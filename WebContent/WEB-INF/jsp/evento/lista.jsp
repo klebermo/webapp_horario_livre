@@ -64,67 +64,22 @@ $(document).ready(function(){
        				Edi&ccedil;&atilde;o de evento
      			</div>
        			<div class="col-md-6">
-					<table>
-					    <thead>
-						    <tr>
-						        <th>Atributo</th>
-						        <th>Valor</th>
-						    </tr>
-					    </thead>
-					    
-					    <tbody>
-						    <tr>
-						    	<td> Nome: </td>
-								<td><input type="text" name="nome" value="${item.nome}" size=20 maxlength=40> </td>
-							</tr>
-							
-							<tr>
-								<td> Descri&ccedil;&atilde;o: </td>
-								<td><input type="text" name="descricao" value="${item.descricao}" size=30 maxlength=100> </tdv>
-							</td>
-							
-							<tr>
-								<td> <h3>Periodo da Data</h3> </td>
-								<td>
-									<table>
-										<tr>
-											<td>inicio: <input type="text" class="data_inicial" name="data_inicial" value="<c:out value="${item.dataInicial}"/>"/> </td>
-											<td>final: <input type="text" class="data_final" name="data_final" value="<c:out value="${item.dataFinal}"/>"/> </td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-							
-							<tr>
-								<td> <h3>Periodo do Hor&aacute;rio</h3> </td>
-								<td>
-									<table>
-										<tr>
-											<td>inicio: <input type="text" class="hora_inicial" name="hora_inicial" value="${item.horaInicial}"/> </td>
-											<td> final: <input type="text" class="hora_final" name="hora_final" value="${item.horaFinal}"/> </td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-							
-							<tr>
-								<td> Dura&ccedil;&atilde;o: </td>
-								<td><input type="text" name="duracao" value="${item.duracao}" size=20 maxlength=2> Minutos </td>
-							</tr>
-							
-							<tr>
-								<td> </td>
-								<td> <div class="result_edit_evento"></div> </td>
-							</tr>
-						</tbody>
-						
-					    <tfoot>
-						    <tr>
-						    	<td></td>
-						    	<td></td>
-						    </tr>
-					    </tfoot>
-					</table>
+
+		    	<p> Nome: <input type="text" name="nome" value="${item.nome}" size=20 maxlength=40> </p>
+				<p> Descri&ccedil;&atilde;o: <input type="text" name="descricao" value="${item.descricao}" size=30 maxlength=100> </p>
+				<p>
+					<h3>Periodo da Data</h3>
+					inicio: <input type="text" class="data_inicial" name="data_inicial" value="<c:out value="${item.dataInicial}"/>"/>
+					final: <input type="text" class="data_final" name="data_final" value="<c:out value="${item.dataFinal}"/>"/>
+				</p>
+				<p>
+					<h3>Periodo do Hor&aacute;rio</h3>
+					inicio: <input type="text" class="hora_inicial" name="hora_inicial" value="${item.horaInicial}"/>
+					final: <input type="text" class="hora_final" name="hora_final" value="${item.horaFinal}"/>
+				</p>
+				<p> Dura&ccedil;&atilde;o: <input type="text" name="duracao" value="${item.duracao}" size=20 maxlength=2> Minutos </p>
+				<p> <div class="result_edit_evento"></div> </p>
+
        			</div>
        			<div class="col-md-3">
        				<button type="submit" class="btn btn-lg btn-primary">Salvar</button> <br/>
