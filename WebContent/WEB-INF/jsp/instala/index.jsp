@@ -68,7 +68,7 @@
                                         </div>
                                         <div class="field-box">
                                             <label>Senha:</label>
-                                            <input class="form-control" type="text" name="senha_db" />
+                                            <input class="form-control" type="password" name="senha_db" />
                                         </div>
                                     </form>
                                 </div>
