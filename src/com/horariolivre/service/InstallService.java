@@ -45,27 +45,30 @@ public class InstallService {
 			Connection conn = DriverManager.getConnection(url,usuario,senha);
 			Statement stmt = conn.createStatement();
 			
-		    ResultSet rs = stmt.executeQuery("SELECT count(*) FROM pg_catalog.pg_database WHERE datname = 'horario';");
+		    ResultSet rs = stmt.executeQuery("SELECT count(*) FROM pg_catalog.pg_database WHERE datname = 'horario'");
 		    rs.next();
 		    int counter  = rs.getInt(1);
 		    System.out.println("counter = "+counter);
 		    if(counter > 0) {
 				System.out.println("calling_create_tables");
-				create_tables(maquina, usuario, senha);
 				rs.close();
 				stmt.close();
 				conn.close();
+				create_tables(maquina, usuario, senha);
 				return true;
 		    }
 			
-		    int result = stmt.executeUpdate("CREATE DATABASE horario WITH OWNER "+usuario+";");
+		    stmt.executeUpdate("CREATE DATABASE horario WITH OWNER "+usuario);
+		    rs = stmt.executeQuery("SELECT count(*) FROM pg_catalog.pg_database WHERE datname = 'horario'");
+		    rs.next();
+		    int result = rs.getInt(1);
 		    System.out.println("result = "+result);
 			if(result > 0) {
 				System.out.println("calling_create_tables");
-				create_tables(maquina, usuario, senha);
 				rs.close();
 				stmt.close();
 				conn.close();
+				create_tables(maquina, usuario, senha);
 				return true;
 			}
 		} catch (SQLException e) {
@@ -100,7 +103,6 @@ public class InstallService {
 			SchemaExport schema = new SchemaExport(config, conn);
 	        schema.create(true, true);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         

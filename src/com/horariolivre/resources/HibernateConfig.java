@@ -48,11 +48,6 @@ public class HibernateConfig {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Classname = "+props.getProperty("jdbc.Classname"));
-		System.out.println("url = "+props.getProperty("jdbc.url"));
-		System.out.println("user = "+props.getProperty("jdbc.user"));
-		System.out.println("pass = "+props.getProperty("jdbc.pass"));
-		
       dataSource.setDriverClassName(props.getProperty("jdbc.Classname"));
       dataSource.setUrl(props.getProperty("jdbc.url"));
       dataSource.setUsername(props.getProperty("jdbc.user"));
@@ -87,10 +82,6 @@ public class HibernateConfig {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			System.out.println("hbm2ddl.auto = "+props.getProperty("hibernate.hbm2ddl.auto"));
-			System.out.println("show_sql = "+props.getProperty("hibernate.show_sql"));
-			System.out.println("dialect = "+props.getProperty("hibernate.dialect"));
 			
             setProperty("hibernate.hbm2ddl.auto", props.getProperty("hibernate.hbm2ddl.auto"));
             setProperty("hibernate.show_sql", props.getProperty("hibernate.show_sql"));
