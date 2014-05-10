@@ -34,13 +34,22 @@
 
     <div class="container">
     
-    <c:url value="/processalogin" var="loginUrl"/>
-      <form class="form-signin" role="form" method="post" action="${loginUrl}">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
-        <input type="password" class="form-control" name="password" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
+	<c:if test="${instalado == true}">
+	    <c:url value="/processalogin" var="loginUrl"/>
+	      <form class="form-signin" role="form" method="post" action="${loginUrl}">
+	        <h2 class="form-signin-heading">Please sign in</h2>
+	        <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+	        <input type="password" class="form-control" name="password" placeholder="Password" required>
+	        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	      </form>
+	</c:if>
+	
+	<c:if test="${instalado == false}">
+      <div class="alert alert-danger">
+      	<c:url value="/instala/app" var="installUrl"/>
+        <strong>Erro!</strong> O banco de dados n&atilde;o est&aacute; instalado. <a href="${installUrl}">Clique aqui</a> para instalar.
+      </div>
+	</c:if>
 
     </div> <!-- /container -->
 
