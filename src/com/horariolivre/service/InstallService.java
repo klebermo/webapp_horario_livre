@@ -5,14 +5,14 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import org.hibernate.cfg.Configuration;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import com.horariolivre.dao.AutorizacaoHome;
 import com.horariolivre.dao.UsuarioHome;
-import com.horariolivre.entity.Autorizacao;
 import com.horariolivre.entity.Usuario;
 
 @Service
@@ -28,33 +28,47 @@ public class InstallService {
 	public boolean create_database(String maquina, String usuario, String senha) {
 		try {
 			Class.forName("org.postgresql.Driver");
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			System.out.println("ClassNotFoundException");
 		}
 		try {
 			String url = "jdbc:postgresql://"+maquina+"/postgres";
+			System.out.println("url = "+url);
+			System.out.println("usuario = "+usuario);
+			System.out.println("senha = "+senha);
 			Connection conn = DriverManager.getConnection(url,usuario,senha);
-			
 			Statement stmt = conn.createStatement();
-		    String sql = "SELECT * FROM pg_database";
-		    ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()) {
-				if(rs.getString("datname").equals("horario"))
-					return false;
+			
+		    ResultSet rs = stmt.executeQuery("SELECT count(*) FROM pg_catalog.pg_database WHERE datname = 'horario';");
+		    rs.next();
+		    int counter  = rs.getInt(1);
+		    System.out.println("counter = "+counter);
+		    if(counter > 0)
+		    	return true;
+			
+		    int result = stmt.executeUpdate("CREATE DATABASE horario WITH OWNER "+usuario+";");
+		    System.out.println("result = "+result);
+			if(result > 0) {
+				rs.close();
+				stmt.close();
+				conn.close();
+				return true;
 			}
 			
-		    sql = "CREATE DATABASE horario WITH OWNER = "+usuario+" ENCODING = 'UTF8' TABLESPACE = pg_default LC_COLLATE = 'pt_BR.utf8' LC_CTYPE = 'pt_BR.utf8' CONNECTION LIMIT = -1;";
-			stmt.executeUpdate(sql);
-
-			rs.close();
-			stmt.close();
-			conn.close();
+			//create_tables(maquina, usuario, senha);
 		} catch (SQLException e) {
-			e.getStackTrace();
+			e.printStackTrace();
+			System.out.println("SQLException");
 			return false;
 		}
-
-		return true;
+		return false;
+	}
+	
+	public void create_tables(String maquina, String usuario, String senha) {
+		Configuration config = new Configuration();
+        SchemaExport schema = new SchemaExport(config);
+        schema.create(true, true);
 	}
 	
 	public boolean create_user(String login, String senha, String pnome, String unome) {
