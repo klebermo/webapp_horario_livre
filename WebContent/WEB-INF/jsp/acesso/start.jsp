@@ -99,6 +99,8 @@
     $('document').ready(function(){
     	$( ".dialog" ).dialog({
     	      autoOpen: false,
+    	      closeOnEscape: true,
+    	      closeText: "fechar",
     	      show: {
     	        effect: "fadeIn",
     	        duration: 1000
@@ -106,6 +108,9 @@
     	      hide: {
     	        effect: "fadeOut",
     	        duration: 1000
+    	      },
+    	      close: function( event, ui ) {
+    	    	  alert("fechar");
     	      }
     	    });
     	

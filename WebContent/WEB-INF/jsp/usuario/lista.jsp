@@ -275,7 +275,7 @@ $('.excluir_tipo').each(function(index, elem) {
 							    </tr>
 						    </tfoot>
 						    
-						    <tbody class="basic">
+						    <tbody class="cad_user">
 						    	<tr>
 						    		<td>Login</td>
 						    		<td> <input type="text" name="login" value="${item.login}"> </td>
@@ -295,9 +295,11 @@ $('.excluir_tipo').each(function(index, elem) {
 						    		<td>Ultimo Nome</td>
 						    		<td> <input type="text" name="unome" value="${item.ultimoNome}"> </td>
 						    	</tr>
-						    	
 						    </tbody>
-						    						    
+						    
+						    <tbody class="cad_extra">
+						    </tbody>
+						    						    						    
 						</table>
 	       		</div>
 	        	<div class="col-md-3">
@@ -349,7 +351,8 @@ $('.edit').each(function(index, elem) {
     	var div = "#edit_usuario_"+index;
     	$(div).toggle();
     	
-    	$('#cad-'+index+' tbody.extra').remove();
+    	var container = $('#cad-'+index+' tbody.cad_extra'); 
+    	$(container).empty();
     	var newRow = $('<tr>');
     	
     	$.ajax({
@@ -362,19 +365,15 @@ $('.edit').each(function(index, elem) {
     		col_1 = '<td> Tipo: </td>';
     		col_2 = $('<td></td>');
     		var select = $('<select name="tipo">');
-    		for(var item in obj_tipo.Tipo) {
-    			if(obj_tipo.Tipo[item].nome = tipo)
-    		    	select.append('<option value="'+obj_tipo.Tipo[item].nome+'" selected="selected">'+obj_tipo.Tipo[item].nome+'</option>');
-    			else
-    				select.append('<option value="'+obj_tipo.Tipo[item].nome+'">'+obj_tipo.Tipo[item].nome+'</option>');
-    		}
+    		for(var item in obj_tipo.Tipo)
+    			select.append('<option value="'+obj_tipo.Tipo[item].nome+'">'+obj_tipo.Tipo[item].nome+'</option>');
 
     		select.appendTo(col_2);
     		newRow.append(col_1);
     		newRow.append(col_2);
 
-    		$('#cad-'+index).append('<tbody class="extra">');
-    		$('#cad-'+index+' tbody.extra').append(newRow);
+    		//$('#cad-'+index).append('<tbody class="extra">');
+    		$(container).append(newRow);
     	});
     	
     	$.ajax({
@@ -386,7 +385,7 @@ $('.edit').each(function(index, elem) {
     		var obj_campo = jQuery.parseJSON( data );
 
     		for(var item in obj_campo.Key) {
-    			$('#cad-'+index+' tbody.extra').append('<tr> <td> '+obj_campo.Key[item].key+' : </td> <td> <input type="text" name="'+obj_campo.Key[item].key+'" value="'+obj_campo.Key[item].value+'" size=20 maxlenght=40> </td> <tr>');
+    			$(container).append('<tr> <td> '+obj_campo.Key[item].key+' : </td> <td> <input type="text" name="'+obj_campo.Key[item].key+'" value="'+obj_campo.Key[item].value+'" size=20 maxlenght=40> </td> <tr>');
     		}
     	});
     });
@@ -394,13 +393,12 @@ $('.edit').each(function(index, elem) {
 
 $('.auth').each(function(index, elem) {
     $(elem).click(function(){
-        //do you stuff here!
-        var index = $(elem).data('key'); //this will read data-key attribute
+        var index = $(elem).data('key');
 
     	var div = "#edit_autorizacao_"+index;
     	$(div).toggle();
     	
-    	var container = $('.auth_container');
+    	var container = $('#auth-'+index+' tbody.auth_container');
     	$(container).empty();
     	var newRow = $('<tr>');
     	
@@ -418,9 +416,6 @@ $('.auth').each(function(index, elem) {
     		}
     		
     		$(container).append(newRow);
-
-    		//$('#auth-'+index).append('<tbody class="auth">');
-    		//$('#auth-'+index+' tbody.auth').append(newRow);
     	});
     	
     	$.ajax({
