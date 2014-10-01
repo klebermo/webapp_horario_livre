@@ -37,22 +37,16 @@ public class InstallService {
 			Class.forName("org.postgresql.Driver");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			System.out.println("ClassNotFoundException");
 		}
 		try {
 			String url = "jdbc:postgresql://"+maquina+"/postgres";
-			System.out.println("url = "+url);
-			System.out.println("usuario = "+usuario);
-			System.out.println("senha = "+senha);
 			Connection conn = DriverManager.getConnection(url,usuario,senha);
 			Statement stmt = conn.createStatement();
 			
 		    ResultSet rs = stmt.executeQuery("SELECT count(*) FROM pg_catalog.pg_database WHERE datname = 'horario'");
 		    rs.next();
 		    int counter  = rs.getInt(1);
-		    System.out.println("counter = "+counter);
 		    if(counter > 0) {
-				System.out.println("calling_create_tables");
 				rs.close();
 				stmt.close();
 				conn.close();
@@ -64,9 +58,7 @@ public class InstallService {
 		    rs = stmt.executeQuery("SELECT count(*) FROM pg_catalog.pg_database WHERE datname = 'horario'");
 		    rs.next();
 		    int result = rs.getInt(1);
-		    System.out.println("result = "+result);
 			if(result > 0) {
-				System.out.println("calling_create_tables");
 				rs.close();
 				stmt.close();
 				conn.close();
@@ -75,14 +67,12 @@ public class InstallService {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("SQLException");
 			return false;
 		}
 		return false;
 	}
 	
 	public void create_tables(String maquina, String usuario, String senha) {
-		System.out.println("create_tables");
 		create_properties(maquina, usuario, senha);
 		
 		Configuration config = new Configuration();
@@ -122,7 +112,6 @@ public class InstallService {
 	}
 	
 	public void insert_default_values() {
-		System.out.println("insert_default_values");
 		String [] autorizacoes = {"cad_evento", "lista_evento", "cad_horario", "lista_horario", "cad_usuario", "lista_usuario", "cad_campo", "cad_tipo", "cad_permissao"};
 		for(int i=0; i<autorizacoes.length; i++) {
 			autorizacao.persist(new Autorizacao(autorizacoes[i]));
@@ -130,7 +119,6 @@ public class InstallService {
 	}
 	
 	public void create_properties(String maquina, String usuario, String senha) {
-		System.out.println("create_properties");
 		Properties props = new Properties();
 		
 		props.setProperty("jdbc.Classname", "org.postgresql.Driver");
@@ -155,7 +143,6 @@ public class InstallService {
 	}
 	
 	public boolean create_user(String login, String senha, String pnome, String unome) {
-		System.out.println("create_user");
 		Usuario novo = new Usuario(login, senha, pnome, unome);
 		
 		if(usuario.persist(novo))
