@@ -102,8 +102,8 @@ public class InstallService {
 		try {
 			String url = props.getProperty("jdbc.url");
 			Connection conn = DriverManager.getConnection(url,usuario,senha);
-			SchemaExport schema = new SchemaExport(config, conn);
-	        schema.create(true, true);
+			SchemaExport schema = new SchemaExport();
+	        //schema.create(true, true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
