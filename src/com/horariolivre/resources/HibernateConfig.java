@@ -59,9 +59,9 @@ public class HibernateConfig {
 		  }
 	  } else {
 		  dataSource.setDriverClassName("org.postgresql.Driver");
-		  dataSource.setUrl("jdbc:postgresql://localhost:5432/bogus_database?charSet=LATIN1");
-		  dataSource.setUsername("bogus_user");
-		  dataSource.setPassword("bogus_pwd");
+		  dataSource.setUrl("jdbc:postgresql://localhost:5432/mydata?charSet=LATIN1");
+		  dataSource.setUsername("klebermo");
+		  dataSource.setPassword("123");
 	  }
 
       return dataSource;
@@ -94,7 +94,7 @@ public class HibernateConfig {
 			   e.printStackTrace();
 		   }
 	   } else {
-		   props.setProperty("hibernate.hbm2ddl.auto", "create");
+		   props.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		   props.setProperty("hibernate.show_sql", "false");
 		   props.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 	   }
